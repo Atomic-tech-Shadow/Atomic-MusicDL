@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import ytdl from "@distube/ytdl-core";
 import { z } from "zod";
+import { spawn } from "child_process";
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
@@ -77,22 +77,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
       
-      const info = await ytdl.getInfo(videoUrl);
-      const title = info.videoDetails.title.replace(/[^\w\s-]/g, '').replace(/\s+/g, '_');
-
-      res.setHeader('Content-Disposition', `attachment; filename="${title}.mp3"`);
       res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="audio_${videoId}.mp3"`);
 
-      const audioStream = ytdl(videoUrl, {
-        quality: 'highestaudio',
-        filter: 'audioonly',
+      const ytDlp = spawn('yt-dlp', [
+        '-f', 'bestaudio',
+        '--extract-audio',
+        '--audio-format', 'mp3',
+        '--audio-quality', '0',
+        '-o', '-',
+        videoUrl
+      ]);
+
+      ytDlp.stdout.pipe(res);
+
+      ytDlp.stderr.on('data', (data) => {
+        console.error('yt-dlp stderr:', data.toString());
       });
 
-      audioStream.pipe(res);
-
-      audioStream.on('error', (error) => {
-        console.error('Stream error:', error);
+      ytDlp.on('error', (error) => {
+        console.error('yt-dlp process error:', error);
         if (!res.headersSent) {
+          res.status(500).json({ error: 'Failed to start download process' });
+        }
+      });
+
+      ytDlp.on('close', (code) => {
+        if (code !== 0 && !res.headersSent) {
+          console.error(`yt-dlp exited with code ${code}`);
           res.status(500).json({ error: 'Failed to download audio' });
         }
       });
