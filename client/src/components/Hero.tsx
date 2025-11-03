@@ -1,6 +1,6 @@
 import { Zap } from "lucide-react";
 import SearchBar from "./SearchBar";
-import heroImage from "@assets/generated_images/Music_visualization_hero_background_99e4f3ca.png";
+import heroImage from "@assets/generated_images/Atomic_purple_energy_shadow_8e3bd0aa.png";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
