@@ -77,16 +77,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
       
-      const info = await ytdl.getInfo(videoUrl);
-      const audioFormat = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' });
+      const options = {
+        quality: 'highestaudio' as const,
+        filter: 'audioonly' as const,
+        requestOptions: {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9',
+          }
+        }
+      };
       
-      res.setHeader('Content-Type', 'audio/mpeg');
-      res.setHeader('Content-Disposition', `attachment; filename="${info.videoDetails.title.replace(/[^a-z0-9]/gi, '_')}.mp3"`);
+      const info = await ytdl.getInfo(videoUrl, options);
+      
+      res.setHeader('Content-Type', 'audio/webm');
+      res.setHeader('Content-Disposition', `attachment; filename="${info.videoDetails.title.replace(/[^a-z0-9]/gi, '_')}.webm"`);
 
-      const audioStream = ytdl(videoUrl, { 
-        quality: 'highestaudio',
-        filter: 'audioonly'
-      });
+      const audioStream = ytdl(videoUrl, options);
 
       audioStream.pipe(res);
 
