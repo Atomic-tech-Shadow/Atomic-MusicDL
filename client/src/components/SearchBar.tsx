@@ -19,8 +19,13 @@ export default function SearchBar({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('SearchBar - handleSubmit called with query:', query);
+    console.log('SearchBar - onSearch function exists:', !!onSearch);
     if (query.trim() && onSearch) {
+      console.log('SearchBar - Calling onSearch with:', query);
       onSearch(query);
+    } else {
+      console.log('SearchBar - Not calling onSearch. Query trim:', query.trim(), 'onSearch exists:', !!onSearch);
     }
   };
 

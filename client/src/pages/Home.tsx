@@ -17,8 +17,10 @@ export default function Home() {
   });
 
   const handleSearch = (query: string) => {
+    console.log('Home - handleSearch called with:', query);
     setSearchQuery(query);
     setActiveQuery(query);
+    console.log('Home - searchQuery and activeQuery updated to:', query);
   };
 
   const handleDownload = (videoId: string) => {
