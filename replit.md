@@ -15,6 +15,12 @@ Atomic MusicDL is a music download platform that allows users to search for and 
 - Modified branding across all components (Header, Hero, Footer, Features)
 - Updated page title and meta description for SEO
 
+**Migration to RapidAPI for Downloads:**
+- Replaced `@distube/ytdl-core` with RapidAPI YouTube MP3 Audio Video Downloader
+- More reliable and stable download functionality using dedicated third-party API
+- Downloads now return true MP3 files instead of WebM format
+- Requires `RAPIDAPI_KEY` environment variable for API access
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language (French).
@@ -49,12 +55,7 @@ The application uses a component-based architecture with functional React compon
 **API Structure**
 The backend exposes RESTful endpoints:
 - `/api/search` - YouTube music search using YouTube Data API v3
-- `/api/download/:videoId` - Music download endpoint (implementation uses ytdl-core)
-
-**Video Processing**
-- `@distube/ytdl-core` library for extracting and downloading YouTube audio
-- Duration parsing for video metadata display
-- Child process spawning capability for potential additional media processing
+- `/api/download/:videoId` - Music download endpoint using RapidAPI
 
 ### Data Storage
 
@@ -79,9 +80,12 @@ The application uses Zod schemas for runtime validation combined with Drizzle fo
 - API calls fetch video metadata (title, thumbnail, duration) and detailed content information
 - Video category filtering (category ID 10 for music)
 
-**Media Extraction**
-- `@distube/ytdl-core` for YouTube video/audio extraction
-- Handles audio stream extraction and format conversion
+**Music Download Service**
+- RapidAPI YouTube MP3 Audio Video Downloader for reliable audio extraction
+- Requires `RAPIDAPI_KEY` environment variable
+- Downloads audio in MP3 format with high quality
+- API endpoint: `youtube-mp3-audio-video-downloader.p.rapidapi.com`
+- Supports videos up to 15 minutes on free plan, longer videos on paid plans
 
 **Database Service**
 - Neon PostgreSQL serverless database
