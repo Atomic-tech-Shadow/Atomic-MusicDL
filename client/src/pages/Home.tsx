@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import MusicCard from "@/components/MusicCard";
 import { Loader2 } from "lucide-react";
 import type { YouTubeSearchResult } from "@shared/schema";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,7 +41,7 @@ export default function Home() {
         className="fixed inset-0 w-full h-full object-cover -z-10"
         data-testid="video-background"
       >
-        <source src="/attached_assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4" type="video/mp4" />
+        <source src={videoFile} type="video/mp4" />
       </video>
       
       <Header />
