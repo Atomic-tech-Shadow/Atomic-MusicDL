@@ -32,7 +32,7 @@ function App() {
             <source src={videoFile} type="video/mp4" />
           </video>
           
-          <div className="fixed inset-0 bg-background/70 backdrop-blur-sm -z-5" />
+          <div className="fixed inset-0 bg-background/50 -z-5" />
           
           <div className="relative z-0">
             <Toaster />
