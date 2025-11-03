@@ -34,7 +34,7 @@ export default function SearchBar({
       <div className={`relative flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-2 transition-all duration-500 hover:shadow-primary/40 ${
         isFocused ? 'shadow-primary/40 border-primary/50 scale-[1.03] bg-white/15' : 'hover:border-white/30 hover:bg-white/12'
       }`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse pointer-events-none" />
         
         <div className="relative flex items-center justify-center w-12 h-14 ml-2">
           <Search className={`w-5 h-5 transition-all duration-500 ${
