@@ -62,11 +62,7 @@ export default function TypewriterText({
       {displayedChars.map((char, index) => (
         <span
           key={`char-${index}`}
-          className="inline-block"
-          style={{
-            animation: isDeleting ? 'none' : 'fall 0.4s ease-out',
-            animationFillMode: 'backwards'
-          }}
+          className={isDeleting ? "inline-block" : "inline-block animate-[fall_0.4s_ease-out_backwards]"}
         >
           {char === ' ' ? '\u00A0' : char}
         </span>

@@ -20,7 +20,7 @@ export default function Hero({ onSearch }: HeroProps) {
       >
         <source src={videoFile} type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-background/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-background/60" />
       
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
