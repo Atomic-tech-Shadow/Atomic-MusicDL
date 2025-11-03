@@ -29,11 +29,18 @@ export default function Hero({ onSearch }: HeroProps) {
           </span>
           <Zap className="w-4 h-4 text-primary animate-pulse" />
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold font-heading text-white mb-6" data-testid="text-hero-title">
-          Atomic MusicDL
+        <h1 className="text-5xl md:text-7xl font-bold font-heading text-white mb-6 animate-fade-in-up" data-testid="text-hero-title">
+          <span className="inline-block animate-bounce-slow bg-gradient-to-r from-white via-primary to-white bg-clip-text text-transparent">
+            Atomic MusicDL
+          </span>
         </h1>
-        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto" data-testid="text-hero-subtitle">
-          Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité. Le pouvoir atomique du téléchargement de musique.
+        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-fade-in-up-delay font-medium" data-testid="text-hero-subtitle">
+          <span className="inline-block hover:scale-105 transition-transform duration-300">
+            Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité.
+          </span>
+          <span className="block mt-2 text-primary/90 font-bold animate-pulse">
+            Le pouvoir atomique du téléchargement de musique.
+          </span>
         </p>
         
         <div className="max-w-2xl mx-auto mb-8">

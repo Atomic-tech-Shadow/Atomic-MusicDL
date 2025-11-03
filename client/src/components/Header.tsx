@@ -2,7 +2,7 @@ import { Zap, Music } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5">
+    <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-3 group cursor-pointer transform hover:scale-105 transition-all duration-500">
           <div className="relative">
