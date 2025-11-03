@@ -1,5 +1,6 @@
 import { Zap } from "lucide-react";
 import SearchBar from "./SearchBar";
+import TypewriterText from "./TypewriterText";
 import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 interface HeroProps {
@@ -34,12 +35,20 @@ export default function Hero({ onSearch }: HeroProps) {
             Atomic MusicDL
           </span>
         </h1>
-        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto animate-fade-in-up-delay font-medium" data-testid="text-hero-subtitle">
-          <span className="inline-block hover:scale-105 transition-transform duration-300">
-            Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité.
-          </span>
-          <span className="block mt-2 text-primary/90 font-bold animate-pulse">
-            Le pouvoir atomique du téléchargement de musique.
+        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto font-medium min-h-[120px]" data-testid="text-hero-subtitle">
+          <TypewriterText 
+            text="Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité."
+            speed={50}
+            delay={1000}
+            className="inline-block"
+          />
+          <span className="block mt-2 text-primary/90 font-bold">
+            <TypewriterText 
+              text="Le pouvoir atomique du téléchargement de musique."
+              speed={50}
+              delay={4500}
+              className="inline-block"
+            />
           </span>
         </p>
         
