@@ -1,3 +1,4 @@
+import { Zap } from "lucide-react";
 import SearchBar from "./SearchBar";
 import heroImage from "@assets/generated_images/Music_visualization_hero_background_99e4f3ca.png";
 
@@ -16,10 +17,12 @@ export default function Hero({ onSearch }: HeroProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
       
       <div className="relative z-10 container mx-auto px-4 text-center">
-        <div className="mb-4">
+        <div className="mb-4 flex items-center justify-center gap-2">
+          <Zap className="w-4 h-4 text-primary animate-pulse" />
           <span className="text-sm md:text-base font-bold text-primary tracking-wider uppercase animate-pulse" data-testid="text-hero-tagline">
-            ⚡ I AM ATOMIC ⚡
+            I AM ATOMIC
           </span>
+          <Zap className="w-4 h-4 text-primary animate-pulse" />
         </div>
         <h1 className="text-5xl md:text-6xl font-bold font-heading text-white mb-6" data-testid="text-hero-title">
           Atomic MusicDL

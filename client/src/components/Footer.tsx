@@ -64,8 +64,8 @@ export default function Footer() {
         </div>
         
         <div className="pt-6 border-t text-center">
-          <p className="text-xs text-muted-foreground" data-testid="text-copyright">
-            © 2025 Atomic MusicDL. I AM ATOMIC ⚡
+          <p className="text-xs text-muted-foreground flex items-center justify-center gap-1" data-testid="text-copyright">
+            © 2025 Atomic MusicDL. I AM ATOMIC <Zap className="w-3 h-3 text-primary inline" />
           </p>
         </div>
       </div>
