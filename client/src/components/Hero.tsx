@@ -19,7 +19,7 @@ export default function Hero({ onSearch }: HeroProps) {
       >
         <source src={videoFile} type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-background/80" />
       
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
@@ -41,34 +41,34 @@ export default function Hero({ onSearch }: HeroProps) {
         </div>
         
         <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-white/70">
-          <span>Essayez:</span>
+          <span className="text-white/60 font-medium">Essayez:</span>
           <button 
             onClick={() => onSearch?.("Eminence in Shadow OST")}
-            className="text-white/90 hover:text-white underline hover-elevate px-2 py-1 rounded"
+            className="text-white/90 hover:text-white underline px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/40 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
             data-testid="button-example-eminence-in-shadow"
           >
             Eminence in Shadow OST
           </button>
-          <span>•</span>
+          <span className="text-white/30">•</span>
           <button 
             onClick={() => onSearch?.("J-pop")}
-            className="text-white/90 hover:text-white underline hover-elevate px-2 py-1 rounded"
+            className="text-white/90 hover:text-white underline px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/40 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
             data-testid="button-example-jpop"
           >
             J-pop
           </button>
-          <span>•</span>
+          <span className="text-white/30">•</span>
           <button 
             onClick={() => onSearch?.("Anime Opening")}
-            className="text-white/90 hover:text-white underline hover-elevate px-2 py-1 rounded"
+            className="text-white/90 hover:text-white underline px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/40 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
             data-testid="button-example-anime-op"
           >
             Anime Opening
           </button>
-          <span>•</span>
+          <span className="text-white/30">•</span>
           <button 
             onClick={() => onSearch?.("Vocaloid")}
-            className="text-white/90 hover:text-white underline hover-elevate px-2 py-1 rounded"
+            className="text-white/90 hover:text-white underline px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary/40 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
             data-testid="button-example-vocaloid"
           >
             Vocaloid
