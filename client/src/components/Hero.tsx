@@ -40,7 +40,7 @@ export default function Hero({ onSearch }: HeroProps) {
             text="Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité."
             speed={5}
             delay={300}
-            className="inline-block text-white/90"
+            className="inline-block text-primary"
             loop={true}
           />
           <span className="block mt-2 font-bold">
@@ -48,7 +48,7 @@ export default function Hero({ onSearch }: HeroProps) {
               text="Le pouvoir atomique du téléchargement de musique."
               speed={5}
               delay={800}
-              className="inline-block text-primary/90"
+              className="inline-block text-primary"
               loop={true}
             />
           </span>
