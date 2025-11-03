@@ -1,7 +1,6 @@
 import { Zap } from "lucide-react";
 import SearchBar from "./SearchBar";
 import TypewriterText from "./TypewriterText";
-import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
@@ -10,17 +9,6 @@ interface HeroProps {
 export default function Hero({ onSearch }: HeroProps) {
   return (
     <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-        data-testid="video-hero-background"
-      >
-        <source src={videoFile} type="video/mp4" />
-      </video>
-      
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
           <Zap className="w-4 h-4 text-primary animate-pulse" />

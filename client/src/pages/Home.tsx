@@ -31,7 +31,18 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        data-testid="video-background"
+      >
+        <source src="/attached_assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4" type="video/mp4" />
+      </video>
+      
       <Header />
       
       <main className="pt-16">
