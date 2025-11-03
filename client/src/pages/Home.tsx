@@ -34,7 +34,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Header />
       
-      <main className="pt-16">
+      <main className="pt-20">
         <Hero onSearch={handleSearch} />
         
         {activeQuery && (
