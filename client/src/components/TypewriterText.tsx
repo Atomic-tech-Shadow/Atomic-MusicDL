@@ -5,16 +5,19 @@ interface TypewriterTextProps {
   speed?: number;
   delay?: number;
   className?: string;
+  loop?: boolean;
 }
 
 export default function TypewriterText({ 
   text, 
   speed = 50, 
   delay = 0,
-  className = "" 
+  className = "",
+  loop = true
 }: TypewriterTextProps) {
   const [displayedChars, setDisplayedChars] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     const startTimeout = setTimeout(() => {
@@ -24,17 +27,27 @@ export default function TypewriterText({
           setCurrentIndex(prev => prev + 1);
         }, speed);
         return () => clearTimeout(timeout);
+      } else if (currentIndex === text.length && !isComplete) {
+        setIsComplete(true);
+        if (loop) {
+          const resetTimeout = setTimeout(() => {
+            setDisplayedChars([]);
+            setCurrentIndex(0);
+            setIsComplete(false);
+          }, 2000);
+          return () => clearTimeout(resetTimeout);
+        }
       }
     }, delay);
 
     return () => clearTimeout(startTimeout);
-  }, [currentIndex, text, speed, delay]);
+  }, [currentIndex, text, speed, delay, loop, isComplete]);
 
   return (
     <span className={className}>
       {displayedChars.map((char, index) => (
         <span
-          key={index}
+          key={`${index}-${currentIndex}`}
           className="inline-block animate-[fall_0.4s_ease-out]"
           style={{
             animationFillMode: 'backwards'

@@ -35,19 +35,21 @@ export default function Hero({ onSearch }: HeroProps) {
             Atomic MusicDL
           </span>
         </h1>
-        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto font-medium min-h-[120px]" data-testid="text-hero-subtitle">
+        <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto font-medium min-h-[120px]" data-testid="text-hero-subtitle">
           <TypewriterText 
             text="Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité."
             speed={5}
             delay={300}
-            className="inline-block"
+            className="inline-block text-white/90"
+            loop={true}
           />
-          <span className="block mt-2 text-primary/90 font-bold">
+          <span className="block mt-2 font-bold">
             <TypewriterText 
               text="Le pouvoir atomique du téléchargement de musique."
               speed={5}
               delay={800}
-              className="inline-block"
+              className="inline-block text-primary/90"
+              loop={true}
             />
           </span>
         </p>
