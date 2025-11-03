@@ -3,10 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MusicCard from "@/components/MusicCard";
-import FeaturesSection from "@/components/FeaturesSection";
-import HowItWorks from "@/components/HowItWorks";
-import Footer from "@/components/Footer";
-import { Music2, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import type { YouTubeSearchResult } from "@shared/schema";
 
 export default function Home() {
@@ -41,7 +38,7 @@ export default function Home() {
         <Hero onSearch={handleSearch} />
         
         {activeQuery && (
-          <section className="py-16 bg-background">
+          <section className="py-16 bg-background/90 backdrop-blur-sm">
             <div className="container mx-auto px-4">
               <h2 className="text-2xl font-bold font-heading mb-8" data-testid="text-results-title">
                 Résultats pour "{searchQuery}"
@@ -74,40 +71,7 @@ export default function Home() {
             </div>
           </section>
         )}
-        
-        {!activeQuery && (
-          <section className="py-16 bg-background">
-            <div className="container mx-auto px-4 text-center">
-              <Music2 className="w-24 h-24 mx-auto mb-6 text-muted-foreground/40" data-testid="icon-empty-state" />
-              <h3 className="text-2xl font-bold font-heading mb-3" data-testid="text-empty-title">
-                Commencez Votre Recherche
-              </h3>
-              <p className="text-muted-foreground mb-6" data-testid="text-empty-desc">
-                Entrez le nom d'une chanson pour trouver et télécharger de la musique
-              </p>
-              
-              <div className="flex flex-wrap items-center justify-center gap-2">
-                <span className="text-sm text-muted-foreground">Suggestions:</span>
-                {["Anime OST", "J-pop", "Vocaloid", "Eminence in Shadow"].map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    onClick={() => handleSearch(suggestion)}
-                    className="px-4 py-2 rounded-full bg-muted hover-elevate active-elevate-2 text-sm font-medium"
-                    data-testid={`button-suggestion-${suggestion.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-        
-        <FeaturesSection />
-        <HowItWorks />
       </main>
-      
-      <Footer />
     </div>
   );
 }

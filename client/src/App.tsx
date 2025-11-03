@@ -21,23 +21,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="relative min-h-screen">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="fixed inset-0 w-full h-full object-cover -z-10"
-            data-testid="video-background-app"
-          >
-            <source src={videoFile} type="video/mp4" />
-          </video>
-          
-          <div className="fixed inset-0 bg-background/50 -z-5" />
-          
-          <div className="relative z-0">
-            <Toaster />
-            <Router />
-          </div>
+          <Toaster />
+          <Router />
         </div>
       </TooltipProvider>
     </QueryClientProvider>

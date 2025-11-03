@@ -1,6 +1,6 @@
 import { Zap } from "lucide-react";
 import SearchBar from "./SearchBar";
-import heroImage from "@assets/generated_images/Atomic_purple_energy_shadow_8e3bd0aa.png";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 interface HeroProps {
   onSearch?: (query: string) => void;
@@ -9,12 +9,17 @@ interface HeroProps {
 export default function Hero({ onSearch }: HeroProps) {
   return (
     <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: `url(${heroImage})` }}
-        data-testid="img-hero-background"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        data-testid="video-hero-background"
+      >
+        <source src={videoFile} type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background" />
       
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
