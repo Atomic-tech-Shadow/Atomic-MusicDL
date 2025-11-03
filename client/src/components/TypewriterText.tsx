@@ -47,9 +47,10 @@ export default function TypewriterText({
     <span className={className}>
       {displayedChars.map((char, index) => (
         <span
-          key={`${index}-${currentIndex}`}
-          className="inline-block animate-[fall_0.4s_ease-out]"
+          key={`char-${index}`}
+          className="inline-block"
           style={{
+            animation: 'fall 0.4s ease-out',
             animationFillMode: 'backwards'
           }}
         >
