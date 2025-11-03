@@ -29,14 +29,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(response.status).json({ error: data.error?.message || "YouTube API error" });
       }
 
+      if (!data.items || data.items.length === 0) {
+        return res.json([]);
+      }
+
       const videoIds = data.items.map((item: any) => item.id.videoId).join(',');
       const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${YOUTUBE_API_KEY}`;
       
       const detailsResponse = await fetch(detailsUrl);
       const detailsData = await detailsResponse.json();
 
+      if (!detailsResponse.ok) {
+        console.error("YouTube Videos API error:", detailsData);
+        return res.status(detailsResponse.status).json({ error: detailsData.error?.message || "YouTube Videos API error" });
+      }
+
       const durationMap = new Map(
-        detailsData.items.map((item: any) => [
+        (detailsData.items || []).map((item: any) => [
           item.id,
           parseDuration(item.contentDetails.duration)
         ])
