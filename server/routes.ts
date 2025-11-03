@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { spawn } from "child_process";
+import ytdl from "@distube/ytdl-core";
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
@@ -77,36 +77,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
       
+      const info = await ytdl.getInfo(videoUrl);
+      const audioFormat = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' });
+      
       res.setHeader('Content-Type', 'audio/mpeg');
-      res.setHeader('Content-Disposition', `attachment; filename="audio_${videoId}.mp3"`);
+      res.setHeader('Content-Disposition', `attachment; filename="${info.videoDetails.title.replace(/[^a-z0-9]/gi, '_')}.mp3"`);
 
-      const ytDlp = spawn('yt-dlp', [
-        '-f', 'bestaudio',
-        '--extract-audio',
-        '--audio-format', 'mp3',
-        '--audio-quality', '0',
-        '-o', '-',
-        videoUrl
-      ]);
-
-      ytDlp.stdout.pipe(res);
-
-      ytDlp.stderr.on('data', (data) => {
-        console.error('yt-dlp stderr:', data.toString());
+      const audioStream = ytdl(videoUrl, { 
+        quality: 'highestaudio',
+        filter: 'audioonly'
       });
 
-      ytDlp.on('error', (error) => {
-        console.error('yt-dlp process error:', error);
+      audioStream.pipe(res);
+
+      audioStream.on('error', (error) => {
+        console.error('ytdl stream error:', error);
         if (!res.headersSent) {
-          res.status(500).json({ error: 'Failed to start download process' });
-        }
-      });
-
-      ytDlp.on('close', (code) => {
-        if (code !== 0 && !res.headersSent) {
-          console.error(`yt-dlp exited with code ${code}`);
           res.status(500).json({ error: 'Failed to download audio' });
         }
+      });
+
+      res.on('close', () => {
+        audioStream.destroy();
       });
 
     } catch (error) {
