@@ -17,31 +17,45 @@ export default function TypewriterText({
 }: TypewriterTextProps) {
   const [displayedChars, setDisplayedChars] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
-    const startTimeout = setTimeout(() => {
+    if (!hasStarted) {
+      const startTimeout = setTimeout(() => {
+        setHasStarted(true);
+      }, delay);
+      return () => clearTimeout(startTimeout);
+    }
+
+    if (!isDeleting) {
       if (currentIndex < text.length) {
         const timeout = setTimeout(() => {
           setDisplayedChars(prev => [...prev, text[currentIndex]]);
           setCurrentIndex(prev => prev + 1);
         }, speed);
         return () => clearTimeout(timeout);
-      } else if (currentIndex === text.length && !isComplete) {
-        setIsComplete(true);
-        if (loop) {
-          const resetTimeout = setTimeout(() => {
-            setDisplayedChars([]);
-            setCurrentIndex(0);
-            setIsComplete(false);
-          }, 2000);
-          return () => clearTimeout(resetTimeout);
-        }
+      } else if (currentIndex === text.length && loop) {
+        const pauseTimeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 1500);
+        return () => clearTimeout(pauseTimeout);
       }
-    }, delay);
-
-    return () => clearTimeout(startTimeout);
-  }, [currentIndex, text, speed, delay, loop, isComplete]);
+    } else {
+      if (displayedChars.length > 0) {
+        const timeout = setTimeout(() => {
+          setDisplayedChars(prev => prev.slice(0, -1));
+        }, speed / 2);
+        return () => clearTimeout(timeout);
+      } else {
+        const resetTimeout = setTimeout(() => {
+          setCurrentIndex(0);
+          setIsDeleting(false);
+        }, 500);
+        return () => clearTimeout(resetTimeout);
+      }
+    }
+  }, [currentIndex, displayedChars.length, text, speed, delay, loop, isDeleting, hasStarted]);
 
   return (
     <span className={className}>
@@ -50,14 +64,14 @@ export default function TypewriterText({
           key={`char-${index}`}
           className="inline-block"
           style={{
-            animation: 'fall 0.4s ease-out',
+            animation: isDeleting ? 'none' : 'fall 0.4s ease-out',
             animationFillMode: 'backwards'
           }}
         >
           {char === ' ' ? '\u00A0' : char}
         </span>
       ))}
-      {currentIndex < text.length && (
+      {!isDeleting && currentIndex < text.length && (
         <span className="animate-pulse">|</span>
       )}
     </span>
