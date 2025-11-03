@@ -1,12 +1,24 @@
-# Music Download Platform
+# Atomic MusicDL
 
 ## Overview
 
-This is a music download platform that allows users to search for and download music from YouTube. The application features a modern, clean interface inspired by Spotify and YouTube Music, with a focus on speed and simplicity. Users can search for songs, preview results with thumbnails and metadata, and download tracks in MP3 format.
+Atomic MusicDL is a music download platform that allows users to search for and download music from YouTube, with a special focus on anime OST, J-pop, and otaku culture. The application features a purple atomic theme inspired by "The Eminence in Shadow" anime, particularly the "I AM ATOMIC" power. Users can search for songs, preview results with thumbnails and metadata, and download tracks in MP3 format.
+
+## Recent Changes (November 3, 2025)
+
+**Complete Atomic Theme Transformation:**
+- Rebranded from "MusicDL" to "Atomic MusicDL"
+- Updated color scheme to purple/violet atomic theme (HSL 270°) for both light and dark modes
+- Added "I AM ATOMIC" tagline with Zap icon effects throughout the app
+- Changed all music suggestions to anime/otaku focused content (Eminence in Shadow OST, J-pop, Vocaloid, Anime Opening)
+- Updated features to emphasize atomic power and otaku community
+- Modified branding across all components (Header, Hero, Footer, Features)
+- Updated page title and meta description for SEO
 
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
+Preferred communication style: Simple, everyday language (French).
+User interests: Passionate about "The Eminence in Shadow" anime, atomic theme, otaku culture.
 
 ## System Architecture
 
