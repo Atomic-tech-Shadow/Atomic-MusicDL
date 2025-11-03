@@ -38,15 +38,15 @@ export default function Hero({ onSearch }: HeroProps) {
         <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto font-medium min-h-[120px]" data-testid="text-hero-subtitle">
           <TypewriterText 
             text="Téléchargez vos OST d'anime et musiques préférées en MP3 haute qualité."
-            speed={50}
+            speed={25}
             delay={1000}
             className="inline-block"
           />
           <span className="block mt-2 text-primary/90 font-bold">
             <TypewriterText 
               text="Le pouvoir atomique du téléchargement de musique."
-              speed={50}
-              delay={4500}
+              speed={25}
+              delay={3500}
               className="inline-block"
             />
           </span>
