@@ -2,9 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import ytdl from "@distube/ytdl-core";
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/search", async (req, res) => {
@@ -75,38 +75,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Video ID is required" });
       }
 
-      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      if (!RAPIDAPI_KEY) {
+        return res.status(500).json({ error: "RapidAPI key not configured" });
+      }
+
+      const rapidApiUrl = `https://youtube-mp3-audio-video-downloader.p.rapidapi.com/download-mp3/${videoId}`;
       
-      const options = {
-        quality: 'highestaudio' as const,
-        filter: 'audioonly' as const,
-        requestOptions: {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept-Language': 'en-US,en;q=0.9',
+      const rapidApiResponse = await fetch(rapidApiUrl, {
+        headers: {
+          'x-rapidapi-host': 'youtube-mp3-audio-video-downloader.p.rapidapi.com',
+          'x-rapidapi-key': RAPIDAPI_KEY
+        }
+      });
+
+      if (!rapidApiResponse.ok) {
+        const errorText = await rapidApiResponse.text();
+        console.error('RapidAPI error:', errorText);
+        return res.status(rapidApiResponse.status).json({ 
+          error: 'Failed to download audio from RapidAPI' 
+        });
+      }
+
+      res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="audio_${videoId}.mp3"`);
+
+      if (rapidApiResponse.body) {
+        const reader = rapidApiResponse.body.getReader();
+        
+        const pump = async () => {
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              res.write(value);
+            }
+            res.end();
+          } catch (error) {
+            console.error('Stream error:', error);
+            if (!res.headersSent) {
+              res.status(500).json({ error: 'Failed to stream audio' });
+            }
           }
-        }
-      };
-      
-      const info = await ytdl.getInfo(videoUrl, options);
-      
-      res.setHeader('Content-Type', 'audio/webm');
-      res.setHeader('Content-Disposition', `attachment; filename="${info.videoDetails.title.replace(/[^a-z0-9]/gi, '_')}.webm"`);
+        };
 
-      const audioStream = ytdl(videoUrl, options);
-
-      audioStream.pipe(res);
-
-      audioStream.on('error', (error) => {
-        console.error('ytdl stream error:', error);
-        if (!res.headersSent) {
-          res.status(500).json({ error: 'Failed to download audio' });
-        }
-      });
-
-      res.on('close', () => {
-        audioStream.destroy();
-      });
+        await pump();
+      }
 
     } catch (error) {
       console.error("Download error:", error);
