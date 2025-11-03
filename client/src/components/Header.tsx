@@ -2,7 +2,7 @@ import { Zap, Download } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/60 via-black/40 to-transparent backdrop-blur-sm">
+    <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="bg-primary/20 p-2 rounded-lg border border-primary/30">
