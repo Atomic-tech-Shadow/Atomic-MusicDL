@@ -15,11 +15,12 @@ Atomic MusicDL is a music download platform that allows users to search for and 
 - Modified branding across all components (Header, Hero, Footer, Features)
 - Updated page title and meta description for SEO
 
-**Migration to RapidAPI for Downloads:**
-- Replaced `@distube/ytdl-core` with RapidAPI YouTube MP3 Audio Video Downloader
-- More reliable and stable download functionality using dedicated third-party API
-- Downloads now return true MP3 files instead of WebM format
-- Requires `RAPIDAPI_KEY` environment variable for API access
+**Migration to youtubei.js for Downloads:**
+- Replaced `@distube/ytdl-core` with `youtubei.js` (YouTube's InnerTube API client)
+- More reliable and stable download functionality using YouTube's internal API
+- Downloads return M4A audio files in high quality
+- Open-source solution from GitHub, no API keys required for downloads
+- Search still uses official YouTube Data API v3
 
 ## User Preferences
 
@@ -55,7 +56,7 @@ The application uses a component-based architecture with functional React compon
 **API Structure**
 The backend exposes RESTful endpoints:
 - `/api/search` - YouTube music search using YouTube Data API v3
-- `/api/download/:videoId` - Music download endpoint using RapidAPI
+- `/api/download/:videoId` - Music download endpoint using youtubei.js
 
 ### Data Storage
 
@@ -81,11 +82,11 @@ The application uses Zod schemas for runtime validation combined with Drizzle fo
 - Video category filtering (category ID 10 for music)
 
 **Music Download Service**
-- RapidAPI YouTube MP3 Audio Video Downloader for reliable audio extraction
-- Requires `RAPIDAPI_KEY` environment variable
-- Downloads audio in MP3 format with high quality
-- API endpoint: `youtube-mp3-audio-video-downloader.p.rapidapi.com`
-- Supports videos up to 15 minutes on free plan, longer videos on paid plans
+- `youtubei.js` - JavaScript client for YouTube's InnerTube API
+- Open-source library from GitHub (https://github.com/LuanRT/YouTube.js)
+- No API keys required for downloads
+- Downloads audio in M4A format with best available quality
+- Supports streaming directly to client without temporary file storage
 
 **Database Service**
 - Neon PostgreSQL serverless database

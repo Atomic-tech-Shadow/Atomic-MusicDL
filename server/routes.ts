@@ -2,9 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { Innertube } from "youtubei.js";
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
-const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/search", async (req, res) => {
@@ -75,50 +75,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Video ID is required" });
       }
 
-      if (!RAPIDAPI_KEY) {
-        return res.status(500).json({ error: "RapidAPI key not configured" });
-      }
+      const youtube = await Innertube.create();
+      const info = await youtube.getInfo(videoId);
 
-      const rapidApiUrl = `https://youtube-mp3-audio-video-downloader.p.rapidapi.com/download-mp3/${videoId}`;
-      
-      const rapidApiResponse = await fetch(rapidApiUrl, {
-        headers: {
-          'x-rapidapi-host': 'youtube-mp3-audio-video-downloader.p.rapidapi.com',
-          'x-rapidapi-key': RAPIDAPI_KEY
-        }
+      const format = info.chooseFormat({ 
+        type: 'audio',
+        quality: 'best'
       });
 
-      if (!rapidApiResponse.ok) {
-        const errorText = await rapidApiResponse.text();
-        console.error('RapidAPI error:', errorText);
-        return res.status(rapidApiResponse.status).json({ 
-          error: 'Failed to download audio from RapidAPI' 
-        });
+      if (!format) {
+        return res.status(404).json({ error: "No audio format found" });
       }
 
-      res.setHeader('Content-Type', 'audio/mpeg');
-      res.setHeader('Content-Disposition', `attachment; filename="audio_${videoId}.mp3"`);
+      const videoTitle = info.basic_info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
+      
+      res.setHeader('Content-Type', 'audio/mp4');
+      res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.m4a"`);
 
-      if (rapidApiResponse.body) {
-        const reader = rapidApiResponse.body.getReader();
-        
-        const pump = async () => {
-          try {
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-              res.write(value);
-            }
-            res.end();
-          } catch (error) {
-            console.error('Stream error:', error);
-            if (!res.headersSent) {
-              res.status(500).json({ error: 'Failed to stream audio' });
-            }
-          }
-        };
+      const stream = await info.download({ 
+        type: 'audio',
+        quality: 'best',
+        format: 'mp4'
+      });
 
-        await pump();
+      const reader = stream.getReader();
+      
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          res.write(value);
+        }
+        res.end();
+      } catch (streamError) {
+        console.error('Stream error:', streamError);
+        reader.releaseLock();
+        throw streamError;
       }
 
     } catch (error) {
