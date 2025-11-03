@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import VideoBackground from "@/components/VideoBackground";
 import MusicCard from "@/components/MusicCard";
 import FeaturesSection from "@/components/FeaturesSection";
 import HowItWorks from "@/components/HowItWorks";
@@ -39,6 +40,8 @@ export default function Home() {
       
       <main className="pt-16">
         <Hero onSearch={handleSearch} />
+        
+        <VideoBackground />
         
         {activeQuery && (
           <section className="py-16 bg-background">
