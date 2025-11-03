@@ -1,4 +1,4 @@
-import { Music } from "lucide-react";
+import { Zap } from "lucide-react";
 import { SiGithub, SiX } from "react-icons/si";
 
 export default function Footer() {
@@ -8,11 +8,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Music className="w-5 h-5 text-primary" />
-              <span className="font-bold font-heading" data-testid="text-footer-logo">MusicDL</span>
+              <Zap className="w-5 h-5 text-primary" />
+              <span className="font-bold font-heading" data-testid="text-footer-logo">Atomic MusicDL</span>
             </div>
             <p className="text-sm text-muted-foreground" data-testid="text-footer-tagline">
-              Votre plateforme de téléchargement musical en haute qualité
+              Le pouvoir atomique du téléchargement de musique pour otaku
             </p>
           </div>
           
@@ -65,7 +65,7 @@ export default function Footer() {
         
         <div className="pt-6 border-t text-center">
           <p className="text-xs text-muted-foreground" data-testid="text-copyright">
-            © 2025 MusicDL. Tous droits réservés.
+            © 2025 Atomic MusicDL. I AM ATOMIC ⚡
           </p>
         </div>
       </div>

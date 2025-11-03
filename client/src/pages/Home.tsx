@@ -88,12 +88,12 @@ export default function Home() {
               
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <span className="text-sm text-muted-foreground">Suggestions:</span>
-                {["Beethoven", "Lo-fi", "Jazz", "Classical"].map((suggestion) => (
+                {["Anime OST", "J-pop", "Vocaloid", "Eminence in Shadow"].map((suggestion) => (
                   <button
                     key={suggestion}
                     onClick={() => handleSearch(suggestion)}
                     className="px-4 py-2 rounded-full bg-muted hover-elevate active-elevate-2 text-sm font-medium"
-                    data-testid={`button-suggestion-${suggestion.toLowerCase()}`}
+                    data-testid={`button-suggestion-${suggestion.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {suggestion}
                   </button>

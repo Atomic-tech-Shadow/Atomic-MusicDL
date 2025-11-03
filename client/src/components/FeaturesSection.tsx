@@ -1,20 +1,20 @@
-import { Music2, Zap, Shield } from "lucide-react";
+import { Music2, Zap, Sparkles } from "lucide-react";
 
 const features = [
   {
+    icon: Zap,
+    title: "Pouvoir Atomique",
+    description: "Téléchargez vos OST d'anime et musiques préférées avec la puissance atomique. Ultra rapide, ultra efficace."
+  },
+  {
     icon: Music2,
     title: "Haute Qualité MP3",
-    description: "Téléchargez vos musiques en qualité audio supérieure pour une expérience d'écoute optimale."
+    description: "Qualité audio supérieure pour vos anime opening, ending et OST. Parfait pour les otaku exigeants."
   },
   {
-    icon: Zap,
-    title: "Ultra Rapide",
-    description: "Conversion et téléchargement instantanés. Votre musique est prête en quelques secondes."
-  },
-  {
-    icon: Shield,
-    title: "Sans Inscription",
-    description: "Aucun compte requis. Recherchez et téléchargez directement, en toute simplicité."
+    icon: Sparkles,
+    title: "Pour les Otaku",
+    description: "Parfait pour télécharger vos anime OST, J-pop, Vocaloid et plus. Sans inscription, simple et direct."
   }
 ];
 
@@ -24,10 +24,10 @@ export default function FeaturesSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4" data-testid="text-features-title">
-            Pourquoi Utiliser Notre Plateforme
+            Le Pouvoir d'Atomic MusicDL
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto" data-testid="text-features-subtitle">
-            Une solution simple et efficace pour tous vos besoins musicaux
+            La plateforme ultime pour télécharger vos musiques d'anime préférées
           </p>
         </div>
         
