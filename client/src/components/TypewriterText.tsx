@@ -13,14 +13,14 @@ export default function TypewriterText({
   delay = 0,
   className = "" 
 }: TypewriterTextProps) {
-  const [displayedText, setDisplayedText] = useState("");
+  const [displayedChars, setDisplayedChars] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const startTimeout = setTimeout(() => {
       if (currentIndex < text.length) {
         const timeout = setTimeout(() => {
-          setDisplayedText(prev => prev + text[currentIndex]);
+          setDisplayedChars(prev => [...prev, text[currentIndex]]);
           setCurrentIndex(prev => prev + 1);
         }, speed);
         return () => clearTimeout(timeout);
@@ -32,7 +32,17 @@ export default function TypewriterText({
 
   return (
     <span className={className}>
-      {displayedText}
+      {displayedChars.map((char, index) => (
+        <span
+          key={index}
+          className="inline-block animate-[fall_0.4s_ease-out]"
+          style={{
+            animationFillMode: 'backwards'
+          }}
+        >
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
       {currentIndex < text.length && (
         <span className="animate-pulse">|</span>
       )}
