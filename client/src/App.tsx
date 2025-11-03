@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 function Router() {
   return (
@@ -19,8 +20,25 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Router />
+        <div className="relative min-h-screen">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="fixed inset-0 w-full h-full object-cover -z-10"
+            data-testid="video-background-app"
+          >
+            <source src={videoFile} type="video/mp4" />
+          </video>
+          
+          <div className="fixed inset-0 bg-background/70 backdrop-blur-sm -z-5" />
+          
+          <div className="relative z-0">
+            <Toaster />
+            <Router />
+          </div>
+        </div>
       </TooltipProvider>
     </QueryClientProvider>
   );
