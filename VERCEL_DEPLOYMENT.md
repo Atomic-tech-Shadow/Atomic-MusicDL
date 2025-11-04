@@ -3,15 +3,8 @@
 ## Prerequisites
 
 1. A Vercel account
-2. A YouTube Data API v3 key from Google Cloud Console
 
-## Getting a YouTube API Key
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the "YouTube Data API v3"
-4. Go to "Credentials" and create an API key
-5. Copy the API key for the next step
+**Note**: La clé API YouTube est codée en dur dans le code pour faciliter le déploiement (clé de démonstration/test).
 
 ## Deployment Steps
 
@@ -22,20 +15,11 @@
 3. Import your GitHub repository
 4. Vercel will auto-detect the configuration from `vercel.json`
 
-### 2. Configure Environment Variables
-
-Before deploying, add your YouTube API key:
-
-1. In the project settings on Vercel, go to "Settings" → "Environment Variables"
-2. Add the following environment variable:
-   - **Name**: `YOUTUBE_API_KEY`
-   - **Value**: Your YouTube API key from Google Cloud Console
-   - **Environments**: Select all (Production, Preview, Development)
-
-### 3. Deploy
+### 2. Deploy
 
 1. Click "Deploy"
 2. Vercel will build and deploy your application
+3. No environment variables needed - the API key is hardcoded
 
 ## Important Limitations
 
@@ -77,9 +61,9 @@ This will start the Express server (not used in Vercel deployment).
 
 ### API Errors
 
-- Verify `YOUTUBE_API_KEY` is set in environment variables
-- Check API quota limits in Google Cloud Console
+- Check API quota limits (the hardcoded demo API key has usage limits)
 - Review function logs in Vercel dashboard
+- If quota exceeded, you'll need to replace the hardcoded API key in `api/search.ts`
 
 ### Download Timeouts
 
