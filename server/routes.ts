@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { Innertube } from "youtubei.js";
+import { Innertube, ClientType } from "youtubei.js";
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
@@ -75,7 +75,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Video ID is required" });
       }
 
-      const youtube = await Innertube.create();
+      const youtube = await Innertube.create({
+        client_type: ClientType.ANDROID
+      });
       const info = await youtube.getInfo(videoId);
 
       const videoTitle = info.basic_info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;

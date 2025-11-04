@@ -1,5 +1,5 @@
 import express from "express";
-import { Innertube } from 'youtubei.js';
+import { Innertube, ClientType } from 'youtubei.js';
 
 const app = express();
 
@@ -90,7 +90,9 @@ app.get("/api/download/:videoId", async (req, res) => {
       return res.status(400).json({ error: "Video ID is required" });
     }
 
-    const youtube = await Innertube.create();
+    const youtube = await Innertube.create({
+      client_type: ClientType.ANDROID
+    });
     const info = await youtube.getInfo(videoId);
 
     const title = info.basic_info.title || 'download';
