@@ -76,7 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const youtube = await Innertube.create({
-        client_type: ClientType.ANDROID
+        client_type: ClientType.IOS
       });
       const info = await youtube.getInfo(videoId);
 
