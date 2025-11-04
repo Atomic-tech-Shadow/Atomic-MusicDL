@@ -4,7 +4,25 @@
 
 Atomic MusicDL is a music download platform that allows users to search for and download music from YouTube, with a special focus on anime OST, J-pop, and otaku culture. The application features a purple atomic theme inspired by "The Eminence in Shadow" anime, particularly the "I AM ATOMIC" power. Users can search for songs, preview results with thumbnails and metadata, and download tracks in MP3 format.
 
-## Recent Changes (November 3, 2025)
+## Recent Changes
+
+### November 4, 2025 - Vercel Serverless Conversion
+
+**Converted to Vercel Serverless Functions:**
+- Created serverless API functions in `/api` directory
+  - `/api/search.ts` - YouTube search endpoint
+  - `/api/download/[videoId].ts` - Audio download endpoint with streaming
+- Updated `vercel.json` configuration for static site + serverless deployment
+- Build now produces static frontend in `dist/public` with serverless functions
+- Added `VERCEL_DEPLOYMENT.md` with deployment guide and limitations
+- Configured routing to exclude `/api/*` from SPA catch-all rewrite
+- Note: Download functionality may be limited by Vercel's 10s timeout and 50MB limit on hobby tier
+
+**Deployment Options:**
+- **Replit Publishing**: Works as-is with full Express server
+- **Vercel**: Uses serverless functions (limitations apply for large downloads)
+
+### November 3, 2025 - Atomic Theme Transformation
 
 **Complete Atomic Theme Transformation:**
 - Rebranded from "MusicDL" to "Atomic MusicDL"
@@ -48,15 +66,21 @@ The application uses a component-based architecture with functional React compon
 
 ### Backend Architecture
 
-**Server Framework**
+**Development Server (Replit)**
 - Express.js with TypeScript for the REST API server
 - Custom middleware for request logging and JSON body parsing
 - Vite integration in development mode for SSR and HMR support
 
+**Production Deployment**
+- **Replit Publishing**: Full Express server with all features
+- **Vercel**: Serverless functions in `/api` directory
+  - `/api/search.ts` - Search endpoint
+  - `/api/download/[videoId].ts` - Download endpoint (subject to platform limits)
+
 **API Structure**
 The backend exposes RESTful endpoints:
 - `/api/search` - YouTube music search using YouTube Data API v3
-- `/api/download/:videoId` - Music download endpoint using youtubei.js
+- `/api/download/:videoId` - Music download endpoint using youtubei.js streaming
 
 ### Data Storage
 
