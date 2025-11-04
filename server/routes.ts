@@ -78,15 +78,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const youtube = await Innertube.create();
       const info = await youtube.getInfo(videoId);
 
-      const format = info.chooseFormat({ 
-        type: 'audio',
-        quality: 'best'
-      });
-
-      if (!format) {
-        return res.status(404).json({ error: "No audio format found" });
-      }
-
       const videoTitle = info.basic_info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
       
       res.setHeader('Content-Type', 'audio/mp4');

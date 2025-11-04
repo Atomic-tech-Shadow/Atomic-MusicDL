@@ -93,25 +93,16 @@ app.get("/api/download/:videoId", async (req, res) => {
     const youtube = await Innertube.create();
     const info = await youtube.getInfo(videoId);
 
-    const format = info.chooseFormat({ 
-      type: 'audio',
-      quality: 'best',
-    });
-
-    if (!format) {
-      return res.status(404).json({ error: "No audio format available" });
-    }
-
     const title = info.basic_info.title || 'download';
     const sanitizedTitle = title
       .replace(/[^\w\s-]/g, '')
       .replace(/\s+/g, '_')
       .substring(0, 100);
 
-    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Type', 'audio/mp4');
     res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.m4a"`);
 
-    const stream = await youtube.download(videoId, {
+    const stream = await info.download({
       type: 'audio',
       quality: 'best',
       format: 'mp4'
