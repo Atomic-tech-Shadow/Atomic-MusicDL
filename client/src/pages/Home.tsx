@@ -50,7 +50,7 @@ export default function Home() {
         <Hero onSearch={handleSearch} />
         
         {activeQuery && (
-          <section className="py-16 bg-background/20 backdrop-blur-sm">
+          <section className="py-16">
             <div className="container mx-auto px-4">
               <h2 className="text-2xl font-bold font-heading mb-8" data-testid="text-results-title">
                 Résultats pour "{searchQuery}"
