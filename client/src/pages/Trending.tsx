@@ -24,7 +24,7 @@ export default function Trending() {
     }
   };
 
-  const handleDownload = async (videoId: string, quality: AudioQuality): Promise<void> => {
+  const handleDownload = async (videoId: string, quality: AudioQuality, onProgress?: (percent: number) => void): Promise<void> => {
     try {
       const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
       const response = await fetch(downloadUrl);
@@ -33,7 +33,32 @@ export default function Trending() {
         throw new Error(`Erreur de téléchargement: ${response.statusText}`);
       }
       
-      const blob = await response.blob();
+      const contentLength = response.headers.get('Content-Length');
+      const total = contentLength ? parseInt(contentLength, 10) : 0;
+      
+      if (!response.body) {
+        throw new Error('ReadableStream not supported');
+      }
+      
+      const reader = response.body.getReader();
+      const chunks: Uint8Array[] = [];
+      let receivedLength = 0;
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) break;
+        
+        chunks.push(value);
+        receivedLength += value.length;
+        
+        if (total && onProgress) {
+          const percent = (receivedLength / total) * 100;
+          onProgress(percent);
+        }
+      }
+      
+      const blob = new Blob(chunks);
       const contentDisposition = response.headers.get('Content-Disposition');
       let filename = 'audio.mp3';
       if (contentDisposition) {

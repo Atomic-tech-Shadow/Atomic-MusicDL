@@ -16,7 +16,7 @@ interface MusicCardProps {
   duration: string;
   thumbnail: string;
   viewCount?: number;
-  onDownload?: (id: string, quality: AudioQuality) => Promise<void>;
+  onDownload?: (id: string, quality: AudioQuality, onProgress?: (percent: number) => void) => Promise<void>;
   onPlay?: (id: string) => void;
   viewMode?: 'grid' | 'list';
 }
@@ -35,6 +35,7 @@ export default function MusicCard({
   const [downloadState, setDownloadState] = useState<'idle' | 'downloading' | 'complete' | 'error'>('idle');
   const [quality, setQuality] = useState<AudioQuality>('320');
   const [showQualitySelect, setShowQualitySelect] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState<number>(0);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -90,10 +91,13 @@ export default function MusicCard({
     if (downloadState === 'downloading') return;
     
     setDownloadState('downloading');
+    setDownloadProgress(0);
     
     try {
       if (onDownload) {
-        await onDownload(id, quality);
+        await onDownload(id, quality, (percent) => {
+          setDownloadProgress(percent);
+        });
       }
       
       await apiRequest('POST', '/api/history', {
@@ -109,6 +113,7 @@ export default function MusicCard({
       queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
       
       setDownloadState('complete');
+      setDownloadProgress(100);
       toast({
         title: "⚡ Téléchargement atomique réussi!",
         description: `"${title}" a été téléchargé en ${quality}kbps. +${quality === '320' ? 3 : quality === '192' ? 2 : 1} points atomiques!`,
@@ -117,10 +122,12 @@ export default function MusicCard({
       setTimeout(() => {
         setDownloadState('idle');
         setShowQualitySelect(false);
+        setDownloadProgress(0);
       }, 2000);
     } catch (error) {
       console.error('[MusicCard] Download failed:', error);
       setDownloadState('error');
+      setDownloadProgress(0);
       toast({
         variant: "destructive",
         title: "Erreur de téléchargement",
@@ -200,7 +207,7 @@ export default function MusicCard({
                 {downloadState === 'downloading' && (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Téléchargement...
+                    {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
                   </>
                 )}
                 {downloadState === 'complete' && (
@@ -353,7 +360,7 @@ export default function MusicCard({
                 {downloadState === 'downloading' && (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Téléchargement...
+                    {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
                   </>
                 )}
                 {downloadState === 'complete' && (

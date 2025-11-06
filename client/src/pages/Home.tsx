@@ -35,7 +35,7 @@ export default function Home() {
     }
   };
 
-  const handleDownload = async (videoId: string, quality: string): Promise<void> => {
+  const handleDownload = async (videoId: string, quality: string, onProgress?: (percent: number) => void): Promise<void> => {
     try {
       console.log('Starting download for:', videoId, 'quality:', quality);
       const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
@@ -47,8 +47,33 @@ export default function Home() {
         throw new Error(`Erreur de téléchargement: ${response.statusText}`);
       }
       
+      const contentLength = response.headers.get('Content-Length');
+      const total = contentLength ? parseInt(contentLength, 10) : 0;
+      
+      if (!response.body) {
+        throw new Error('ReadableStream not supported');
+      }
+      
+      const reader = response.body.getReader();
+      const chunks: Uint8Array[] = [];
+      let receivedLength = 0;
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) break;
+        
+        chunks.push(value);
+        receivedLength += value.length;
+        
+        if (total && onProgress) {
+          const percent = (receivedLength / total) * 100;
+          onProgress(percent);
+        }
+      }
+      
       console.log('Creating blob...');
-      const blob = await response.blob();
+      const blob = new Blob(chunks);
       console.log('Blob created, size:', blob.size);
       
       const contentDisposition = response.headers.get('Content-Disposition');
