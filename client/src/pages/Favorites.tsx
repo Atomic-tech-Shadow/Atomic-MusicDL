@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
+import { useAudioPlayer } from "@/contexts/AudioPlayerContext";
 import { Card } from "@/components/ui/card";
 import MusicCard from "@/components/MusicCard";
 import type { Favorite, AudioQuality } from "@shared/schema";
@@ -9,6 +10,19 @@ export default function Favorites() {
   const { data: favorites, isLoading } = useQuery<Favorite[]>({
     queryKey: ['/api/favorites'],
   });
+  const { playTrack } = useAudioPlayer();
+
+  const handlePlay = (videoId: string) => {
+    const track = favorites?.find(f => f.videoId === videoId);
+    if (track) {
+      playTrack({
+        videoId: track.videoId,
+        title: track.title,
+        artist: track.artist,
+        thumbnail: track.thumbnail,
+      });
+    }
+  };
 
   const handleDownload = async (videoId: string, quality: AudioQuality): Promise<void> => {
     try {
@@ -114,6 +128,7 @@ export default function Favorites() {
               duration={favorite.duration}
               thumbnail={favorite.thumbnail}
               onDownload={handleDownload}
+              onPlay={handlePlay}
             />
           ))}
         </div>

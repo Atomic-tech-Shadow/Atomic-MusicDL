@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { TrendingUp, Loader2 } from "lucide-react";
+import { useAudioPlayer } from "@/contexts/AudioPlayerContext";
 import MusicCard from "@/components/MusicCard";
 import type { YouTubeSearchResult, AudioQuality } from "@shared/schema";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,19 @@ export default function Trending() {
   const { data: trending, isLoading, refetch } = useQuery<YouTubeSearchResult[]>({
     queryKey: ['/api/trending'],
   });
+  const { playTrack } = useAudioPlayer();
+
+  const handlePlay = (videoId: string) => {
+    const track = trending?.find(t => t.videoId === videoId);
+    if (track) {
+      playTrack({
+        videoId: track.videoId,
+        title: track.title,
+        artist: track.artist,
+        thumbnail: track.thumbnail,
+      });
+    }
+  };
 
   const handleDownload = async (videoId: string, quality: AudioQuality): Promise<void> => {
     try {
@@ -92,6 +106,7 @@ export default function Trending() {
               thumbnail={result.thumbnail}
               viewCount={result.viewCount}
               onDownload={handleDownload}
+              onPlay={handlePlay}
             />
           ))}
         </div>

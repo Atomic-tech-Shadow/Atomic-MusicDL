@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useAudioPlayer } from "@/contexts/AudioPlayerContext";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MusicCard from "@/components/MusicCard";
@@ -10,6 +11,7 @@ import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
+  const { playTrack } = useAudioPlayer();
 
   const { data: results, isLoading } = useQuery<YouTubeSearchResult[]>({
     queryKey: ['/api/search', activeQuery],
@@ -19,6 +21,18 @@ export default function Home() {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     setActiveQuery(query);
+  };
+
+  const handlePlay = (videoId: string) => {
+    const track = results?.find(r => r.videoId === videoId);
+    if (track) {
+      playTrack({
+        videoId: track.videoId,
+        title: track.title,
+        artist: track.artist,
+        thumbnail: track.thumbnail,
+      });
+    }
   };
 
   const handleDownload = async (videoId: string, quality: string): Promise<void> => {
@@ -107,6 +121,7 @@ export default function Home() {
                       thumbnail={result.thumbnail}
                       viewCount={result.viewCount}
                       onDownload={handleDownload}
+                      onPlay={handlePlay}
                     />
                   ))}
                 </div>
