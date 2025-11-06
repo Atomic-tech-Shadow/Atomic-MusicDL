@@ -27,9 +27,22 @@ export default function Trending() {
   const handleDownload = async (videoId: string, quality: AudioQuality, onProgress?: (percent: number) => void): Promise<void> => {
     try {
       const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
+      
+      let simulatedProgress = 0;
+      let progressInterval: NodeJS.Timeout | null = null;
+      
+      if (onProgress) {
+        onProgress(5);
+        progressInterval = setInterval(() => {
+          simulatedProgress = Math.min(simulatedProgress + Math.random() * 8 + 2, 90);
+          onProgress(simulatedProgress);
+        }, 200);
+      }
+      
       const response = await fetch(downloadUrl);
       
       if (!response.ok) {
+        if (progressInterval) clearInterval(progressInterval);
         throw new Error(`Erreur de téléchargement: ${response.statusText}`);
       }
       
@@ -37,6 +50,7 @@ export default function Trending() {
       const total = contentLength ? parseInt(contentLength, 10) : 0;
       
       if (!response.body) {
+        if (progressInterval) clearInterval(progressInterval);
         throw new Error('ReadableStream not supported');
       }
       
@@ -44,14 +58,9 @@ export default function Trending() {
       const chunks: Uint8Array[] = [];
       let receivedLength = 0;
       
-      let simulatedProgress = 0;
-      let progressInterval: NodeJS.Timeout | null = null;
-      
-      if (!total && onProgress) {
-        progressInterval = setInterval(() => {
-          simulatedProgress = Math.min(simulatedProgress + Math.random() * 15, 95);
-          onProgress(simulatedProgress);
-        }, 300);
+      if (total && progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
       }
       
       while (true) {
@@ -63,7 +72,7 @@ export default function Trending() {
         receivedLength += value.length;
         
         if (total && onProgress) {
-          const percent = (receivedLength / total) * 100;
+          const percent = Math.min((receivedLength / total) * 100, 99);
           onProgress(percent);
         }
       }
@@ -73,7 +82,7 @@ export default function Trending() {
       }
       
       if (onProgress) {
-        onProgress(100);
+        onProgress(95);
       }
       
       const blob = new Blob(chunks);
@@ -93,6 +102,10 @@ export default function Trending() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      if (onProgress) {
+        onProgress(100);
+      }
       
       setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
     } catch (error) {

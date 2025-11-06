@@ -40,10 +40,22 @@ export default function Home() {
       console.log('Starting download for:', videoId, 'quality:', quality);
       const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
       
+      let simulatedProgress = 0;
+      let progressInterval: NodeJS.Timeout | null = null;
+      
+      if (onProgress) {
+        onProgress(5);
+        progressInterval = setInterval(() => {
+          simulatedProgress = Math.min(simulatedProgress + Math.random() * 8 + 2, 90);
+          onProgress(simulatedProgress);
+        }, 200);
+      }
+      
       console.log('Fetching from:', downloadUrl);
       const response = await fetch(downloadUrl);
       
       if (!response.ok) {
+        if (progressInterval) clearInterval(progressInterval);
         throw new Error(`Erreur de téléchargement: ${response.statusText}`);
       }
       
@@ -51,6 +63,7 @@ export default function Home() {
       const total = contentLength ? parseInt(contentLength, 10) : 0;
       
       if (!response.body) {
+        if (progressInterval) clearInterval(progressInterval);
         throw new Error('ReadableStream not supported');
       }
       
@@ -58,14 +71,9 @@ export default function Home() {
       const chunks: Uint8Array[] = [];
       let receivedLength = 0;
       
-      let simulatedProgress = 0;
-      let progressInterval: NodeJS.Timeout | null = null;
-      
-      if (!total && onProgress) {
-        progressInterval = setInterval(() => {
-          simulatedProgress = Math.min(simulatedProgress + Math.random() * 15, 95);
-          onProgress(simulatedProgress);
-        }, 300);
+      if (total && progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
       }
       
       while (true) {
@@ -77,7 +85,7 @@ export default function Home() {
         receivedLength += value.length;
         
         if (total && onProgress) {
-          const percent = (receivedLength / total) * 100;
+          const percent = Math.min((receivedLength / total) * 100, 99);
           onProgress(percent);
         }
       }
@@ -87,7 +95,7 @@ export default function Home() {
       }
       
       if (onProgress) {
-        onProgress(100);
+        onProgress(95);
       }
       
       console.log('Creating blob...');
@@ -111,6 +119,10 @@ export default function Home() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      if (onProgress) {
+        onProgress(100);
+      }
       
       console.log('Download triggered successfully');
       setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
