@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import ytsearch from "yt-search";
-import { Innertube, UniversalCache, ClientType } from "youtubei.js";
+import { YtDlp } from "ytdlp-nodejs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/search", async (req, res) => {
@@ -44,38 +44,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Video ID is required" });
       }
 
-      const youtube = await Innertube.create({
-        cache: new UniversalCache(false),
-        client_type: ClientType.IOS
-      });
-      
-      const info = await youtube.getInfo(videoId);
+      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      const ytDlp = new YtDlp();
 
-      const videoTitle = info.basic_info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
+      const info = await ytDlp.getInfoAsync(videoUrl);
+      const videoTitle = info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
       
-      res.setHeader('Content-Type', 'audio/mp4');
-      res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.m4a"`);
+      res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.mp3"`);
 
-      const stream = await info.download({ 
-        type: 'audio',
-        quality: 'best',
-        format: 'mp4'
-      });
-
-      const reader = stream.getReader();
-      
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          res.write(value);
-        }
-        res.end();
-      } catch (streamError) {
-        console.error('Stream error:', streamError);
-        reader.releaseLock();
-        throw streamError;
-      }
+      ytDlp.stream(videoUrl, {
+        format: { filter: 'audioonly', type: 'mp3' }
+      }).pipe(res);
 
     } catch (error) {
       console.error("Download error:", error);
