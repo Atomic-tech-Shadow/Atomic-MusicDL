@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import type { UserStats } from "@shared/schema";
 import { Link, useLocation } from "wouter";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 const menuItems = [
   {
@@ -52,8 +53,19 @@ export function AppSidebar() {
   });
 
   return (
-    <Sidebar data-testid="app-sidebar">
-      <SidebarHeader className="p-4">
+    <Sidebar data-testid="app-sidebar" className="relative overflow-hidden">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover -z-10"
+        data-testid="video-background-sidebar"
+      >
+        <source src={videoFile} type="video/mp4" />
+      </video>
+      
+      <SidebarHeader className="p-4 relative z-10">
         <div className="flex items-center gap-2">
           <Zap className="w-6 h-6 text-primary animate-pulse" />
           <div>
@@ -63,7 +75,7 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="relative z-10">
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -115,7 +127,7 @@ export function AppSidebar() {
         )}
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 relative z-10">
         <div className="text-xs text-center text-muted-foreground">
           Powered by Atomic Energy ⚡
         </div>

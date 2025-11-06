@@ -401,4 +401,15 @@
   .animate-bounce-slow {
     animation: bounce-slow 3s ease-in-out infinite;
   }
+
+  /* Sidebar with video background */
+  [data-slot="sidebar-inner"] {
+    background: rgba(240, 240, 245, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+  }
+
+  .dark [data-slot="sidebar-inner"] {
+    background: rgba(20, 20, 30, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+  }
 }
