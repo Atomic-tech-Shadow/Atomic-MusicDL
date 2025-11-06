@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import ytsearch from "yt-search";
-import { Innertube, UniversalCache } from "youtubei.js";
+import { Innertube, UniversalCache, ClientType } from "youtubei.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/search", async (req, res) => {
@@ -45,7 +45,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const youtube = await Innertube.create({
-        cache: new UniversalCache(false)
+        cache: new UniversalCache(false),
+        client_type: ClientType.IOS
       });
       
       const info = await youtube.getInfo(videoId);
