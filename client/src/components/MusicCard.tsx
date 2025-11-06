@@ -1,8 +1,8 @@
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface MusicCardProps {
   id: string;
@@ -10,7 +10,7 @@ interface MusicCardProps {
   artist: string;
   duration: string;
   thumbnail: string;
-  onDownload?: (id: string) => void;
+  onDownload?: (id: string) => Promise<void>;
 }
 
 export default function MusicCard({ 
@@ -21,32 +21,39 @@ export default function MusicCard({
   thumbnail,
   onDownload 
 }: MusicCardProps) {
-  const [downloadState, setDownloadState] = useState<'idle' | 'downloading' | 'complete'>('idle');
-  const [progress, setProgress] = useState(0);
+  const [downloadState, setDownloadState] = useState<'idle' | 'downloading' | 'complete' | 'error'>('idle');
+  const { toast } = useToast();
 
-  const handleDownload = () => {
-    if (downloadState !== 'idle') return;
+  const handleDownload = async () => {
+    if (downloadState === 'downloading') return;
     
     setDownloadState('downloading');
-    setProgress(0);
     
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setDownloadState('complete');
-          setTimeout(() => {
-            setDownloadState('idle');
-            setProgress(0);
-          }, 2000);
-          return 100;
-        }
-        return prev + 10;
+    try {
+      if (onDownload) {
+        await onDownload(id);
+      }
+      
+      setDownloadState('complete');
+      toast({
+        title: "Téléchargement réussi",
+        description: `"${title}" a été téléchargé avec succès.`,
       });
-    }, 200);
-    
-    if (onDownload) {
-      onDownload(id);
+      
+      setTimeout(() => {
+        setDownloadState('idle');
+      }, 2000);
+    } catch (error) {
+      setDownloadState('error');
+      toast({
+        variant: "destructive",
+        title: "Erreur de téléchargement",
+        description: "Une erreur s'est produite. Veuillez réessayer.",
+      });
+      
+      setTimeout(() => {
+        setDownloadState('idle');
+      }, 3000);
     }
   };
 
@@ -72,14 +79,10 @@ export default function MusicCard({
           {artist}
         </p>
         
-        {downloadState === 'downloading' && (
-          <Progress value={progress} className="mb-2 h-1" data-testid={`progress-${id}`} />
-        )}
-        
         <Button 
           onClick={handleDownload}
           disabled={downloadState === 'downloading'}
-          variant={downloadState === 'complete' ? 'default' : 'default'}
+          variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
           className="w-full rounded-lg"
           data-testid={`button-download-${id}`}
         >
@@ -92,12 +95,19 @@ export default function MusicCard({
           {downloadState === 'downloading' && (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Téléchargement... {progress}%
+              Téléchargement en cours...
             </>
           )}
           {downloadState === 'complete' && (
             <>
-              Téléchargement terminé!
+              <Download className="w-4 h-4 mr-2" />
+              Téléchargé !
+            </>
+          )}
+          {downloadState === 'error' && (
+            <>
+              <AlertCircle className="w-4 h-4 mr-2" />
+              Réessayer
             </>
           )}
         </Button>
