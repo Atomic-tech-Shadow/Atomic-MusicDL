@@ -42,7 +42,7 @@ export const downloadHistorySchema = z.object({
   atomicPoints: z.number(),
 });
 
-export const insertDownloadHistorySchema = downloadHistorySchema.omit({ id: true, downloadedAt: true });
+export const insertDownloadHistorySchema = downloadHistorySchema.omit({ id: true, downloadedAt: true, atomicPoints: true });
 
 export type DownloadHistory = z.infer<typeof downloadHistorySchema>;
 export type InsertDownloadHistory = z.infer<typeof insertDownloadHistorySchema>;

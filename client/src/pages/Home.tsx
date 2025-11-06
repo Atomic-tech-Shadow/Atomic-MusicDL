@@ -21,10 +21,10 @@ export default function Home() {
     setActiveQuery(query);
   };
 
-  const handleDownload = async (videoId: string): Promise<void> => {
+  const handleDownload = async (videoId: string, quality: string): Promise<void> => {
     try {
-      console.log('Starting download for:', videoId);
-      const downloadUrl = `/api/download/${videoId}`;
+      console.log('Starting download for:', videoId, 'quality:', quality);
+      const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
       
       console.log('Fetching from:', downloadUrl);
       const response = await fetch(downloadUrl);
@@ -103,6 +103,7 @@ export default function Home() {
                       artist={result.artist}
                       duration={result.duration}
                       thumbnail={result.thumbnail}
+                      viewCount={result.viewCount}
                       onDownload={handleDownload}
                     />
                   ))}
