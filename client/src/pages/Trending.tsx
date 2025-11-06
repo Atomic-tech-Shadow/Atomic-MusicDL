@@ -3,6 +3,7 @@ import { TrendingUp, Loader2 } from "lucide-react";
 import MusicCard from "@/components/MusicCard";
 import type { YouTubeSearchResult, AudioQuality } from "@shared/schema";
 import { Button } from "@/components/ui/button";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 export default function Trending() {
   const { data: trending, isLoading, refetch } = useQuery<YouTubeSearchResult[]>({
@@ -44,8 +45,20 @@ export default function Trending() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-screen relative">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        data-testid="video-background"
+      >
+        <source src={videoFile} type="video/mp4" />
+      </video>
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold font-heading mb-2 flex items-center gap-2" data-testid="text-trending-title">
             <TrendingUp className="w-8 h-8 text-primary" />
@@ -85,6 +98,7 @@ export default function Trending() {
           <p className="text-muted-foreground">Aucune tendance disponible pour le moment</p>
         </div>
       )}
+      </div>
     </div>
   );
 }

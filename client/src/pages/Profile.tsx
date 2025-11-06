@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import type { UserStats, Badge as BadgeType } from "@shared/schema";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 const iconMap: Record<string, any> = {
   Zap,
@@ -41,8 +42,20 @@ export default function Profile() {
     : 0;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
+    <div className="min-h-screen relative">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        data-testid="video-background"
+      >
+        <source src={videoFile} type="video/mp4" />
+      </video>
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
         <h1 className="text-3xl font-bold font-heading mb-2 flex items-center gap-2" data-testid="text-profile-title">
           <Zap className="w-8 h-8 text-primary animate-pulse" />
           Mon Profil Atomique
@@ -185,6 +198,7 @@ export default function Profile() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

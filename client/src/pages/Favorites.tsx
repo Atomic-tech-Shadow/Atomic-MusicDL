@@ -3,6 +3,7 @@ import { Heart } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import MusicCard from "@/components/MusicCard";
 import type { Favorite, AudioQuality } from "@shared/schema";
+import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 export default function Favorites() {
   const { data: favorites, isLoading } = useQuery<Favorite[]>({
@@ -45,13 +46,26 @@ export default function Favorites() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded w-1/4"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="h-64 bg-muted rounded"></div>
-            ))}
+      <div className="min-h-screen relative">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="fixed inset-0 w-full h-full object-cover -z-10"
+          data-testid="video-background"
+        >
+          <source src={videoFile} type="video/mp4" />
+        </video>
+        
+        <div className="container mx-auto px-4 py-8">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-muted rounded w-1/4"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="h-64 bg-muted rounded"></div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -59,8 +73,20 @@ export default function Favorites() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
+    <div className="min-h-screen relative">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        data-testid="video-background"
+      >
+        <source src={videoFile} type="video/mp4" />
+      </video>
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
         <h1 className="text-3xl font-bold font-heading mb-2" data-testid="text-favorites-title">
           Mes Favoris
         </h1>
@@ -92,6 +118,7 @@ export default function Favorites() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }
