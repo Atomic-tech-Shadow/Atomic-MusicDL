@@ -23,7 +23,12 @@ export default function Home() {
 
   const handleDownload = (videoId: string) => {
     const downloadUrl = `/api/download/${videoId}`;
-    window.open(downloadUrl, '_blank');
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
