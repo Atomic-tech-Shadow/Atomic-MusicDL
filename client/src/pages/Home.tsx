@@ -22,41 +22,45 @@ export default function Home() {
   };
 
   const handleDownload = async (videoId: string): Promise<void> => {
-    const downloadUrl = `/api/download/${videoId}`;
-    
-    // Utiliser fetch pour télécharger le fichier avec gestion d'erreur
-    const response = await fetch(downloadUrl);
-    
-    if (!response.ok) {
-      throw new Error(`Erreur de téléchargement: ${response.statusText}`);
-    }
-    
-    // Récupérer le blob (fichier binaire)
-    const blob = await response.blob();
-    
-    // Extraire le nom du fichier depuis les headers
-    const contentDisposition = response.headers.get('Content-Disposition');
-    let filename = 'audio.mp3';
-    if (contentDisposition) {
-      const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-      if (filenameMatch) {
-        filename = filenameMatch[1];
+    try {
+      console.log('Starting download for:', videoId);
+      const downloadUrl = `/api/download/${videoId}`;
+      
+      console.log('Fetching from:', downloadUrl);
+      const response = await fetch(downloadUrl);
+      
+      if (!response.ok) {
+        throw new Error(`Erreur de téléchargement: ${response.statusText}`);
       }
+      
+      console.log('Creating blob...');
+      const blob = await response.blob();
+      console.log('Blob created, size:', blob.size);
+      
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let filename = 'audio.mp3';
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+      
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      console.log('Download triggered successfully');
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+    } catch (error) {
+      console.error('Download error:', error);
+      throw error;
     }
-    
-    // Créer un URL temporaire pour le blob
-    const blobUrl = window.URL.createObjectURL(blob);
-    
-    // Créer un lien de téléchargement
-    const link = document.createElement('a');
-    link.href = blobUrl;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // Libérer la mémoire
-    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
   };
 
   return (

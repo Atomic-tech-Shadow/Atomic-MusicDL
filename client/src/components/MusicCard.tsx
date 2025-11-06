@@ -27,14 +27,18 @@ export default function MusicCard({
   const handleDownload = async () => {
     if (downloadState === 'downloading') return;
     
+    console.log('[MusicCard] Starting download, id:', id);
     setDownloadState('downloading');
     
     try {
       if (onDownload) {
+        console.log('[MusicCard] Calling onDownload...');
         await onDownload(id);
+        console.log('[MusicCard] onDownload completed successfully');
       }
       
       setDownloadState('complete');
+      console.log('[MusicCard] State set to complete');
       toast({
         title: "Téléchargement réussi",
         description: `"${title}" a été téléchargé avec succès.`,
@@ -42,8 +46,10 @@ export default function MusicCard({
       
       setTimeout(() => {
         setDownloadState('idle');
+        console.log('[MusicCard] State reset to idle');
       }, 2000);
     } catch (error) {
+      console.error('[MusicCard] Download failed:', error);
       setDownloadState('error');
       toast({
         variant: "destructive",
