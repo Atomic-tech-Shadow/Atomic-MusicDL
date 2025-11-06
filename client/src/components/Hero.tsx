@@ -9,6 +9,7 @@ interface HeroProps {
 export default function Hero({ onSearch }: HeroProps) {
   return (
     <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-black/20"></div>
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
           <Zap className="w-4 h-4 text-primary animate-pulse" />
@@ -17,8 +18,8 @@ export default function Hero({ onSearch }: HeroProps) {
           </span>
           <Zap className="w-4 h-4 text-primary animate-pulse" />
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold font-heading text-white mb-6 animate-fade-in-up" data-testid="text-hero-title">
-          <span className="inline-block animate-bounce-slow bg-gradient-to-r from-white via-primary to-white bg-clip-text text-transparent">
+        <h1 className="text-5xl md:text-7xl font-bold font-heading text-white mb-6 animate-fade-in-up text-enhanced-strong" data-testid="text-hero-title">
+          <span className="inline-block animate-bounce-slow bg-gradient-to-r from-white via-primary to-white bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
             Atomic MusicDL
           </span>
         </h1>

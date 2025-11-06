@@ -84,9 +84,11 @@ export default function Home() {
         {activeQuery && (
           <section className="py-16">
             <div className="container mx-auto px-4">
-              <h2 className="text-2xl font-bold font-heading mb-8" data-testid="text-results-title">
-                Résultats pour "{searchQuery}"
-              </h2>
+              <div className="bg-content rounded-lg p-6 mb-8">
+                <h2 className="text-2xl font-bold font-heading text-enhanced" data-testid="text-results-title">
+                  Résultats pour "{searchQuery}"
+                </h2>
+              </div>
               
               {isLoading ? (
                 <div className="flex items-center justify-center py-20">
@@ -109,7 +111,7 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20">
+                <div className="bg-content rounded-lg p-12 text-center">
                   <p className="text-muted-foreground">Aucun résultat trouvé pour "{searchQuery}"</p>
                 </div>
               )}

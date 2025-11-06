@@ -86,14 +86,14 @@ export default function Favorites() {
       </video>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-        <h1 className="text-3xl font-bold font-heading mb-2" data-testid="text-favorites-title">
-          Mes Favoris
-        </h1>
-        <p className="text-muted-foreground">
-          Votre collection de musiques préférées
-        </p>
-      </div>
+        <div className="mb-8 bg-content rounded-lg p-6">
+          <h1 className="text-3xl font-bold font-heading mb-2 text-enhanced" data-testid="text-favorites-title">
+            Mes Favoris
+          </h1>
+          <p className="text-muted-foreground">
+            Votre collection de musiques préférées
+          </p>
+        </div>
 
       {!favorites || favorites.length === 0 ? (
         <Card className="p-12 text-center">

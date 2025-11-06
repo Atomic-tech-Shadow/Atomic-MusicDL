@@ -58,20 +58,22 @@ export default function Trending() {
       </video>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold font-heading mb-2 flex items-center gap-2" data-testid="text-trending-title">
-            <TrendingUp className="w-8 h-8 text-primary" />
-            Tendances Anime OST
-          </h1>
-          <p className="text-muted-foreground">
-            Les musiques anime les plus populaires du moment
-          </p>
+        <div className="mb-8 bg-content rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold font-heading mb-2 flex items-center gap-2 text-enhanced" data-testid="text-trending-title">
+                <TrendingUp className="w-8 h-8 text-primary" />
+                Tendances Anime OST
+              </h1>
+              <p className="text-muted-foreground">
+                Les musiques anime les plus populaires du moment
+              </p>
+            </div>
+            <Button onClick={() => refetch()} variant="outline" data-testid="button-refresh">
+              Actualiser
+            </Button>
+          </div>
         </div>
-        <Button onClick={() => refetch()} variant="outline" data-testid="button-refresh">
-          Actualiser
-        </Button>
-      </div>
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
@@ -94,7 +96,7 @@ export default function Trending() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20">
+        <div className="bg-content rounded-lg p-12 text-center">
           <p className="text-muted-foreground">Aucune tendance disponible pour le moment</p>
         </div>
       )}

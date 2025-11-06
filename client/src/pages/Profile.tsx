@@ -55,15 +55,15 @@ export default function Profile() {
       </video>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-        <h1 className="text-3xl font-bold font-heading mb-2 flex items-center gap-2" data-testid="text-profile-title">
-          <Zap className="w-8 h-8 text-primary animate-pulse" />
-          Mon Profil Atomique
-        </h1>
-        <p className="text-muted-foreground">
-          Vos statistiques et accomplissements
-        </p>
-      </div>
+        <div className="mb-8 bg-content rounded-lg p-6">
+          <h1 className="text-3xl font-bold font-heading mb-2 flex items-center gap-2 text-enhanced" data-testid="text-profile-title">
+            <Zap className="w-8 h-8 text-primary animate-pulse" />
+            Mon Profil Atomique
+          </h1>
+          <p className="text-muted-foreground">
+            Vos statistiques et accomplissements
+          </p>
+        </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card>

@@ -68,14 +68,14 @@ export default function History() {
       </video>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-        <h1 className="text-3xl font-bold font-heading mb-2" data-testid="text-history-title">
-          Historique de Téléchargement
-        </h1>
-        <p className="text-muted-foreground">
-          Tous vos téléchargements atomiques
-        </p>
-      </div>
+        <div className="mb-8 bg-content rounded-lg p-6">
+          <h1 className="text-3xl font-bold font-heading mb-2 text-enhanced" data-testid="text-history-title">
+            Historique de Téléchargement
+          </h1>
+          <p className="text-muted-foreground">
+            Tous vos téléchargements atomiques
+          </p>
+        </div>
 
       {!history || history.length === 0 ? (
         <Card className="p-12 text-center">
