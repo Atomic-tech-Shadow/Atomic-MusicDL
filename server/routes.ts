@@ -3,11 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import ytsearch from "yt-search";
-import ytdl from "@distube/ytdl-core";
-import ffmpeg from "fluent-ffmpeg";
-import ffmpegPath from "@ffmpeg-installer/ffmpeg";
-
-ffmpeg.setFfmpegPath(ffmpegPath.path);
+import { Innertube, UniversalCache } from "youtubei.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/search", async (req, res) => {
@@ -41,9 +37,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/download/:videoId", async (req, res) => {
-    let audioStream: any = null;
-    let ffmpegProcess: any = null;
-
     try {
       const { videoId } = req.params;
       
@@ -51,74 +44,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Video ID is required" });
       }
 
-      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      const info = await ytdl.getInfo(videoUrl);
+      const youtube = await Innertube.create({
+        cache: new UniversalCache(false)
+      });
+      
+      const info = await youtube.getInfo(videoId);
 
-      const videoTitle = info.videoDetails.title.replace(/[^a-z0-9]/gi, '_') || videoId;
+      const videoTitle = info.basic_info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
       
-      const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
+      res.setHeader('Content-Type', 'audio/mp4');
+      res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.m4a"`);
+
+      const stream = await info.download({ 
+        type: 'audio',
+        quality: 'best',
+        format: 'mp4'
+      });
+
+      const reader = stream.getReader();
       
-      if (audioFormats.length === 0) {
-        return res.status(500).json({ error: "No audio format available" });
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          res.write(value);
+        }
+        res.end();
+      } catch (streamError) {
+        console.error('Stream error:', streamError);
+        reader.releaseLock();
+        throw streamError;
       }
-
-      res.setHeader('Content-Type', 'audio/mpeg');
-      res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.mp3"`);
-
-      audioStream = ytdl(videoUrl, { 
-        quality: 'highestaudio',
-        filter: 'audioonly'
-      });
-
-      audioStream.on('error', (error: Error) => {
-        console.error('Audio stream error:', error);
-        if (ffmpegProcess) {
-          ffmpegProcess.kill('SIGKILL');
-        }
-        if (!res.headersSent) {
-          res.status(500).json({ error: "Failed to stream audio" });
-        } else {
-          res.end();
-        }
-      });
-
-      ffmpegProcess = ffmpeg(audioStream)
-        .audioBitrate(128)
-        .format('mp3')
-        .on('error', (error: Error) => {
-          console.error('FFmpeg error:', error);
-          if (audioStream) {
-            audioStream.destroy();
-          }
-          if (!res.headersSent) {
-            res.status(500).json({ error: "Failed to convert audio" });
-          } else {
-            res.end();
-          }
-        })
-        .on('end', () => {
-          console.log('FFmpeg conversion completed');
-        });
-
-      ffmpegProcess.pipe(res, { end: true });
-
-      res.on('close', () => {
-        if (audioStream) {
-          audioStream.destroy();
-        }
-        if (ffmpegProcess) {
-          ffmpegProcess.kill('SIGKILL');
-        }
-      });
 
     } catch (error) {
       console.error("Download error:", error);
-      if (audioStream) {
-        audioStream.destroy();
-      }
-      if (ffmpegProcess) {
-        ffmpegProcess.kill('SIGKILL');
-      }
       if (!res.headersSent) {
         res.status(500).json({ error: "Failed to download video" });
       }
