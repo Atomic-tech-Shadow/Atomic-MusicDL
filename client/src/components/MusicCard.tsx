@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -190,59 +191,67 @@ export default function MusicCard({
               <Heart className={`w-4 h-4 ${isFavorite ? 'fill-primary text-primary' : ''}`} />
             </Button>
             
-            {!showQualitySelect ? (
-              <Button 
-                onClick={() => setShowQualitySelect(true)}
-                disabled={downloadState === 'downloading'}
-                variant={downloadState === 'complete' ? 'default' : 'default'}
-                size="sm"
-                data-testid={`button-download-${id}`}
-              >
-                {downloadState === 'idle' && (
-                  <>
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
-                  </>
-                )}
-                {downloadState === 'downloading' && (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
-                  </>
-                )}
-                {downloadState === 'complete' && (
-                  <>
-                    <Zap className="w-4 h-4 mr-2" />
-                    Téléchargé !
-                  </>
-                )}
-              </Button>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)} disabled={downloadState === 'downloading'}>
-                  <SelectTrigger className="w-24" data-testid={`select-quality-${id}`}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="128">128 kbps</SelectItem>
-                    <SelectItem value="192">192 kbps</SelectItem>
-                    <SelectItem value="320">320 kbps</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="flex flex-col gap-2 flex-1">
+              {!showQualitySelect ? (
                 <Button 
-                  size="sm" 
-                  onClick={handleDownload}
+                  onClick={() => setShowQualitySelect(true)}
                   disabled={downloadState === 'downloading'}
-                  variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
-                  data-testid={`button-confirm-download-${id}`}
+                  variant={downloadState === 'complete' ? 'default' : 'default'}
+                  size="sm"
+                  data-testid={`button-download-${id}`}
                 >
-                  {downloadState === 'idle' && <Download className="w-4 h-4" />}
-                  {downloadState === 'downloading' && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {downloadState === 'complete' && <Zap className="w-4 h-4 animate-pulse" />}
-                  {downloadState === 'error' && <AlertCircle className="w-4 h-4" />}
+                  {downloadState === 'idle' && (
+                    <>
+                      <Download className="w-4 h-4 mr-2" />
+                      Download
+                    </>
+                  )}
+                  {downloadState === 'downloading' && (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
+                    </>
+                  )}
+                  {downloadState === 'complete' && (
+                    <>
+                      <Zap className="w-4 h-4 mr-2" />
+                      Téléchargé !
+                    </>
+                  )}
                 </Button>
-              </div>
-            )}
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)} disabled={downloadState === 'downloading'}>
+                    <SelectTrigger className="w-24" data-testid={`select-quality-${id}`}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="128">128 kbps</SelectItem>
+                      <SelectItem value="192">192 kbps</SelectItem>
+                      <SelectItem value="320">320 kbps</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Button 
+                    size="sm" 
+                    onClick={handleDownload}
+                    disabled={downloadState === 'downloading'}
+                    variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
+                    data-testid={`button-confirm-download-${id}`}
+                  >
+                    {downloadState === 'idle' && <Download className="w-4 h-4" />}
+                    {downloadState === 'downloading' && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {downloadState === 'complete' && <Zap className="w-4 h-4 animate-pulse" />}
+                    {downloadState === 'error' && <AlertCircle className="w-4 h-4" />}
+                  </Button>
+                </div>
+              )}
+              {downloadState === 'downloading' && (
+                <div className="flex items-center gap-2">
+                  <Progress value={downloadProgress} className="h-2 flex-1" data-testid={`progress-download-${id}`} />
+                  <span className="text-xs text-muted-foreground min-w-[3ch]">{Math.round(downloadProgress)}%</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </Card>
@@ -298,95 +307,103 @@ export default function MusicCard({
           {artist}
         </p>
         
-        {!showQualitySelect ? (
-          <Button 
-            onClick={() => setShowQualitySelect(true)}
-            disabled={downloadState === 'downloading'}
-            variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
-            className="w-full rounded-md"
-            data-testid={`button-download-${id}`}
-          >
-            {downloadState === 'idle' && (
-              <>
-                <Download className="w-4 h-4 mr-2" />
-                Télécharger MP3
-              </>
-            )}
-            {downloadState === 'downloading' && (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Téléchargement en cours...
-              </>
-            )}
-            {downloadState === 'complete' && (
-              <>
-                <Zap className="w-4 h-4 mr-2 animate-pulse" />
-                Téléchargé !
-              </>
-            )}
-            {downloadState === 'error' && (
-              <>
-                <AlertCircle className="w-4 h-4 mr-2" />
-                Réessayer
-              </>
-            )}
-          </Button>
-        ) : (
-          <div className="space-y-2">
-            <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)} disabled={downloadState === 'downloading'}>
-              <SelectTrigger className="w-full" data-testid={`select-quality-${id}`}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="128">128 kbps (+1 ⚡)</SelectItem>
-                <SelectItem value="192">192 kbps (+2 ⚡)</SelectItem>
-                <SelectItem value="320">320 kbps (+3 ⚡)</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="flex gap-2">
-              <Button 
-                onClick={handleDownload}
-                className="flex-1"
-                disabled={downloadState === 'downloading'}
-                variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
-                data-testid={`button-confirm-download-${id}`}
-              >
-                {downloadState === 'idle' && (
-                  <>
-                    <Download className="w-4 h-4 mr-2" />
-                    Confirmer
-                  </>
-                )}
-                {downloadState === 'downloading' && (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
-                  </>
-                )}
-                {downloadState === 'complete' && (
-                  <>
-                    <Zap className="w-4 h-4 mr-2 animate-pulse" />
-                    Téléchargé !
-                  </>
-                )}
-                {downloadState === 'error' && (
-                  <>
-                    <AlertCircle className="w-4 h-4 mr-2" />
-                    Réessayer
-                  </>
-                )}
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => setShowQualitySelect(false)}
-                disabled={downloadState === 'downloading'}
-                data-testid={`button-cancel-download-${id}`}
-              >
-                Annuler
-              </Button>
+        <div className="space-y-2">
+          {!showQualitySelect ? (
+            <Button 
+              onClick={() => setShowQualitySelect(true)}
+              disabled={downloadState === 'downloading'}
+              variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
+              className="w-full rounded-md"
+              data-testid={`button-download-${id}`}
+            >
+              {downloadState === 'idle' && (
+                <>
+                  <Download className="w-4 h-4 mr-2" />
+                  Télécharger MP3
+                </>
+              )}
+              {downloadState === 'downloading' && (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
+                </>
+              )}
+              {downloadState === 'complete' && (
+                <>
+                  <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                  Téléchargé !
+                </>
+              )}
+              {downloadState === 'error' && (
+                <>
+                  <AlertCircle className="w-4 h-4 mr-2" />
+                  Réessayer
+                </>
+              )}
+            </Button>
+          ) : (
+            <div className="space-y-2">
+              <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)} disabled={downloadState === 'downloading'}>
+                <SelectTrigger className="w-full" data-testid={`select-quality-${id}`}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="128">128 kbps (+1 ⚡)</SelectItem>
+                  <SelectItem value="192">192 kbps (+2 ⚡)</SelectItem>
+                  <SelectItem value="320">320 kbps (+3 ⚡)</SelectItem>
+                </SelectContent>
+              </Select>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={handleDownload}
+                  className="flex-1"
+                  disabled={downloadState === 'downloading'}
+                  variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
+                  data-testid={`button-confirm-download-${id}`}
+                >
+                  {downloadState === 'idle' && (
+                    <>
+                      <Download className="w-4 h-4 mr-2" />
+                      Confirmer
+                    </>
+                  )}
+                  {downloadState === 'downloading' && (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      {downloadProgress > 0 ? `${Math.round(downloadProgress)}%` : 'Téléchargement...'}
+                    </>
+                  )}
+                  {downloadState === 'complete' && (
+                    <>
+                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      Téléchargé !
+                    </>
+                  )}
+                  {downloadState === 'error' && (
+                    <>
+                      <AlertCircle className="w-4 h-4 mr-2" />
+                      Réessayer
+                    </>
+                  )}
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowQualitySelect(false)}
+                  disabled={downloadState === 'downloading'}
+                  data-testid={`button-cancel-download-${id}`}
+                >
+                  Annuler
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+          {downloadState === 'downloading' && (
+            <div className="flex items-center gap-2">
+              <Progress value={downloadProgress} className="h-2 flex-1" data-testid={`progress-download-${id}`} />
+              <span className="text-xs text-muted-foreground font-medium min-w-[3.5rem] text-right">{Math.round(downloadProgress)}%</span>
+            </div>
+          )}
+        </div>
       </div>
     </Card>
   );

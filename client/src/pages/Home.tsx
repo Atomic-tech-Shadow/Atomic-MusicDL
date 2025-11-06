@@ -58,6 +58,16 @@ export default function Home() {
       const chunks: Uint8Array[] = [];
       let receivedLength = 0;
       
+      let simulatedProgress = 0;
+      let progressInterval: NodeJS.Timeout | null = null;
+      
+      if (!total && onProgress) {
+        progressInterval = setInterval(() => {
+          simulatedProgress = Math.min(simulatedProgress + Math.random() * 15, 95);
+          onProgress(simulatedProgress);
+        }, 300);
+      }
+      
       while (true) {
         const { done, value } = await reader.read();
         
@@ -70,6 +80,14 @@ export default function Home() {
           const percent = (receivedLength / total) * 100;
           onProgress(percent);
         }
+      }
+      
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
+      
+      if (onProgress) {
+        onProgress(100);
       }
       
       console.log('Creating blob...');
