@@ -2,6 +2,11 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyB9qShTA1lPNfw-Vfodp6ZaR_yqQ87HWoI';
 
+interface VideoInfo {
+  duration: string;
+  viewCount: number;
+}
+
 function parseDuration(duration: string): string {
   const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   if (!match) return "0:00";
@@ -25,17 +30,21 @@ export default async function handler(
   }
 
   try {
-    const query = req.query.q as string;
+    const animeQueries = [
+      "Eminence in Shadow OST",
+      "Demon Slayer OST",
+      "Attack on Titan OST",
+      "Jujutsu Kaisen OST",
+      "One Piece OST",
+    ];
     
-    if (!query) {
-      return res.status(400).json({ error: "Query parameter is required" });
-    }
+    const randomQuery = animeQueries[Math.floor(Math.random() * animeQueries.length)];
 
     if (!YOUTUBE_API_KEY) {
       return res.status(500).json({ error: "YouTube API key not configured" });
     }
 
-    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&videoCategoryId=10&maxResults=12&key=${YOUTUBE_API_KEY}`;
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(randomQuery)}&type=video&videoCategoryId=10&maxResults=12&key=${YOUTUBE_API_KEY}`;
     
     const response = await fetch(searchUrl);
     const data = await response.json();
@@ -50,7 +59,7 @@ export default async function handler(
     }
 
     const videoIds = data.items.map((item: any) => item.id.videoId).join(',');
-    const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${YOUTUBE_API_KEY}`;
+    const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`;
     
     const detailsResponse = await fetch(detailsUrl);
     const detailsData = await detailsResponse.json();
@@ -60,25 +69,32 @@ export default async function handler(
       return res.status(detailsResponse.status).json({ error: detailsData.error?.message || "YouTube Videos API error" });
     }
 
-    const durationMap = new Map(
+    const videoMap = new Map<string, VideoInfo>(
       (detailsData.items || []).map((item: any) => [
         item.id,
-        parseDuration(item.contentDetails.duration)
+        {
+          duration: parseDuration(item.contentDetails.duration),
+          viewCount: parseInt(item.statistics?.viewCount || "0")
+        } as VideoInfo
       ])
     );
 
-    const results = data.items.map((item: any) => ({
-      id: item.id.videoId,
-      videoId: item.id.videoId,
-      title: item.snippet.title,
-      artist: item.snippet.channelTitle,
-      duration: durationMap.get(item.id.videoId) || "0:00",
-      thumbnail: item.snippet.thumbnails.medium.url,
-    }));
+    const results = data.items.map((item: any) => {
+      const videoInfo: VideoInfo = videoMap.get(item.id.videoId) || { duration: "0:00", viewCount: 0 };
+      return {
+        id: item.id.videoId,
+        videoId: item.id.videoId,
+        title: item.snippet.title,
+        artist: item.snippet.channelTitle,
+        duration: videoInfo.duration,
+        thumbnail: item.snippet.thumbnails.medium.url,
+        viewCount: videoInfo.viewCount,
+      };
+    });
 
     res.json(results);
   } catch (error) {
-    console.error("Search error:", error);
-    res.status(500).json({ error: "Failed to search videos" });
+    console.error("Trending error:", error);
+    res.status(500).json({ error: "Failed to get trending" });
   }
 }
