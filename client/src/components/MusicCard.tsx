@@ -212,7 +212,7 @@ export default function MusicCard({
               </Button>
             ) : (
               <div className="flex items-center gap-2">
-                <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)}>
+                <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)} disabled={downloadState === 'downloading'}>
                   <SelectTrigger className="w-24" data-testid={`select-quality-${id}`}>
                     <SelectValue />
                   </SelectTrigger>
@@ -222,8 +222,17 @@ export default function MusicCard({
                     <SelectItem value="320">320 kbps</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button size="sm" onClick={handleDownload} data-testid={`button-confirm-download-${id}`}>
-                  <Download className="w-4 h-4" />
+                <Button 
+                  size="sm" 
+                  onClick={handleDownload}
+                  disabled={downloadState === 'downloading'}
+                  variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
+                  data-testid={`button-confirm-download-${id}`}
+                >
+                  {downloadState === 'idle' && <Download className="w-4 h-4" />}
+                  {downloadState === 'downloading' && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {downloadState === 'complete' && <Zap className="w-4 h-4 animate-pulse" />}
+                  {downloadState === 'error' && <AlertCircle className="w-4 h-4" />}
                 </Button>
               </div>
             )}
@@ -317,7 +326,7 @@ export default function MusicCard({
           </Button>
         ) : (
           <div className="space-y-2">
-            <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)}>
+            <Select value={quality} onValueChange={(v) => setQuality(v as AudioQuality)} disabled={downloadState === 'downloading'}>
               <SelectTrigger className="w-full" data-testid={`select-quality-${id}`}>
                 <SelectValue />
               </SelectTrigger>
@@ -331,14 +340,39 @@ export default function MusicCard({
               <Button 
                 onClick={handleDownload}
                 className="flex-1"
+                disabled={downloadState === 'downloading'}
+                variant={downloadState === 'complete' ? 'default' : downloadState === 'error' ? 'destructive' : 'default'}
                 data-testid={`button-confirm-download-${id}`}
               >
-                <Download className="w-4 h-4 mr-2" />
-                Confirmer
+                {downloadState === 'idle' && (
+                  <>
+                    <Download className="w-4 h-4 mr-2" />
+                    Confirmer
+                  </>
+                )}
+                {downloadState === 'downloading' && (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Téléchargement...
+                  </>
+                )}
+                {downloadState === 'complete' && (
+                  <>
+                    <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                    Téléchargé !
+                  </>
+                )}
+                {downloadState === 'error' && (
+                  <>
+                    <AlertCircle className="w-4 h-4 mr-2" />
+                    Réessayer
+                  </>
+                )}
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => setShowQualitySelect(false)}
+                disabled={downloadState === 'downloading'}
                 data-testid={`button-cancel-download-${id}`}
               >
                 Annuler
