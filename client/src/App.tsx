@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/not-found";
-import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
 
 function Router() {
   return (
