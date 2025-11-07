@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import ytdl from '@distube/ytdl-core';
+import { stream, video_basic_info } from 'play-dl';
 
 export const config = {
   maxDuration: 60,
@@ -25,8 +25,8 @@ export default async function handler(
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
     console.log('[Vercel Download] Fetching video info for:', videoUrl);
 
-    const info = await ytdl.getInfo(videoUrl);
-    const videoTitle = info.videoDetails.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
+    const info = await video_basic_info(videoUrl);
+    const videoTitle = info.video_details.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
     console.log('[Vercel Download] Video title:', videoTitle);
     
     res.setHeader('Content-Type', 'audio/mpeg');
@@ -36,18 +36,18 @@ export default async function handler(
 
     console.log('[Vercel Download] Starting download stream...');
     
-    const audioStream = ytdl(videoUrl, {
-      quality: 'highestaudio',
-      filter: 'audioonly',
+    const audioStream = await stream(videoUrl, {
+      quality: 2,
+      discordPlayerCompatibility: false
     });
 
     let bytesWritten = 0;
 
-    audioStream.on('data', (chunk) => {
+    audioStream.stream.on('data', (chunk) => {
       bytesWritten += chunk.length;
     });
 
-    audioStream.on('error', (error) => {
+    audioStream.stream.on('error', (error) => {
       console.error('[Vercel Download] Stream error:', error);
       if (!res.headersSent) {
         res.status(500).json({ 
@@ -57,11 +57,11 @@ export default async function handler(
       }
     });
 
-    audioStream.on('end', () => {
+    audioStream.stream.on('end', () => {
       console.log('[Vercel Download] Stream complete, bytes written:', bytesWritten);
     });
 
-    audioStream.pipe(res);
+    audioStream.stream.pipe(res);
 
   } catch (error: any) {
     console.error('[Vercel Download] Error details:', {

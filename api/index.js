@@ -1,5 +1,5 @@
 import express from "express";
-import ytdl from '@distube/ytdl-core';
+import { stream, video_basic_info } from 'play-dl';
 
 const app = express();
 
@@ -93,8 +93,8 @@ app.get("/api/download/:videoId", async (req, res) => {
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
     console.log('[Download] Fetching video info for:', videoUrl);
 
-    const info = await ytdl.getInfo(videoUrl);
-    const title = info.videoDetails.title || 'download';
+    const info = await video_basic_info(videoUrl);
+    const title = info.video_details.title || 'download';
     const sanitizedTitle = title
       .replace(/[^\w\s-]/g, '')
       .replace(/\s+/g, '_')
@@ -105,12 +105,12 @@ app.get("/api/download/:videoId", async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
 
     console.log('[Download] Starting stream...');
-    const audioStream = ytdl(videoUrl, {
-      quality: 'highestaudio',
-      filter: 'audioonly',
+    const audioStream = await stream(videoUrl, {
+      quality: 2,
+      discordPlayerCompatibility: false
     });
 
-    audioStream.on('error', (error) => {
+    audioStream.stream.on('error', (error) => {
       console.error('[Download] Stream error:', error);
       if (!res.headersSent) {
         res.status(500).json({ 
@@ -120,7 +120,7 @@ app.get("/api/download/:videoId", async (req, res) => {
       }
     });
 
-    audioStream.pipe(res);
+    audioStream.stream.pipe(res);
 
   } catch (error) {
     console.error("Download error:", error);
