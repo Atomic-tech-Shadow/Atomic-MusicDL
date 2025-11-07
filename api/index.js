@@ -1,5 +1,5 @@
 import express from "express";
-import { Innertube, ClientType } from 'youtubei.js';
+import ytdl from '@distube/ytdl-core';
 
 const app = express();
 
@@ -90,45 +90,45 @@ app.get("/api/download/:videoId", async (req, res) => {
       return res.status(400).json({ error: "Video ID is required" });
     }
 
-    const youtube = await Innertube.create({
-      client_type: ClientType.IOS
-    });
-    const info = await youtube.getInfo(videoId);
+    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    console.log('[Download] Fetching video info for:', videoUrl);
 
-    const title = info.basic_info.title || 'download';
+    const info = await ytdl.getInfo(videoUrl);
+    const title = info.videoDetails.title || 'download';
     const sanitizedTitle = title
       .replace(/[^\w\s-]/g, '')
       .replace(/\s+/g, '_')
       .substring(0, 100);
 
-    res.setHeader('Content-Type', 'audio/mp4');
-    res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.m4a"`);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Disposition', `attachment; filename="${sanitizedTitle}.mp3"`);
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-    const stream = await info.download({
-      type: 'audio',
-      quality: 'best',
-      format: 'mp4'
+    console.log('[Download] Starting stream...');
+    const audioStream = ytdl(videoUrl, {
+      quality: 'highestaudio',
+      filter: 'audioonly',
     });
 
-    const reader = stream.getReader();
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        res.write(value);
+    audioStream.on('error', (error) => {
+      console.error('[Download] Stream error:', error);
+      if (!res.headersSent) {
+        res.status(500).json({ 
+          error: "Stream failed",
+          details: error.message 
+        });
       }
-      res.end();
-    } catch (streamError) {
-      console.error('Stream error:', streamError);
-      reader.releaseLock();
-      throw streamError;
-    }
+    });
+
+    audioStream.pipe(res);
 
   } catch (error) {
     console.error("Download error:", error);
     if (!res.headersSent) {
-      res.status(500).json({ error: "Failed to download video" });
+      res.status(500).json({ 
+        error: "Failed to download video",
+        details: error.message 
+      });
     }
   }
 });

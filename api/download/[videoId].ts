@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Innertube, ClientType } from 'youtubei.js';
+import ytdl from '@distube/ytdl-core';
 
 export const config = {
   maxDuration: 60,
@@ -13,48 +13,71 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const { videoId, quality } = req.query;
+  console.log('[Vercel Download] Request received:', { videoId, quality });
+
   try {
-    const { videoId } = req.query;
-    
     if (!videoId || typeof videoId !== 'string') {
+      console.error('[Vercel Download] Invalid videoId');
       return res.status(400).json({ error: "Video ID is required" });
     }
 
-    const youtube = await Innertube.create({
-      client_type: ClientType.IOS
-    });
-    const info = await youtube.getInfo(videoId);
+    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    console.log('[Vercel Download] Fetching video info for:', videoUrl);
 
-    const videoTitle = info.basic_info.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
+    const info = await ytdl.getInfo(videoUrl);
+    const videoTitle = info.videoDetails.title?.replace(/[^a-z0-9]/gi, '_') || videoId;
+    console.log('[Vercel Download] Video title:', videoTitle);
     
-    res.setHeader('Content-Type', 'audio/mp4');
-    res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.m4a"`);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Disposition', `attachment; filename="${videoTitle}.mp3"`);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
 
-    const stream = await info.download({ 
-      type: 'audio',
-      quality: 'best',
-      format: 'mp4'
+    console.log('[Vercel Download] Starting download stream...');
+    
+    const audioStream = ytdl(videoUrl, {
+      quality: 'highestaudio',
+      filter: 'audioonly',
     });
 
-    const reader = stream.getReader();
-    
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        res.write(value);
+    let bytesWritten = 0;
+
+    audioStream.on('data', (chunk) => {
+      bytesWritten += chunk.length;
+    });
+
+    audioStream.on('error', (error) => {
+      console.error('[Vercel Download] Stream error:', error);
+      if (!res.headersSent) {
+        res.status(500).json({ 
+          error: "Stream failed",
+          details: error.message 
+        });
       }
-      res.end();
-    } catch (streamError) {
-      console.error('Stream error:', streamError);
-      reader.releaseLock();
-      throw streamError;
-    }
+    });
 
-  } catch (error) {
-    console.error("Download error:", error);
+    audioStream.on('end', () => {
+      console.log('[Vercel Download] Stream complete, bytes written:', bytesWritten);
+    });
+
+    audioStream.pipe(res);
+
+  } catch (error: any) {
+    console.error('[Vercel Download] Error details:', {
+      message: error?.message,
+      name: error?.name,
+      stack: error?.stack,
+      videoId
+    });
+    
     if (!res.headersSent) {
-      res.status(500).json({ error: "Failed to download video" });
+      const errorMessage = error?.message || 'Unknown error';
+      res.status(500).json({ 
+        error: "Failed to download video",
+        details: errorMessage,
+        videoId 
+      });
     }
   }
 }

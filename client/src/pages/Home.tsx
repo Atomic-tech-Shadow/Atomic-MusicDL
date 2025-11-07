@@ -56,7 +56,19 @@ export default function Home() {
       
       if (!response.ok) {
         if (progressInterval) clearInterval(progressInterval);
-        throw new Error(`Erreur de téléchargement: ${response.statusText}`);
+        
+        let errorDetails = `${response.status} ${response.statusText}`;
+        try {
+          const errorData = await response.json();
+          if (errorData.details) {
+            errorDetails = errorData.details;
+          }
+          console.error('Server error response:', errorData);
+        } catch (e) {
+          console.error('Could not parse error response');
+        }
+        
+        throw new Error(`Erreur de téléchargement: ${errorDetails}`);
       }
       
       const contentLength = response.headers.get('Content-Length');
