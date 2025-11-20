@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Download, Eye, Clock } from "lucide-react";
+import { Download, Eye, Clock, Music, Film } from "lucide-react";
 import type { YouTubeSearchResult, AudioQuality, VideoQuality } from "@shared/schema";
 
 interface VideoCardProps {
@@ -91,10 +91,12 @@ export default function VideoCard({ video }: VideoCardProps) {
             <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as "mp3" | "mp4")} className="mt-6">
               <TabsList className="grid w-full grid-cols-2 h-12">
                 <TabsTrigger value="mp3" className="text-base font-semibold" data-testid="tab-mp3">
-                  🎵 MP3 (Audio)
+                  <Music className="w-4 h-4 mr-2" />
+                  MP3 (Audio)
                 </TabsTrigger>
                 <TabsTrigger value="mp4" className="text-base font-semibold" data-testid="tab-mp4">
-                  🎬 MP4 (Vidéo)
+                  <Film className="w-4 h-4 mr-2" />
+                  MP4 (Vidéo)
                 </TabsTrigger>
               </TabsList>
               

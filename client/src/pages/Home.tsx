@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, Music, Video } from "lucide-react";
+import { Loader2, Music, Video, AlertTriangle, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Hero from "@/components/Hero";
 import VideoCard from "@/components/VideoCard";
@@ -141,7 +141,7 @@ export default function Home() {
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-                  <span className="text-4xl">⚠️</span>
+                  <AlertTriangle className="w-10 h-10 text-destructive" />
                 </div>
                 <p className="text-xl font-semibold text-destructive mb-2">Erreur lors de la recherche</p>
                 <p className="text-muted-foreground text-sm mb-6">{(error as Error).message}</p>
@@ -168,7 +168,7 @@ export default function Home() {
             ) : (
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
-                  <span className="text-4xl">🔍</span>
+                  <Search className="w-10 h-10 text-muted-foreground" />
                 </div>
                 <p className="text-xl font-semibold mb-2">Aucun résultat trouvé</p>
                 <p className="text-muted-foreground">Essayez avec d'autres mots-clés pour "{activeQuery}"</p>
