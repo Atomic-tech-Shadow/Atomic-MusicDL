@@ -1,10 +1,21 @@
-# YouTube Downloader
+# Atomic MusicDL
 
 ## Overview
 
-YouTube Downloader est une application web permettant de rechercher des vidéos YouTube et de les télécharger en MP3 ou MP4 via l'API apisyu.com. L'application utilise `@distube/ytdl-core` pour rechercher et récupérer les métadonnées des vidéos, puis intègre les widgets apisyu.com pour gérer le téléchargement.
+Atomic MusicDL est une application web permettant de rechercher des vidéos YouTube et de les télécharger en MP3 ou MP4 via l'API apisyu.com. L'application utilise `@distube/ytdl-core` pour rechercher et récupérer les métadonnées des vidéos, puis intègre les widgets apisyu.com pour gérer le téléchargement.
 
 ## Recent Changes
+
+### November 20, 2025 - Modernisation du Design
+
+**Nouveau Design Moderne:**
+- Nouveau schéma de couleurs vibrant (bleu/violet moderne)
+- Hero section avec animations fluides et gradients
+- VideoCard amélioré avec effets hover et transitions
+- Page d'accueil avec sections "Comment ça marche" et fonctionnalités
+- Animations et transitions fluides sur toute l'application
+- Design responsive et moderne
+- Remplacement de tous les emojis par des icônes Lucide React
 
 ### November 20, 2025 - Refonte Complète avec apisyu.com
 
