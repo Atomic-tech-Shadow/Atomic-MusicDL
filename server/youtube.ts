@@ -50,7 +50,7 @@ export async function searchVideos(query: string): Promise<YouTubeSearchResult[]
 
 function extractVideoIds(html: string): string[] {
   const videoIdRegex = /"videoId":"([a-zA-Z0-9_-]{11})"/g;
-  const matches = html.matchAll(videoIdRegex);
+  const matches = Array.from(html.matchAll(videoIdRegex));
   const ids = new Set<string>();
   
   for (const match of matches) {
