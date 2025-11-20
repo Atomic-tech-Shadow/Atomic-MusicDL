@@ -8,14 +8,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const query = req.query.q as string;
       
       if (!query) {
-        return res.status(400).json({ error: "Query parameter 'q' is required" });
+        return res.status(400).json({ 
+          error: "Query parameter 'q' is required",
+          message: "Veuillez fournir un terme de recherche" 
+        });
       }
       
+      if (query.length < 2) {
+        return res.status(400).json({ 
+          error: "Query too short",
+          message: "Le terme de recherche doit contenir au moins 2 caractères" 
+        });
+      }
+      
+      console.log(`Searching YouTube for: "${query}"`);
       const results = await searchVideos(query);
+      
+      if (results.length === 0) {
+        console.warn(`No results found for query: "${query}"`);
+      }
+      
       res.json(results);
     } catch (error: any) {
       console.error("Error searching videos:", error);
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ 
+        error: "Search failed",
+        message: "Une erreur est survenue lors de la recherche. Veuillez réessayer.",
+        details: error.message 
+      });
     }
   });
 

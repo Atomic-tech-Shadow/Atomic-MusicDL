@@ -28,23 +28,41 @@ export async function searchVideos(query: string): Promise<YouTubeSearchResult[]
   try {
     const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
     const response = await fetch(searchUrl);
-    const html = await response.text();
     
-    const videoIds = extractVideoIds(html);
-    const results: YouTubeSearchResult[] = [];
-    
-    for (const videoId of videoIds.slice(0, 12)) {
-      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      const info = await getVideoInfo(videoUrl);
-      if (info) {
-        results.push(info);
-      }
+    if (!response.ok) {
+      console.error('YouTube search failed:', response.status, response.statusText);
+      throw new Error(`YouTube search returned ${response.status}`);
     }
     
-    return results;
+    const html = await response.text();
+    const videoIds = extractVideoIds(html);
+    
+    if (videoIds.length === 0) {
+      console.warn('No video IDs found in YouTube search results');
+      return [];
+    }
+    
+    const selectedIds = videoIds.slice(0, 12);
+    console.log(`Fetching info for ${selectedIds.length} videos in parallel...`);
+    
+    const videoPromises = selectedIds.map(async (videoId) => {
+      try {
+        const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        return await getVideoInfo(videoUrl);
+      } catch (error) {
+        console.error(`Failed to fetch info for video ${videoId}:`, error);
+        return null;
+      }
+    });
+    
+    const results = await Promise.all(videoPromises);
+    const validResults = results.filter((r): r is YouTubeSearchResult => r !== null);
+    
+    console.log(`Successfully fetched ${validResults.length} out of ${selectedIds.length} videos`);
+    return validResults;
   } catch (error) {
     console.error('Error searching videos:', error);
-    return [];
+    throw error;
   }
 }
 

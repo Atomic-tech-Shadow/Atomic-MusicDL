@@ -10,14 +10,26 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
 
-  const { data: results, isLoading } = useQuery<YouTubeSearchResult[]>({
+  const { data: results, isLoading, error } = useQuery<YouTubeSearchResult[]>({
     queryKey: ['/api/youtube/search', activeQuery],
     queryFn: async () => {
       const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(activeQuery)}`);
-      if (!res.ok) throw new Error('Erreur de recherche');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ message: 'Erreur de recherche' }));
+        const error: any = new Error(errorData.message || 'Erreur de recherche');
+        error.status = res.status;
+        throw error;
+      }
       return res.json();
     },
     enabled: !!activeQuery,
+    retry: (failureCount, error: any) => {
+      if (error?.status && error.status >= 400 && error.status < 500) {
+        return false;
+      }
+      return failureCount < 2;
+    },
+    retryDelay: 1000,
   });
 
   const handleSearch = (e: React.FormEvent) => {
@@ -83,6 +95,19 @@ export default function Home() {
               <div className="flex items-center justify-center py-20">
                 <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="icon-loading" />
                 <span className="ml-3 text-muted-foreground">Recherche en cours...</span>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center py-20">
+                <p className="text-destructive mb-2">Erreur lors de la recherche</p>
+                <p className="text-muted-foreground text-sm">{(error as Error).message}</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-4"
+                  onClick={() => setActiveQuery(searchQuery)}
+                  data-testid="button-retry"
+                >
+                  Réessayer
+                </Button>
               </div>
             ) : results && results.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
