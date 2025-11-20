@@ -1,49 +1,35 @@
-# Atomic MusicDL
+# YouTube Downloader
 
 ## Overview
 
-Atomic MusicDL is a music download platform that allows users to search for and download music from YouTube, with a special focus on anime OST, J-pop, and otaku culture. The application features a purple atomic theme inspired by "The Eminence in Shadow" anime, particularly the "I AM ATOMIC" power. Users can search for songs, preview results with thumbnails and metadata, and download tracks in MP3 format.
+YouTube Downloader est une application web permettant de rechercher des vidéos YouTube et de les télécharger en MP3 ou MP4 via l'API apisyu.com. L'application utilise `@distube/ytdl-core` pour rechercher et récupérer les métadonnées des vidéos, puis intègre les widgets apisyu.com pour gérer le téléchargement.
 
 ## Recent Changes
 
-### November 4, 2025 - Vercel Serverless Conversion
+### November 20, 2025 - Refonte Complète avec apisyu.com
 
-**Converted to Vercel Serverless Functions:**
-- Created serverless API functions in `/api` directory
-  - `/api/search.ts` - YouTube search endpoint
-  - `/api/download/[videoId].ts` - Audio download endpoint with streaming
-- Updated `vercel.json` configuration for static site + serverless deployment
-- Build now produces static frontend in `dist/public` with serverless functions
-- Added `VERCEL_DEPLOYMENT.md` with deployment guide and limitations
-- Configured routing to exclude `/api/*` from SPA catch-all rewrite
-- Note: Download functionality may be limited by Vercel's 10s timeout and 50MB limit on hobby tier
+**Migration vers apisyu.com pour les téléchargements:**
+- Suppression de l'ancien système de téléchargement interne
+- Intégration des widgets iframe apisyu.com pour MP3 et MP4
+- Support de multiples qualités audio (64, 128, 192, 256, 320 kbps) et vidéo (240p, 360p, 480p, 720p, 1080p)
+- Interface simplifiée sans historique, favoris, playlists, ou statistiques
+- Recherche YouTube avec `@distube/ytdl-core` et récupération parallèle des métadonnées
 
-**Deployment Options:**
-- **Replit Publishing**: Works as-is with full Express server
-- **Vercel**: Uses serverless functions (limitations apply for large downloads)
+**Améliorations de Performance et Robustesse:**
+- Parallélisation des appels API avec Promise.all pour améliorer les performances de recherche
+- Gestion d'erreurs robuste avec retry intelligent (uniquement pour les erreurs 5xx)
+- Validation des requêtes côté backend avec messages d'erreur clairs
+- Logs détaillés pour le monitoring et le debugging
 
-### November 3, 2025 - Atomic Theme Transformation
-
-**Complete Atomic Theme Transformation:**
-- Rebranded from "MusicDL" to "Atomic MusicDL"
-- Updated color scheme to purple/violet atomic theme (HSL 270°) for both light and dark modes
-- Added "I AM ATOMIC" tagline with Zap icon effects throughout the app
-- Changed all music suggestions to anime/otaku focused content (Eminence in Shadow OST, J-pop, Vocaloid, Anime Opening)
-- Updated features to emphasize atomic power and otaku community
-- Modified branding across all components (Header, Hero, Footer, Features)
-- Updated page title and meta description for SEO
-
-**Migration to youtubei.js for Downloads:**
-- Replaced `@distube/ytdl-core` with `youtubei.js` (YouTube's InnerTube API client)
-- More reliable and stable download functionality using YouTube's internal API
-- Downloads return M4A audio files in high quality
-- Open-source solution from GitHub, no API keys required for downloads
-- Search still uses official YouTube Data API v3
+**Simplification de l'Architecture:**
+- Suppression de la sidebar, du lecteur audio, et des pages inutilisées
+- Interface simple avec une page de recherche unique
+- Pas de stockage de données (historique, favoris, etc.)
+- Focus uniquement sur la recherche et le téléchargement via apisyu.com
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language (French).
-User interests: Passionate about "The Eminence in Shadow" anime, atomic theme, otaku culture.
 
 ## System Architecture
 
@@ -79,44 +65,44 @@ The application uses a component-based architecture with functional React compon
 
 **API Structure**
 The backend exposes RESTful endpoints:
-- `/api/search` - YouTube music search using YouTube Data API v3
-- `/api/download/:videoId` - Music download endpoint using youtubei.js streaming
+- `/api/youtube/search?q=query` - YouTube video search using ytdl-core
+- `/api/youtube/video/:videoId` - Get video metadata by ID
 
-### Data Storage
-
-**Database**
-- PostgreSQL database accessed via Neon serverless driver
-- Drizzle ORM for type-safe database queries and schema management
-- Database schema includes user management (id, username, password)
-
-**Session Management**
-- In-memory storage implementation (`MemStorage`) for development/simple deployments
-- `connect-pg-simple` available for PostgreSQL-backed session storage in production
-- User authentication schema defined but not fully implemented in current codebase
+### Data Schema
 
 **Schema Philosophy**
-The application uses Zod schemas for runtime validation combined with Drizzle for compile-time type safety. Shared schema definitions in `/shared/schema.ts` ensure consistency between frontend and backend validation.
+The application uses Zod schemas for runtime validation. Shared schema definitions in `/shared/schema.ts` ensure consistency between frontend and backend:
+- `YouTubeSearchResult` - Video metadata (title, artist, duration, thumbnail, etc.)
+- `AudioQuality` - MP3 quality levels (64, 128, 192, 256, 320 kbps)
+- `VideoQuality` - MP4 resolution levels (240p, 360p, 480p, 720p, 1080p)
+- `DownloadType` - Type de téléchargement (mp3 ou mp4)
+
+**No Database**
+The application does not use a database. All data is transient and handled in-memory during the request/response cycle.
 
 ### External Dependencies
 
-**YouTube Integration**
-- YouTube Data API v3 for searching music content
-- Requires `YOUTUBE_API_KEY` environment variable
-- API calls fetch video metadata (title, thumbnail, duration) and detailed content information
-- Video category filtering (category ID 10 for music)
+**YouTube Search & Metadata**
+- `@distube/ytdl-core` - YouTube video metadata extraction
+- Scrapes YouTube search results HTML to find video IDs
+- Fetches video info in parallel with Promise.all for better performance
+- No API keys required
+- Returns title, artist (channel name), duration, thumbnail, view count
 
-**Music Download Service**
-- `youtubei.js` - JavaScript client for YouTube's InnerTube API
-- Open-source library from GitHub (https://github.com/LuanRT/YouTube.js)
-- No API keys required for downloads
-- Downloads audio in M4A format with best available quality
-- Supports streaming directly to client without temporary file storage
-
-**Database Service**
-- Neon PostgreSQL serverless database
-- Requires `DATABASE_URL` environment variable for connection
-- Connection pooling handled by Neon serverless driver
+**Download Service**
+- **apisyu.com** - Free YouTube to MP3 & MP4 conversion API
+- Embedded via iframe widgets in the frontend
+- Supports multiple audio qualities (64-320 kbps) and video resolutions (240p-1080p)
+- No API keys or backend integration required
+- Handles conversion and download entirely client-side via iframe
+- API URL format: `https://apisyu.com/single/{type}/{videoId}?audio={quality}&theme=light`
 
 **Development Tools**
 - Replit-specific plugins for development environment integration (cartographer, dev banner, runtime error overlay)
 - ESBuild for backend bundling in production builds
+
+**Performance Optimizations**
+- Parallel fetching of video metadata (up to 12 videos simultaneously)
+- Smart retry logic (only for 5xx errors, not 4xx validation errors)
+- Request validation to prevent unnecessary API calls
+- Detailed logging for monitoring and debugging
