@@ -39,8 +39,8 @@ export default function Hero({ onSearch }: HeroProps) {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay" style={{ animationDelay: '0.2s' }}>
-            Convertissez et téléchargez vos vidéos YouTube préférées en haute qualité.
-            Rapide, gratuit et sans inscription.
+            Téléchargez toutes vos musiques préférées en haute qualité gratuitement.
+            Rapide, simple et sans inscription.
           </p>
           
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto animate-fade-in-up-delay" style={{ animationDelay: '0.4s' }}>
