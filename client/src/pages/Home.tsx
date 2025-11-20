@@ -1,205 +1,101 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useAudioPlayer } from "@/contexts/AudioPlayerContext";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import MusicCard from "@/components/MusicCard";
-import { Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import VideoCard from "@/components/VideoCard";
 import type { YouTubeSearchResult } from "@shared/schema";
-import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
-import { API_BASE_URL } from "@/config";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
-  const { playTrack } = useAudioPlayer();
 
   const { data: results, isLoading } = useQuery<YouTubeSearchResult[]>({
-    queryKey: ['/api/search', activeQuery],
+    queryKey: ['/api/youtube/search', activeQuery],
+    queryFn: async () => {
+      const res = await fetch(`/api/youtube/search?q=${encodeURIComponent(activeQuery)}`);
+      if (!res.ok) throw new Error('Erreur de recherche');
+      return res.json();
+    },
     enabled: !!activeQuery,
   });
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    setActiveQuery(query);
-  };
-
-  const handlePlay = (videoId: string) => {
-    const track = results?.find(r => r.videoId === videoId);
-    if (track) {
-      playTrack({
-        videoId: track.videoId,
-        title: track.title,
-        artist: track.artist,
-        thumbnail: track.thumbnail,
-      });
-    }
-  };
-
-  const handleDownload = async (videoId: string, quality: string, onProgress?: (percent: number) => void): Promise<void> => {
-    try {
-      console.log('Starting download for:', videoId, 'quality:', quality);
-      const downloadUrl = `${API_BASE_URL}/api/download/${videoId}?quality=${quality}`;
-      
-      let simulatedProgress = 0;
-      let progressInterval: NodeJS.Timeout | null = null;
-      
-      if (onProgress) {
-        onProgress(5);
-        progressInterval = setInterval(() => {
-          simulatedProgress = Math.min(simulatedProgress + Math.random() * 8 + 2, 90);
-          onProgress(simulatedProgress);
-        }, 200);
-      }
-      
-      console.log('Fetching from:', downloadUrl);
-      const response = await fetch(downloadUrl);
-      
-      if (!response.ok) {
-        if (progressInterval) clearInterval(progressInterval);
-        
-        let errorDetails = `${response.status} ${response.statusText}`;
-        try {
-          const errorData = await response.json();
-          if (errorData.details) {
-            errorDetails = errorData.details;
-          }
-          console.error('Server error response:', errorData);
-        } catch (e) {
-          console.error('Could not parse error response');
-        }
-        
-        throw new Error(`Erreur de téléchargement: ${errorDetails}`);
-      }
-      
-      const contentLength = response.headers.get('Content-Length');
-      const total = contentLength ? parseInt(contentLength, 10) : 0;
-      
-      if (!response.body) {
-        if (progressInterval) clearInterval(progressInterval);
-        throw new Error('ReadableStream not supported');
-      }
-      
-      const reader = response.body.getReader();
-      const chunks: Uint8Array[] = [];
-      let receivedLength = 0;
-      
-      if (total && progressInterval) {
-        clearInterval(progressInterval);
-        progressInterval = null;
-      }
-      
-      while (true) {
-        const { done, value } = await reader.read();
-        
-        if (done) break;
-        
-        chunks.push(value);
-        receivedLength += value.length;
-        
-        if (total && onProgress) {
-          const percent = Math.min((receivedLength / total) * 100, 99);
-          onProgress(percent);
-        }
-      }
-      
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
-      
-      if (onProgress) {
-        onProgress(95);
-      }
-      
-      console.log('Creating blob...');
-      const blob = new Blob(chunks);
-      console.log('Blob created, size:', blob.size);
-      
-      const contentDisposition = response.headers.get('Content-Disposition');
-      let filename = 'audio.mp3';
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-        if (filenameMatch) {
-          filename = filenameMatch[1];
-        }
-      }
-      
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      if (onProgress) {
-        onProgress(100);
-      }
-      
-      console.log('Download triggered successfully');
-      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
-    } catch (error) {
-      console.error('Download error:', error);
-      throw error;
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setActiveQuery(searchQuery.trim());
     }
   };
 
   return (
-    <div className="min-h-screen relative">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover -z-10"
-        data-testid="video-background"
-      >
-        <source src={videoFile} type="video/mp4" />
-      </video>
-      
-      <Header />
-      
-      <main className="pt-16">
-        <Hero onSearch={handleSearch} />
-        
-        {activeQuery && (
-          <section className="py-16">
-            <div className="container mx-auto px-4">
-              <div className="bg-content rounded-lg p-6 mb-8">
-                <h2 className="text-2xl font-bold font-heading text-enhanced" data-testid="text-results-title">
-                  Résultats pour "{searchQuery}"
-                </h2>
+    <div className="min-h-screen bg-background">
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="text-2xl font-bold text-primary" data-testid="text-app-title">
+              YouTube Downloader
+            </h1>
+            <form onSubmit={handleSearch} className="flex-1 max-w-2xl">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Rechercher une vidéo YouTube..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                    data-testid="input-search"
+                  />
+                </div>
+                <Button type="submit" data-testid="button-search">
+                  Rechercher
+                </Button>
               </div>
-              
-              {isLoading ? (
-                <div className="flex items-center justify-center py-20">
-                  <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="icon-loading" />
-                  <span className="ml-3 text-muted-foreground">Recherche en cours...</span>
-                </div>
-              ) : results && results.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-                  {results.map((result) => (
-                    <MusicCard
-                      key={result.id}
-                      id={result.videoId}
-                      title={result.title}
-                      artist={result.artist}
-                      duration={result.duration}
-                      thumbnail={result.thumbnail}
-                      viewCount={result.viewCount}
-                      onDownload={handleDownload}
-                      onPlay={handlePlay}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="bg-content rounded-lg p-12 text-center">
-                  <p className="text-muted-foreground">Aucun résultat trouvé pour "{searchQuery}"</p>
-                </div>
-              )}
+            </form>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8">
+        {!activeQuery && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Search className="w-16 h-16 text-muted-foreground mb-4" />
+            <h2 className="text-2xl font-semibold mb-2">Recherchez des vidéos YouTube</h2>
+            <p className="text-muted-foreground text-center max-w-md">
+              Utilisez la barre de recherche pour trouver des vidéos YouTube et les télécharger en MP3 ou MP4
+            </p>
+          </div>
+        )}
+
+        {activeQuery && (
+          <>
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-2" data-testid="text-results-title">
+                Résultats pour "{activeQuery}"
+              </h2>
+              <p className="text-muted-foreground">
+                {results ? `${results.length} résultat(s) trouvé(s)` : 'Recherche en cours...'}
+              </p>
             </div>
-          </section>
+
+            {isLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" data-testid="icon-loading" />
+                <span className="ml-3 text-muted-foreground">Recherche en cours...</span>
+              </div>
+            ) : results && results.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {results.map((video) => (
+                  <VideoCard key={video.id} video={video} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20">
+                <p className="text-muted-foreground">Aucun résultat trouvé pour "{activeQuery}"</p>
+              </div>
+            )}
+          </>
         )}
       </main>
     </div>
