@@ -41,19 +41,19 @@ export default function Hero({ onSearch }: HeroProps) {
       
       <div className="relative container mx-auto px-4 py-24 md:py-32 z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 animate-fade-in-up backdrop-blur-sm">
-            <Zap className="w-4 h-4 text-primary animate-cyber-glow" />
-            <span className="text-sm font-bold text-primary tracking-wide">ATOMIC POWER</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 animate-fade-in-up backdrop-blur-sm" data-testid="badge-atomic-power">
+            <Zap className="w-4 h-4 text-primary animate-cyber-glow" data-testid="icon-zap" />
+            <span className="text-sm font-bold text-primary tracking-wide" data-testid="text-badge-label">ATOMIC POWER</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight animate-fade-in-up-delay">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight animate-fade-in-up-delay" data-testid="text-hero-title">
             <span className="block mb-3 text-foreground">I AM</span>
             <span className="block bg-gradient-to-r from-primary via-purple-500 to-destructive bg-clip-text text-transparent animate-cyber-glow">
               ATOMIC
             </span>
           </h1>
           
-          <p className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up-delay font-light" style={{ animationDelay: '0.2s' }}>
+          <p className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up-delay font-light" data-testid="text-hero-subtitle" style={{ animationDelay: '0.2s' }}>
             Libérez la puissance ultime du téléchargement.
             <span className="block mt-2 text-base md:text-lg">
               Recherchez et téléchargez vos vidéos YouTube en MP3 ou MP4
@@ -89,15 +89,15 @@ export default function Hero({ onSearch }: HeroProps) {
           </form>
           
           <div className="flex items-center justify-center gap-12 text-sm text-muted-foreground animate-fade-in-up-delay flex-wrap" style={{ animationDelay: '0.6s' }}>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3" data-testid="feature-unlimited">
               <div className="w-2 h-2 rounded-full bg-primary animate-atomic-pulse shadow-lg shadow-primary/50"></div>
               <span className="font-medium">Puissance illimitée</span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3" data-testid="feature-quality">
               <div className="w-2 h-2 rounded-full bg-purple-500 animate-atomic-pulse shadow-lg shadow-purple-500/50" style={{ animationDelay: '0.3s' }}></div>
               <span className="font-medium">Qualité maximale</span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3" data-testid="feature-speed">
               <div className="w-2 h-2 rounded-full bg-destructive animate-atomic-pulse shadow-lg shadow-destructive/50" style={{ animationDelay: '0.6s' }}></div>
               <span className="font-medium">Vitesse fulgurante</span>
             </div>
