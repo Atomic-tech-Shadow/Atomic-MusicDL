@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import MusicCard from "@/components/MusicCard";
 import type { Favorite, AudioQuality } from "@shared/schema";
 import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
+import { API_BASE_URL } from "@/config";
 
 export default function Favorites() {
   const { data: favorites, isLoading } = useQuery<Favorite[]>({
@@ -26,7 +27,7 @@ export default function Favorites() {
 
   const handleDownload = async (videoId: string, quality: AudioQuality, onProgress?: (percent: number) => void): Promise<void> => {
     try {
-      const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
+      const downloadUrl = `${API_BASE_URL}/api/download/${videoId}?quality=${quality}`;
       
       let simulatedProgress = 0;
       let progressInterval: NodeJS.Timeout | null = null;

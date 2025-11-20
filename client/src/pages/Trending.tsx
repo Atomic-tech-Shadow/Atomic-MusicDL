@@ -5,6 +5,7 @@ import MusicCard from "@/components/MusicCard";
 import type { YouTubeSearchResult, AudioQuality } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
+import { API_BASE_URL } from "@/config";
 
 export default function Trending() {
   const { data: trending, isLoading, refetch } = useQuery<YouTubeSearchResult[]>({
@@ -26,7 +27,7 @@ export default function Trending() {
 
   const handleDownload = async (videoId: string, quality: AudioQuality, onProgress?: (percent: number) => void): Promise<void> => {
     try {
-      const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
+      const downloadUrl = `${API_BASE_URL}/api/download/${videoId}?quality=${quality}`;
       
       let simulatedProgress = 0;
       let progressInterval: NodeJS.Timeout | null = null;

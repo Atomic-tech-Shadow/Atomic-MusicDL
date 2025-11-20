@@ -7,6 +7,7 @@ import MusicCard from "@/components/MusicCard";
 import { Loader2 } from "lucide-react";
 import type { YouTubeSearchResult } from "@shared/schema";
 import videoFile from "@assets/PinDown.io_@Azizology_1762201393_1762202048928.mp4";
+import { API_BASE_URL } from "@/config";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,7 +39,7 @@ export default function Home() {
   const handleDownload = async (videoId: string, quality: string, onProgress?: (percent: number) => void): Promise<void> => {
     try {
       console.log('Starting download for:', videoId, 'quality:', quality);
-      const downloadUrl = `/api/download/${videoId}?quality=${quality}`;
+      const downloadUrl = `${API_BASE_URL}/api/download/${videoId}?quality=${quality}`;
       
       let simulatedProgress = 0;
       let progressInterval: NodeJS.Timeout | null = null;
