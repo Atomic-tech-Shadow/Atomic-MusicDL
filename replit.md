@@ -6,6 +6,28 @@ Atomic MusicDL est une application web permettant de rechercher des vidéos YouT
 
 ## Recent Changes
 
+### November 23, 2025 - Configuration Vercel Serverless
+
+**Mise à jour de la configuration Vercel pour fonctions serverless:**
+- Création du dossier `/api` avec fonctions serverless TypeScript
+- `/api/youtube/search.ts` - Fonction de recherche YouTube optimisée
+- `/api/youtube/video/[videoId].ts` - Fonction de récupération de métadonnées vidéo
+- Configuration `vercel.json` mise à jour avec:
+  - Runtime Node.js 20.x
+  - Timeout de 10 secondes pour les fonctions
+  - Rewrites pour routes API et SPA
+  - Headers CORS configurés
+- Installation de `@vercel/node` pour les types TypeScript Vercel
+- Fichier `.vercelignore` optimisé pour réduire la taille du build
+- Guide de déploiement complet dans `VERCEL_README.md`
+
+**Avantages:**
+- Scaling automatique selon la charge
+- Distribution via CDN global Vercel
+- Pas de serveur à gérer
+- HTTPS par défaut
+- Temps de démarrage rapide
+
 ### November 20, 2025 - Modernisation du Design
 
 **Nouveau Design Moderne:**
@@ -70,9 +92,12 @@ The application uses a component-based architecture with functional React compon
 
 **Production Deployment**
 - **Replit Publishing**: Full Express server with all features
-- **Vercel**: Serverless functions in `/api` directory
-  - `/api/search.ts` - Search endpoint
-  - `/api/download/[videoId].ts` - Download endpoint (subject to platform limits)
+- **Vercel Serverless**: Fonctions serverless optimisées dans `/api` directory
+  - `/api/youtube/search.ts` - Endpoint de recherche YouTube
+  - `/api/youtube/video/[videoId].ts` - Endpoint d'informations vidéo
+  - Runtime Node.js 20.x avec timeout de 10 secondes
+  - Configuration CORS pour requêtes cross-origin
+  - Auto-scaling et distribution via CDN global
 
 **API Structure**
 The backend exposes RESTful endpoints:

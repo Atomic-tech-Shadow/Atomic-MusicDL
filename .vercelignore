@@ -6,3 +6,6 @@ server
 .git
 .replit
 replit.nix
+attached_assets
+client/src
+dist/index.js
