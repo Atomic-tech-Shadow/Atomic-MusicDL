@@ -1,0 +1,40 @@
+{
+  "name": "Atomic MusicDL",
+  "short_name": "Atomic",
+  "description": "Le pouvoir atomique du téléchargement YouTube - MP3 & MP4",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f3f7",
+  "theme_color": "#a855f7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Recherche rapide",
+      "short_name": "Recherche",
+      "description": "Rechercher une vidéo YouTube",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/favicon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
