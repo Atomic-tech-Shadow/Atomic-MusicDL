@@ -21,7 +21,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      console.log(`Searching YouTube for: "${query}"`);
+      console.log(`Searching music for: "${query}"`);
       const results = await searchVideos(query);
       
       if (results.length === 0) {

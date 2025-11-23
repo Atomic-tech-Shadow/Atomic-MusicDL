@@ -124,7 +124,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                     width="100%"
                     height="130"
                     style={{ border: 'none' }}
-                    title="YouTube MP3 Downloader"
+                    title="Music MP3 Downloader"
                     data-testid="iframe-apisyu-mp3"
                   />
                 </div>
@@ -154,7 +154,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                     width="100%"
                     height="130"
                     style={{ border: 'none' }}
-                    title="YouTube MP4 Downloader"
+                    title="Music MP4 Downloader"
                     data-testid="iframe-apisyu-mp4"
                   />
                 </div>
