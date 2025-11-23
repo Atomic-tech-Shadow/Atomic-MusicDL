@@ -56,7 +56,7 @@ export default function Hero({ onSearch }: HeroProps) {
           <p className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up-delay font-light" data-testid="text-hero-subtitle" style={{ animationDelay: '0.2s' }}>
             Libérez la puissance ultime du téléchargement.
             <span className="block mt-2 text-base md:text-lg">
-              Recherchez et téléchargez vos vidéos YouTube en MP3 ou MP4
+              Recherchez et téléchargez vos musiques préférées en MP3 ou MP4
             </span>
           </p>
           
@@ -68,7 +68,7 @@ export default function Hero({ onSearch }: HeroProps) {
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="Entrez votre recherche ou collez un lien YouTube..."
+                    placeholder="Recherchez n'importe quelle musique..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     className="pl-12 h-14 md:h-16 text-base md:text-lg border-0 focus-visible:ring-0 bg-transparent font-medium"

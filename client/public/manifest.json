@@ -1,7 +1,7 @@
 {
   "name": "Atomic MusicDL",
   "short_name": "Atomic",
-  "description": "Le pouvoir atomique du téléchargement YouTube - MP3 & MP4",
+  "description": "Le pouvoir atomique du téléchargement de musique - MP3 & MP4",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5f3f7",
@@ -26,7 +26,7 @@
     {
       "name": "Recherche rapide",
       "short_name": "Recherche",
-      "description": "Rechercher une vidéo YouTube",
+      "description": "Rechercher une musique",
       "url": "/",
       "icons": [
         {
