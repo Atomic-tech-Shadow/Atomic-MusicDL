@@ -33,187 +33,61 @@ export default function Hero({ onSearch }: HeroProps) {
   };
 
   return (
-    <div className="relative overflow-hidden min-h-[85vh] flex items-center">
-      {/* Simplified aurora gradient background - removed heavy blur */}
-      <div className="absolute inset-0 bg-mesh"></div>
+    <div className="relative overflow-hidden flex items-center border-b border-border/50">
+      {/* Simplified aurora gradient background */}
+      <div className="absolute inset-0 bg-mesh opacity-30"></div>
       
-      {/* Reduced to 2 animated orbs instead of 3 for performance */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-primary/20 to-accent/15 rounded-full blur-[100px] animate-aurora-float"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-accent/20 to-destructive/15 rounded-full blur-[120px] animate-aurora-float" style={{ animationDelay: '3s' }}></div>
+      {/* Single subtle orb */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-gradient-to-br from-primary/15 to-accent/10 rounded-full blur-[80px] animate-aurora-float"></div>
       
-      {/* Light grain overlay - reduced opacity */}
-      <div className="absolute inset-0 grain opacity-20"></div>
+      {/* Light grain overlay */}
+      <div className="absolute inset-0 grain opacity-10"></div>
       
-      {/* Optimized floating particles with memoized positions */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particles.map((particle, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full animate-aurora-float"
-            style={{
-              left: particle.left,
-              top: particle.top,
-              width: particle.size,
-              height: particle.size,
-              background: `hsl(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%)`,
-              animationDelay: particle.delay,
-              animationDuration: particle.duration,
-              opacity: particle.opacity,
-            }}
-          ></div>
-        ))}
-      </div>
-      
-      <div className="relative container mx-auto px-4 py-32 md:py-40 z-10">
-        <div className="max-w-6xl mx-auto text-center space-y-10">
-          {/* Badge - Ultra Dynamic 3D */}
-          <div 
-            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full glass-strong grain animate-scale-in transition-all duration-500 hover:scale-110 hover:translate-y-[-4px] hover:rotate-1 hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.7),inset_0_2px_0_0_rgba(255,255,255,0.3)] active:scale-100 active:translate-y-[-1px] cursor-pointer"
-            style={{
-              boxShadow: '0 8px 25px -5px rgba(124, 58, 237, 0.4), 0 4px 12px -2px rgba(168, 85, 247, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
-              animation: 'float 6s ease-in-out infinite',
-            }}
-            data-testid="badge-atomic-power"
-          >
-            <Zap className="w-5 h-5 text-primary animate-glow-pulse drop-shadow-lg transition-transform duration-300 hover:rotate-12 hover:scale-125" data-testid="icon-zap" />
-            <span className="text-sm font-black text-gradient tracking-wider drop-shadow-sm" data-testid="text-badge-label">
-              ATOMIC MUSIC DOWNLOADER
-            </span>
-            <Sparkles className="w-5 h-5 text-accent animate-glow-pulse drop-shadow-lg transition-transform duration-300 hover:-rotate-12 hover:scale-125" style={{ animationDelay: '1s' }} />
-          </div>
-          
-          {/* Main title - Dynamic */}
+      <div className="relative container mx-auto px-4 py-8 md:py-12 z-10">
+        <div className="max-w-6xl mx-auto text-center space-y-6">
+          {/* Compact title */}
           <h1 
-            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight animate-fade-in-up" 
+            className="text-3xl md:text-5xl font-black tracking-tight" 
             data-testid="text-hero-title"
           >
-            <span className="block mb-4 text-foreground transition-all duration-500 hover:scale-105 hover:tracking-wide inline-block">La</span>
-            <span className="block text-gradient text-glow leading-tight transition-all duration-700 hover:scale-110 hover:tracking-wider inline-block"
-              style={{ animation: 'pulse-glow 4s ease-in-out infinite' }}
-            >
-              PUISSANCE
-            </span>
-            <span className="block mt-4 text-foreground transition-all duration-500 hover:scale-105 hover:tracking-wide inline-block">Atomique</span>
+            <span className="text-gradient">Atomic Music</span>
+            <span className="text-muted-foreground mx-2">•</span>
+            <span className="text-foreground">Téléchargeur</span>
           </h1>
           
-          {/* Subtitle */}
-          <p 
-            className="text-xl md:text-3xl text-muted-foreground max-w-4xl mx-auto animate-fade-in-up animate-delay-100 font-medium leading-relaxed" 
-            data-testid="text-hero-subtitle"
-          >
-            Téléchargez vos musiques préférées en{" "}
-            <span className="text-primary font-bold">MP3</span> ou{" "}
-            <span className="text-accent font-bold">MP4</span>
-            <span className="block mt-3 text-lg md:text-xl opacity-80">
-              Qualité maximale • Vitesse fulgurante • Simplicité absolue
-            </span>
-          </p>
-          
-          {/* Search bar - 3D Enhanced Design */}
+          {/* Compact Search bar */}
           <form 
             onSubmit={handleSubmit} 
-            className="max-w-4xl mx-auto animate-fade-in-up animate-delay-200"
-            style={{ perspective: '1000px' }}
+            className="max-w-3xl mx-auto"
           >
             <div className="relative group">
-              {/* Multi-layered 3D shadow system */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-destructive rounded-2xl md:rounded-3xl blur-xl md:blur-2xl opacity-20 group-hover:opacity-40 group-focus-within:opacity-50 transition-all duration-700"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-2xl md:rounded-3xl blur-3xl opacity-0 group-hover:opacity-20 group-focus-within:opacity-30 transition-all duration-700 translate-y-2"></div>
-              
-              <div className="relative flex gap-2 md:gap-3 p-2 md:p-3 glass-strong grain rounded-2xl md:rounded-3xl border border-white/20 transition-all duration-500 group-hover:translate-y-[-2px] group-focus-within:translate-y-[-4px] group-hover:shadow-[0_20px_60px_-15px_rgba(124,58,237,0.5),0_10px_30px_-10px_rgba(168,85,247,0.4),inset_0_1px_0_0_rgba(255,255,255,0.2)] group-focus-within:shadow-[0_25px_70px_-15px_rgba(124,58,237,0.6),0_15px_40px_-10px_rgba(168,85,247,0.5),inset_0_1px_0_0_rgba(255,255,255,0.3)]"
-                style={{
-                  boxShadow: '0 20px 50px -12px rgba(124, 58, 237, 0.3), 0 8px 16px -8px rgba(168, 85, 247, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 0 rgba(0, 0, 0, 0.1)',
-                  transform: 'translateZ(0)',
-                }}
-              >
-                {/* 3D Bevel/Relief effect */}
-                <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/5 via-transparent to-black/5 pointer-events-none"></div>
-                
+              <div className="relative flex gap-2 p-2 glass-strong rounded-xl border border-white/10 transition-all duration-300 group-hover:shadow-lg group-focus-within:shadow-xl">
                 <div className="relative flex-1 min-w-0">
-                  <Search className="absolute left-3 md:left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-muted-foreground transition-all duration-300 group-focus-within:text-primary group-focus-within:scale-110 pointer-events-none drop-shadow-lg" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground transition-all duration-300 group-focus-within:text-primary pointer-events-none" />
                   <Input
                     type="text"
-                    placeholder="Nom de chanson, artiste..."
+                    placeholder="Rechercher une musique..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="w-full pl-11 md:pl-14 pr-3 h-12 md:h-20 text-sm md:text-xl border-0 focus-visible:ring-0 bg-transparent font-semibold placeholder:text-muted-foreground/60 placeholder:font-normal truncate"
+                    className="w-full pl-10 pr-3 h-10 text-sm border-0 focus-visible:ring-0 bg-transparent font-medium placeholder:text-muted-foreground/60 truncate"
                     data-testid="input-hero-search"
                   />
                 </div>
                 
-                {/* Mobile: Icon only button | Desktop: Full button with text - Enhanced 3D */}
                 <Button 
                   type="submit" 
-                  size="icon"
-                  className="h-12 w-12 md:h-20 md:w-auto md:px-14 font-black text-base md:text-xl relative overflow-hidden group/btn shrink-0 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_10px_30px_-5px_rgba(124,58,237,0.8),0_5px_15px_-3px_rgba(168,85,247,0.6),inset_0_1px_0_0_rgba(255,255,255,0.3)]"
-                  style={{
-                    boxShadow: '0 8px 20px -4px rgba(124, 58, 237, 0.5), 0 4px 10px -2px rgba(168, 85, 247, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
-                  }}
+                  size="sm"
+                  className="font-bold shrink-0"
                   data-testid="button-hero-search"
                 >
-                  {/* Inner 3D glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover/btn:opacity-30 transition-opacity duration-500 bg-[length:200%_100%]"></div>
-                  
-                  {/* Mobile view: Only Zap icon */}
-                  <Zap className="w-5 h-5 md:hidden relative z-10 drop-shadow-lg" />
-                  
-                  {/* Desktop view: Full content */}
-                  <span className="hidden md:flex items-center relative z-10">
-                    <Zap className="w-6 h-6 mr-3 drop-shadow-lg" />
-                    <span className="drop-shadow-lg">Rechercher</span>
-                    <Sparkles className="w-6 h-6 ml-3 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 drop-shadow-lg" />
-                  </span>
+                  <Zap className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Rechercher</span>
                 </Button>
               </div>
             </div>
           </form>
-          
-          {/* Features - Ultra Dynamic Badges */}
-          <div 
-            className="flex items-center justify-center gap-8 md:gap-16 text-sm md:text-base text-muted-foreground animate-fade-in-up animate-delay-300 flex-wrap" 
-          >
-            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-500 hover:scale-110 hover:translate-y-[-6px] hover:rotate-2 hover:shadow-[0_15px_40px_-5px_rgba(124,58,237,0.6),inset_0_2px_0_0_rgba(255,255,255,0.25)] active:scale-105 cursor-pointer"
-              style={{
-                boxShadow: '0 4px 15px -3px rgba(124, 58, 237, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-                animation: 'float 5s ease-in-out infinite',
-              }}
-              data-testid="feature-unlimited"
-            >
-              <div className="w-3 h-3 rounded-full bg-primary animate-glow-pulse shadow-lg shadow-primary/50"></div>
-              <Music className="w-5 h-5 text-primary drop-shadow-lg transition-transform duration-300 hover:scale-125 hover:rotate-12" />
-              <span className="font-bold drop-shadow-sm">Illimité</span>
-            </div>
-            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-500 hover:scale-110 hover:translate-y-[-6px] hover:-rotate-2 hover:shadow-[0_15px_40px_-5px_rgba(168,85,247,0.6),inset_0_2px_0_0_rgba(255,255,255,0.25)] active:scale-105 cursor-pointer"
-              style={{
-                boxShadow: '0 4px 15px -3px rgba(168, 85, 247, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-                animation: 'float 5s ease-in-out infinite',
-                animationDelay: '1.5s',
-              }}
-              data-testid="feature-quality"
-            >
-              <div className="w-3 h-3 rounded-full bg-accent animate-glow-pulse shadow-lg shadow-accent/50" style={{ animationDelay: '0.5s' }}></div>
-              <Sparkles className="w-5 h-5 text-accent drop-shadow-lg transition-transform duration-300 hover:scale-125 hover:-rotate-12" />
-              <span className="font-bold drop-shadow-sm">Haute Qualité</span>
-            </div>
-            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-500 hover:scale-110 hover:translate-y-[-6px] hover:rotate-2 hover:shadow-[0_15px_40px_-5px_rgba(239,68,68,0.6),inset_0_2px_0_0_rgba(255,255,255,0.25)] active:scale-105 cursor-pointer"
-              style={{
-                boxShadow: '0 4px 15px -3px rgba(239, 68, 68, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-                animation: 'float 5s ease-in-out infinite',
-                animationDelay: '3s',
-              }}
-              data-testid="feature-speed"
-            >
-              <div className="w-3 h-3 rounded-full bg-destructive animate-glow-pulse shadow-lg shadow-destructive/50" style={{ animationDelay: '1s' }}></div>
-              <Headphones className="w-5 h-5 text-destructive drop-shadow-lg transition-transform duration-300 hover:scale-125 hover:rotate-12" />
-              <span className="font-bold drop-shadow-sm">Ultra Rapide</span>
-            </div>
-          </div>
         </div>
       </div>
-      
-      {/* Bottom gradient line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
     </div>
   );
 }
