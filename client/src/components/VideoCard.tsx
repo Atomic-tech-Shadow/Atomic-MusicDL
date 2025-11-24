@@ -34,11 +34,15 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <Card 
-      className="group relative overflow-hidden glass grain transition-smooth border-0 shadow-lg"
+      className="group relative overflow-hidden glass grain transition-all duration-500 border-0 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_-10px_rgba(124,58,237,0.4),0_10px_30px_-5px_rgba(168,85,247,0.3),inset_0_1px_0_0_rgba(255,255,255,0.1)]"
       data-testid={`card-video-${video.videoId}`}
+      style={{
+        boxShadow: '0 10px 40px -8px rgba(124, 58, 237, 0.2), 0 5px 20px -4px rgba(168, 85, 247, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+      }}
     >
-      {/* Simplified aurora gradient - removed heavy animations */}
+      {/* 3D Aurora gradient with depth */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-white/3 via-transparent to-black/5 pointer-events-none"></div>
       
       <CardHeader className="p-0 relative">
         <div className="relative aspect-video overflow-hidden">
@@ -52,17 +56,25 @@ export default function VideoCard({ video }: VideoCardProps) {
           {/* Simplified gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
           
-          {/* Duration badge - glass effect */}
-          <div className="absolute bottom-3 right-3 glass-strong px-3 py-1.5 rounded-lg">
-            <span className="text-white text-xs font-bold flex items-center gap-1.5">
+          {/* Duration badge - 3D glass effect */}
+          <div className="absolute bottom-3 right-3 glass-strong px-3 py-1.5 rounded-lg transition-all duration-300 hover:scale-105"
+            style={{
+              boxShadow: '0 4px 15px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
+            }}
+          >
+            <span className="text-white text-xs font-bold flex items-center gap-1.5 drop-shadow-lg">
               <Clock className="w-3 h-3" />
               {video.duration}
             </span>
           </div>
           
-          {/* View count - appears on hover */}
-          <div className="absolute top-3 left-3 glass-strong px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-0 -translate-y-2">
-            <span className="text-white text-xs font-bold flex items-center gap-1.5">
+          {/* View count - 3D badge appears on hover */}
+          <div className="absolute top-3 left-3 glass-strong px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-0 -translate-y-2 hover:scale-105"
+            style={{
+              boxShadow: '0 4px 15px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
+            }}
+          >
+            <span className="text-white text-xs font-bold flex items-center gap-1.5 drop-shadow-lg">
               <Eye className="w-3 h-3" />
               {formatViewCount(video.viewCount)}
             </span>

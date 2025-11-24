@@ -96,12 +96,24 @@ export default function Home() {
                   style={{ animationDelay: `${index * 100}ms` }}
                   data-testid={step.testId}
                 >
-                  {/* Glow effect */}
+                  {/* Multi-layered 3D glow effect */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} rounded-2xl blur-2xl opacity-20 group-hover:opacity-40 transition-all duration-700 animate-glow-pulse`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} rounded-2xl blur-3xl opacity-0 group-hover:opacity-20 transition-all duration-700 translate-y-2`}></div>
                   
-                  <div className="relative glass-strong grain p-8 rounded-2xl transition-smooth hover:scale-105 border border-white/10">
-                    <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-2xl`}>
-                      <step.icon className="w-10 h-10 text-white" />
+                  <div className="relative glass-strong grain p-8 rounded-2xl transition-all duration-500 hover:translate-y-[-4px] hover:scale-[1.02] border border-white/10 hover:shadow-[0_20px_60px_-10px_rgba(124,58,237,0.4),0_10px_30px_-5px_rgba(168,85,247,0.3),inset_0_1px_0_0_rgba(255,255,255,0.15)]"
+                    style={{
+                      boxShadow: '0 10px 40px -8px rgba(124, 58, 237, 0.2), 0 5px 20px -4px rgba(168, 85, 247, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                    }}
+                  >
+                    {/* 3D Bevel effect */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/5 via-transparent to-black/5 pointer-events-none"></div>
+                    
+                    <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-3`}
+                      style={{
+                        boxShadow: '0 8px 25px -5px rgba(124, 58, 237, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
+                      }}
+                    >
+                      <step.icon className="w-10 h-10 text-white drop-shadow-lg" />
                     </div>
                     <div className="text-center space-y-3">
                       <div className="text-5xl font-black text-gradient mb-4" data-testid={`text-step-number-${step.number}`}>
@@ -121,10 +133,15 @@ export default function Home() {
             
             {/* Formats section - Bento Grid */}
             <div className="grid md:grid-cols-2 gap-8 mb-16">
-              {/* MP3 Card */}
+              {/* MP3 Card - 3D Enhanced */}
               <div className="relative group animate-scale-in" data-testid="card-format-mp3">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-3xl opacity-30 group-hover:opacity-60 transition-all duration-700"></div>
-                <div className="relative glass-strong grain p-10 rounded-3xl transition-smooth hover:scale-[1.02] border border-white/10">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-[80px] opacity-0 group-hover:opacity-30 transition-all duration-700 translate-y-3"></div>
+                <div className="relative glass-strong grain p-10 rounded-3xl transition-all duration-500 hover:translate-y-[-6px] hover:scale-[1.03] border border-white/10 hover:shadow-[0_25px_80px_-15px_rgba(124,58,237,0.5),0_15px_40px_-10px_rgba(168,85,247,0.4),inset_0_1px_0_0_rgba(255,255,255,0.15)]"
+                  style={{
+                    boxShadow: '0 15px 50px -10px rgba(124, 58, 237, 0.3), 0 8px 25px -5px rgba(168, 85, 247, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                  }}
+                >
                   <div className="flex items-center gap-5 mb-8">
                     <div className="p-5 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-2xl">
                       <Music className="w-10 h-10 text-white" data-testid="icon-mp3" />
@@ -151,10 +168,15 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* MP4 Card */}
+              {/* MP4 Card - 3D Enhanced */}
               <div className="relative group animate-scale-in" style={{ animationDelay: '100ms' }} data-testid="card-format-mp4">
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/30 to-destructive/30 rounded-3xl blur-3xl opacity-30 group-hover:opacity-60 transition-all duration-700"></div>
-                <div className="relative glass-strong grain p-10 rounded-3xl transition-smooth hover:scale-[1.02] border border-white/10">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-destructive/20 rounded-3xl blur-[80px] opacity-0 group-hover:opacity-30 transition-all duration-700 translate-y-3"></div>
+                <div className="relative glass-strong grain p-10 rounded-3xl transition-all duration-500 hover:translate-y-[-6px] hover:scale-[1.03] border border-white/10 hover:shadow-[0_25px_80px_-15px_rgba(168,85,247,0.5),0_15px_40px_-10px_rgba(239,68,68,0.4),inset_0_1px_0_0_rgba(255,255,255,0.15)]"
+                  style={{
+                    boxShadow: '0 15px 50px -10px rgba(168, 85, 247, 0.3), 0 8px 25px -5px rgba(239, 68, 68, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                  }}
+                >
                   <div className="flex items-center gap-5 mb-8">
                     <div className="p-5 rounded-2xl bg-gradient-to-br from-accent to-destructive shadow-2xl">
                       <Video className="w-10 h-10 text-white" data-testid="icon-mp4" />
