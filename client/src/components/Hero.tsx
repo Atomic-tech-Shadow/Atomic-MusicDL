@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Search, Zap, Sparkles, Music, Headphones } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,21 @@ interface HeroProps {
 export default function Hero({ onSearch }: HeroProps) {
   const [query, setQuery] = useState("");
 
+  // Memoize particle positions to prevent re-render thrashing
+  const particles = useMemo(() => 
+    Array.from({ length: 20 }, () => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      size: `${2 + Math.random() * 3}px`,
+      hue: 260 + Math.random() * 90,
+      saturation: 70 + Math.random() * 20,
+      lightness: 50 + Math.random() * 20,
+      delay: `${Math.random() * 8}s`,
+      duration: `${6 + Math.random() * 8}s`,
+      opacity: 0.15 + Math.random() * 0.25,
+    }))
+  , []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -19,32 +34,31 @@ export default function Hero({ onSearch }: HeroProps) {
 
   return (
     <div className="relative overflow-hidden min-h-[85vh] flex items-center">
-      {/* Aurora mesh gradient background */}
+      {/* Simplified aurora gradient background - removed heavy blur */}
       <div className="absolute inset-0 bg-mesh"></div>
       
-      {/* Animated gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-primary/30 to-accent/20 rounded-full blur-[140px] animate-aurora-float"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-gradient-to-br from-accent/25 to-destructive/20 rounded-full blur-[160px] animate-aurora-float" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-destructive/20 to-primary/15 rounded-full blur-[120px] animate-aurora-float" style={{ animationDelay: '4s' }}></div>
+      {/* Reduced to 2 animated orbs instead of 3 for performance */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-primary/20 to-accent/15 rounded-full blur-[100px] animate-aurora-float"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-accent/20 to-destructive/15 rounded-full blur-[120px] animate-aurora-float" style={{ animationDelay: '3s' }}></div>
       
-      {/* Grain texture overlay */}
-      <div className="absolute inset-0 grain opacity-40"></div>
+      {/* Light grain overlay - reduced opacity */}
+      <div className="absolute inset-0 grain opacity-20"></div>
       
-      {/* Floating particles */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-        {[...Array(30)].map((_, i) => (
+      {/* Optimized floating particles with memoized positions */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((particle, i) => (
           <div
             key={i}
             className="absolute rounded-full animate-aurora-float"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${2 + Math.random() * 4}px`,
-              height: `${2 + Math.random() * 4}px`,
-              background: `hsl(${260 + Math.random() * 100}, 85%, ${50 + Math.random() * 20}%)`,
-              animationDelay: `${Math.random() * 8}s`,
-              animationDuration: `${6 + Math.random() * 10}s`,
-              opacity: 0.2 + Math.random() * 0.4,
+              left: particle.left,
+              top: particle.top,
+              width: particle.size,
+              height: particle.size,
+              background: `hsl(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%)`,
+              animationDelay: particle.delay,
+              animationDuration: particle.duration,
+              opacity: particle.opacity,
             }}
           ></div>
         ))}
@@ -89,14 +103,14 @@ export default function Hero({ onSearch }: HeroProps) {
             </span>
           </p>
           
-          {/* Search bar */}
+          {/* Search bar - optimized with reduced blur */}
           <form 
             onSubmit={handleSubmit} 
             className="max-w-4xl mx-auto animate-fade-in-up animate-delay-200"
           >
             <div className="relative group">
-              {/* Glow effect behind search bar */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-destructive rounded-3xl blur-3xl opacity-30 group-hover:opacity-60 group-focus-within:opacity-70 transition-all duration-700 animate-glow-pulse"></div>
+              {/* Simplified glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-destructive rounded-3xl blur-2xl opacity-20 group-hover:opacity-40 group-focus-within:opacity-50 transition-opacity duration-700"></div>
               
               <div className="relative flex gap-3 p-3 glass-strong grain rounded-3xl shadow-2xl border border-white/20">
                 <div className="relative flex-1">
@@ -116,7 +130,7 @@ export default function Hero({ onSearch }: HeroProps) {
                   className="h-16 md:h-20 px-10 md:px-14 font-black text-base md:text-xl shadow-xl relative overflow-hidden group/btn"
                   data-testid="button-hero-search"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover/btn:opacity-30 transition-opacity duration-500 bg-[length:200%_100%] animate-shimmer"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover/btn:opacity-30 transition-opacity duration-500 bg-[length:200%_100%]"></div>
                   <Zap className="w-6 h-6 mr-3" />
                   Rechercher
                   <Sparkles className="w-6 h-6 ml-3 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />

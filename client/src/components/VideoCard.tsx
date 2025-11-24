@@ -37,8 +37,8 @@ export default function VideoCard({ video }: VideoCardProps) {
       className="group relative overflow-hidden glass grain transition-smooth border-0 shadow-lg"
       data-testid={`card-video-${video.videoId}`}
     >
-      {/* Aurora gradient background on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-gradient-shift"></div>
+      {/* Simplified aurora gradient - removed heavy animations */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
       <CardHeader className="p-0 relative">
         <div className="relative aspect-video overflow-hidden">
@@ -49,7 +49,7 @@ export default function VideoCard({ video }: VideoCardProps) {
             data-testid={`img-thumbnail-${video.videoId}`}
           />
           
-          {/* Gradient overlay */}
+          {/* Simplified gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
           
           {/* Duration badge - glass effect */}
@@ -68,10 +68,9 @@ export default function VideoCard({ video }: VideoCardProps) {
             </span>
           </div>
 
-          {/* Sparkle effect on hover */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/30 rounded-full blur-3xl animate-aurora-float"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-accent/30 rounded-full blur-3xl animate-aurora-float" style={{ animationDelay: '1s' }}></div>
+          {/* Simplified hover effect - removed heavy blur orbs */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
           </div>
         </div>
       </CardHeader>
@@ -110,7 +109,7 @@ export default function VideoCard({ video }: VideoCardProps) {
               size="lg" 
               data-testid={`button-download-${video.videoId}`}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover/btn:opacity-20 transition-opacity duration-500 bg-[length:200%_100%] animate-shimmer"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover/btn:opacity-10 transition-opacity duration-500"></div>
               <Download className="w-4 h-4 mr-2 transition-transform group-hover/btn:translate-y-0.5 duration-300" />
               <span className="font-bold">Télécharger</span>
               <Sparkles className="w-4 h-4 ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
@@ -164,7 +163,8 @@ export default function VideoCard({ video }: VideoCardProps) {
                 </div>
                 
                 <div className="glass-strong rounded-xl p-6 grain relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 animate-gradient-shift"></div>
+                  {/* Simplified background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5"></div>
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
@@ -199,7 +199,8 @@ export default function VideoCard({ video }: VideoCardProps) {
                 </div>
                 
                 <div className="glass-strong rounded-xl p-6 grain relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-destructive/10 animate-gradient-shift"></div>
+                  {/* Simplified background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-destructive/5"></div>
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
