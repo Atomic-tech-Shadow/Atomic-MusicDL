@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, Music, Video, AlertTriangle, Search, Zap, Sparkles, Download, Headphones, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,27 @@ import videoBackground from "@assets/From KlickPin CF ✦┊SHADOW [Video] in 20
 
 export default function Home() {
   const [activeQuery, setActiveQuery] = useState("");
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const playVideo = async () => {
+      if (videoRef.current) {
+        try {
+          videoRef.current.volume = 0.5;
+          await videoRef.current.play();
+        } catch (error) {
+          console.log("Autoplay avec son bloqué, essai en muet:", error);
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+            setIsMuted(true);
+            await videoRef.current.play();
+          }
+        }
+      }
+    };
+    playVideo();
+  }, []);
 
   const { data: results, isLoading, error } = useQuery<YouTubeSearchResult[]>({
     queryKey: ['/api/youtube/search', activeQuery],
@@ -38,10 +57,21 @@ export default function Home() {
     setActiveQuery(query);
   };
 
-  const toggleMute = () => {
+  const toggleMute = async () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(!isMuted);
+      const newMutedState = !isMuted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+      
+      if (!newMutedState) {
+        videoRef.current.volume = 0.5;
+      }
+      
+      try {
+        await videoRef.current.play();
+      } catch (error) {
+        console.log("Erreur lors de la lecture:", error);
+      }
     }
   };
 
@@ -57,10 +87,11 @@ export default function Home() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
           data-testid="video-background"
+          style={{ filter: 'brightness(0.8)' }}
         >
           <source src={videoBackground} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
       {/* Mute/Unmute Button */}
