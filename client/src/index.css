@@ -535,4 +535,128 @@
     text-shadow: 0 0 20px hsl(var(--primary) / 0.5),
                  0 0 40px hsl(var(--primary) / 0.3);
   }
+
+  /* ========== MOBILE PERFORMANCE OPTIMIZATIONS ========== */
+  @media (max-width: 768px) {
+    /* Force GPU acceleration for smooth scrolling */
+    * {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Reduce heavy blurs on mobile */
+    .glass {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .glass-strong {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Remove expensive blur animations on mobile */
+    [class*="blur-2xl"],
+    [class*="blur-3xl"],
+    [class*="blur-\\["] {
+      filter: none !important;
+      backdrop-filter: none !important;
+    }
+
+    /* Disable glow-pulse animation on mobile (expensive) */
+    .animate-glow-pulse {
+      animation: none;
+      opacity: 0.3;
+    }
+
+    /* Simplify aurora-float on mobile */
+    .animate-aurora-float {
+      animation: none;
+    }
+
+    /* Reduce float animation complexity */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) translateZ(0);
+      }
+      50% {
+        transform: translateY(-5px) translateZ(0);
+      }
+    }
+
+    /* Optimize hover effects - disable on touch devices */
+    @media (hover: none) {
+      .hover-elevate:hover::after,
+      .hover-elevate-2:hover::after {
+        display: none;
+      }
+      
+      .group:hover .group-hover\:scale-125 {
+        transform: scale(1) !important;
+      }
+      
+      .group:hover .group-hover\:rotate-2 {
+        transform: rotate(0) !important;
+      }
+    }
+
+    /* Replace fixed backgrounds with absolute on mobile */
+    .fixed {
+      position: absolute !important;
+    }
+
+    /* Optimize card transitions on mobile */
+    [data-testid*="card-video"] {
+      transition: transform 0.3s ease-out;
+      will-change: transform;
+    }
+
+    /* Reduce animation delays on mobile */
+    [style*="animationDelay"] {
+      animation-delay: 0ms !important;
+    }
+
+    /* Simplify grain texture on mobile */
+    .grain::before {
+      opacity: 0.15;
+      mix-blend-mode: normal;
+    }
+
+    /* Optimize mesh background */
+    .bg-mesh {
+      background: 
+        radial-gradient(at 40% 20%, hsl(var(--primary) / 0.15) 0px, transparent 40%),
+        radial-gradient(at 80% 80%, hsl(var(--accent) / 0.12) 0px, transparent 40%),
+        hsl(var(--background));
+    }
+
+    /* Reduce box-shadow complexity */
+    [style*="boxShadow"] {
+      box-shadow: 0 4px 12px -4px rgba(124, 58, 237, 0.15) !important;
+    }
+  }
+
+  /* Additional optimization for very small screens */
+  @media (max-width: 480px) {
+    /* Further reduce effects */
+    .glass,
+    .glass-strong {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* Disable complex animations entirely */
+    .animate-scale-in,
+    .animate-fade-in-up {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Simplify card hover effects */
+    [data-testid*="card-video"]:hover {
+      transform: translateY(-2px) !important;
+    }
+  }
 }
