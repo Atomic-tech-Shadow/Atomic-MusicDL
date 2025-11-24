@@ -219,38 +219,6 @@ export default function Home() {
 
         {activeQuery && (
           <>
-            <div className="mb-12 flex items-center justify-between flex-wrap gap-6 glass-strong grain p-6 rounded-2xl">
-              <div>
-                <h2 
-                  className="text-3xl md:text-4xl font-black mb-3 text-gradient" 
-                  data-testid="text-results-title"
-                >
-                  Résultats pour "{activeQuery}"
-                </h2>
-                {results ? (
-                  <p className="text-muted-foreground font-bold text-lg" data-testid="text-results-count">
-                    <Sparkles className="w-5 h-5 inline mr-2 text-primary" />
-                    {results.length} résultat{results.length > 1 ? 's' : ''} trouvé{results.length > 1 ? 's' : ''}
-                  </p>
-                ) : (
-                  <p className="text-muted-foreground font-bold text-lg" data-testid="text-results-loading">
-                    <Loader2 className="w-5 h-5 inline mr-2 animate-spin text-primary" />
-                    Recherche en cours...
-                  </p>
-                )}
-              </div>
-              <Button 
-                variant="outline"
-                size="lg"
-                onClick={() => setActiveQuery("")}
-                data-testid="button-new-search"
-                className="font-bold glass-strong"
-              >
-                <Search className="w-5 h-5 mr-2" />
-                Nouvelle recherche
-              </Button>
-            </div>
-
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-32" data-testid="container-loading-state">
                 <div className="relative">
