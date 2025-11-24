@@ -5,10 +5,7 @@ import { Button } from "@/components/ui/button";
 import Hero from "@/components/Hero";
 import VideoCard from "@/components/VideoCard";
 import type { YouTubeSearchResult } from "@shared/schema";
-import videoBackground from "@assets/From KlickPin CF ✦┊SHADOW [Video] in 2025 _ Cool anime backgrounds Anime shadow Anime wallpaper_1764001019345.mp4";
-
-// Pour changer la vidéo de background, remplacez le chemin ci-dessus par :
-// import videoBackground from "@assets/VOTRE_NOUVELLE_VIDEO.mp4";
+import videoBackground from "@assets/From KlickPin CF Pin by Zaki king16 on منشورات من خلالك _ Good anime to watch Anime book Good anime series_1764002241557.mp4";
 
 export default function Home() {
   const [activeQuery, setActiveQuery] = useState("");
