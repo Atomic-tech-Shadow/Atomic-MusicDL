@@ -2,233 +2,175 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LIGHT MODE - Cyber futuristic theme inspired by Shadow */
+/* 2025 ULTRA MODERN DESIGN - Aurora Gradients + Glassmorphism */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
-
-  /* Automatic computation of border around primary / danger buttons */
-  --opaque-button-border-intensity: -8; /* In terms of percentages */
-
-  /* Backgrounds applied on top of other backgrounds when hovered/active */
+  --opaque-button-border-intensity: -8;
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 250 15% 95%;
-
-  --foreground: 250 20% 10%;
-
-  --border: 250 15% 80%;
-
-  --card: 0 0% 98%;
-
-  --card-foreground: 250 20% 10%;
-
-  --card-border: 250 15% 85%;
-
-  --sidebar: 250 20% 92%;
-
-  --sidebar-foreground: 250 20% 10%;
-
-  --sidebar-border: 250 15% 82%;
-
-  --sidebar-primary: 270 90% 60%;
-
+  /* Modern Aurora Color Palette */
+  --background: 240 20% 98%;
+  --foreground: 240 10% 5%;
+  --border: 240 10% 88%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 5%;
+  --card-border: 240 8% 90%;
+  
+  --sidebar: 240 15% 96%;
+  --sidebar-foreground: 240 10% 5%;
+  --sidebar-border: 240 10% 88%;
+  --sidebar-primary: 260 85% 58%;
   --sidebar-primary-foreground: 0 0% 100%;
-
-  --sidebar-accent: 250 15% 88%;
-
-  --sidebar-accent-foreground: 250 15% 15%;
-
-  --sidebar-ring: 270 90% 60%;
-
-  --popover: 0 0% 98%;
-
-  --popover-foreground: 250 20% 10%;
-
-  --popover-border: 250 15% 82%;
-
-  --primary: 270 90% 60%;
-
+  --sidebar-accent: 240 10% 92%;
+  --sidebar-accent-foreground: 240 10% 15%;
+  --sidebar-ring: 260 85% 58%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 5%;
+  --popover-border: 240 8% 90%;
+  
+  /* Aurora Gradient Primary Colors */
+  --primary: 260 85% 58%;
   --primary-foreground: 0 0% 100%;
-
-  --secondary: 250 15% 88%;
-
-  --secondary-foreground: 250 15% 15%;
-
-  --muted: 250 15% 90%;
-
-  --muted-foreground: 250 10% 45%;
-
-  --accent: 250 15% 88%;
-
-  --accent-foreground: 250 15% 15%;
-
-  --destructive: 350 90% 55%;
-
+  
+  --secondary: 240 8% 92%;
+  --secondary-foreground: 240 10% 12%;
+  
+  --muted: 240 8% 94%;
+  --muted-foreground: 240 5% 45%;
+  
+  --accent: 310 70% 65%;
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 350 85% 60%;
   --destructive-foreground: 0 0% 100%;
-
-  --input: 250 15% 85%;
-  --ring: 270 90% 60%;
-  --chart-1: 270 90% 60%;
-  --chart-2: 350 90% 55%;
-  --chart-3: 180 60% 50%;
-  --chart-4: 45 85% 60%;
-  --chart-5: 30 90% 65%;
-
+  
+  --input: 240 10% 90%;
+  --ring: 260 85% 58%;
+  
+  /* Charts with modern Aurora colors */
+  --chart-1: 260 85% 58%;
+  --chart-2: 310 70% 65%;
+  --chart-3: 180 65% 55%;
+  --chart-4: 45 90% 62%;
+  --chart-5: 350 85% 60%;
+  
+  /* Typography - Bold & Modern */
   --font-sans: Inter, system-ui, -apple-system, sans-serif;
   --font-heading: Poppins, Inter, system-ui, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
-  --radius: .5rem; /* 8px */
-  --shadow-2xs: 0px 1px 2px 0px hsl(240 6% 10% / 0.05);
-  --shadow-xs: 0px 1px 3px 0px hsl(240 6% 10% / 0.1);
-  --shadow-sm: 0px 1px 3px 0px hsl(240 6% 10% / 0.1), 0px 1px 2px -1px hsl(240 6% 10% / 0.1);
-  --shadow: 0px 1px 3px 0px hsl(240 6% 10% / 0.1), 0px 1px 2px -1px hsl(240 6% 10% / 0.1);
-  --shadow-md: 0px 4px 6px -1px hsl(240 6% 10% / 0.1), 0px 2px 4px -2px hsl(240 6% 10% / 0.1);
-  --shadow-lg: 0px 10px 15px -3px hsl(240 6% 10% / 0.1), 0px 4px 6px -4px hsl(240 6% 10% / 0.1);
-  --shadow-xl: 0px 20px 25px -5px hsl(240 6% 10% / 0.1), 0px 8px 10px -6px hsl(240 6% 10% / 0.1);
-  --shadow-2xl: 0px 25px 50px -12px hsl(240 6% 10% / 0.25);
+  
+  --radius: .75rem;
+  
+  /* Enhanced Shadows for depth */
+  --shadow-2xs: 0px 1px 2px 0px hsl(240 6% 10% / 0.06);
+  --shadow-xs: 0px 1px 3px 0px hsl(240 6% 10% / 0.12);
+  --shadow-sm: 0px 2px 4px 0px hsl(240 6% 10% / 0.12);
+  --shadow: 0px 4px 8px 0px hsl(240 6% 10% / 0.12);
+  --shadow-md: 0px 6px 12px -2px hsl(240 6% 10% / 0.14);
+  --shadow-lg: 0px 12px 24px -4px hsl(240 6% 10% / 0.16);
+  --shadow-xl: 0px 24px 48px -8px hsl(240 6% 10% / 0.18);
+  --shadow-2xl: 0px 32px 64px -12px hsl(240 6% 10% / 0.24);
+  
   --tracking-normal: 0em;
   --spacing: 0.25rem;
-
-  /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
-
-  /* Fallback for older browsers */
+  
   --sidebar-primary-border: hsl(var(--sidebar-primary));
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --sidebar-accent-border: hsl(var(--sidebar-accent));
   --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --primary-border: hsl(var(--primary));
   --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --secondary-border: hsl(var(--secondary));
   --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --muted-border: hsl(var(--muted));
   --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --accent-border: hsl(var(--accent));
   --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --destructive-border: hsl(var(--destructive));
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
+/* Dark Mode with Aurora Vibes */
 .dark {
   --button-outline: rgba(255,255,255, .10);
   --badge-outline: rgba(255,255,255, .05);
-
-  --opaque-button-border-intensity: 9;  /* In terms of percentages */
-
-  /* Backgrounds applied on top of other backgrounds when hovered/active */
+  --opaque-button-border-intensity: 9;
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
-
-  --background: 250 30% 4%;
-
-  --foreground: 270 15% 96%;
-
-  --border: 270 40% 18%;
-
-  --card: 250 35% 8%;
-
-  --card-foreground: 270 15% 96%;
-
-  --card-border: 270 40% 16%;
-
-  --sidebar: 250 40% 6%;
-
-  --sidebar-foreground: 270 15% 96%;
-
-  --sidebar-border: 270 45% 20%;
-
-  --sidebar-primary: 270 90% 60%;
-
+  
+  /* Deep dark with subtle purple tint */
+  --background: 240 15% 4%;
+  --foreground: 240 8% 96%;
+  --border: 240 12% 14%;
+  
+  --card: 240 12% 7%;
+  --card-foreground: 240 8% 96%;
+  --card-border: 240 12% 12%;
+  
+  --sidebar: 240 14% 5%;
+  --sidebar-foreground: 240 8% 96%;
+  --sidebar-border: 240 12% 16%;
+  --sidebar-primary: 260 85% 58%;
   --sidebar-primary-foreground: 0 0% 100%;
-
-  --sidebar-accent: 250 35% 14%;
-
-  --sidebar-accent-foreground: 270 15% 92%;
-
-  --sidebar-ring: 270 90% 60%;
-
-  --popover: 250 35% 10%;
-
-  --popover-foreground: 270 15% 96%;
-
-  --popover-border: 270 40% 22%;
-
-  --primary: 270 90% 60%;
-
+  --sidebar-accent: 240 12% 12%;
+  --sidebar-accent-foreground: 240 8% 92%;
+  --sidebar-ring: 260 85% 58%;
+  
+  --popover: 240 12% 8%;
+  --popover-foreground: 240 8% 96%;
+  --popover-border: 240 12% 16%;
+  
+  --primary: 260 85% 58%;
   --primary-foreground: 0 0% 100%;
-
-  --secondary: 250 30% 16%;
-
-  --secondary-foreground: 270 15% 92%;
-
-  --muted: 250 30% 14%;
-
-  --muted-foreground: 270 15% 60%;
-
-  --accent: 250 35% 18%;
-
-  --accent-foreground: 270 15% 92%;
-
-  --destructive: 350 90% 55%;
-
+  
+  --secondary: 240 10% 14%;
+  --secondary-foreground: 240 8% 92%;
+  
+  --muted: 240 10% 12%;
+  --muted-foreground: 240 5% 55%;
+  
+  --accent: 310 70% 65%;
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 350 85% 60%;
   --destructive-foreground: 0 0% 100%;
-
-  --input: 250 30% 22%;
-  --ring: 270 90% 60%;
-  --chart-1: 270 90% 60%;
-  --chart-2: 350 90% 55%;
-  --chart-3: 180 60% 50%;
-  --chart-4: 45 85% 60%;
-  --chart-5: 30 90% 65%;
-
-  --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.3);
-  --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.4);
-  --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.4), 0px 1px 2px -1px hsl(0 0% 0% / 0.4);
-  --shadow: 0px 1px 3px 0px hsl(0 0% 0% / 0.4), 0px 1px 2px -1px hsl(0 0% 0% / 0.4);
-  --shadow-md: 0px 4px 6px -1px hsl(0 0% 0% / 0.4), 0px 2px 4px -2px hsl(0 0% 0% / 0.4);
-  --shadow-lg: 0px 10px 15px -3px hsl(0 0% 0% / 0.4), 0px 4px 6px -4px hsl(0 0% 0% / 0.4);
-  --shadow-xl: 0px 20px 25px -5px hsl(0 0% 0% / 0.5), 0px 8px 10px -6px hsl(0 0% 0% / 0.5);
-  --shadow-2xl: 0px 25px 50px -12px hsl(0 0% 0% / 0.6);
-
-  /* Fallback for older browsers */
+  
+  --input: 240 10% 18%;
+  --ring: 260 85% 58%;
+  
+  --chart-1: 260 85% 58%;
+  --chart-2: 310 70% 65%;
+  --chart-3: 180 65% 55%;
+  --chart-4: 45 90% 62%;
+  --chart-5: 350 85% 60%;
+  
+  /* Enhanced dark shadows */
+  --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.4);
+  --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.5);
+  --shadow-sm: 0px 2px 4px 0px hsl(0 0% 0% / 0.5);
+  --shadow: 0px 4px 8px 0px hsl(0 0% 0% / 0.5);
+  --shadow-md: 0px 6px 12px -2px hsl(0 0% 0% / 0.6);
+  --shadow-lg: 0px 12px 24px -4px hsl(0 0% 0% / 0.65);
+  --shadow-xl: 0px 24px 48px -8px hsl(0 0% 0% / 0.7);
+  --shadow-2xl: 0px 32px 64px -12px hsl(0 0% 0% / 0.75);
+  
   --sidebar-primary-border: hsl(var(--sidebar-primary));
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --sidebar-accent-border: hsl(var(--sidebar-accent));
   --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --primary-border: hsl(var(--primary));
   --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --secondary-border: hsl(var(--secondary));
   --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --muted-border: hsl(var(--muted));
   --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --accent-border: hsl(var(--accent));
   --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --destructive-border: hsl(var(--destructive));
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
@@ -243,76 +185,40 @@
   }
 }
 
-/**
- * Using the elevate system.
- * Automatic contrast adjustment.
- *
- * <element className="hover-elevate" />
- * <element className="active-elevate-2" />
- *
- * // Using the tailwind utility when a data attribute is "on"
- * <element className="toggle-elevate data-[state=on]:toggle-elevated" />
- * // Or manually controlling the toggle state
- * <element className="toggle-elevate toggle-elevated" />
- *
- * Elevation systems have to handle many states.
- * - not-hovered, vs. hovered vs. active  (three mutually exclusive states)
- * - toggled or not
- * - focused or not (this is not handled with these utilities)
- *
- * Even without handling focused or not, this is six possible combinations that
- * need to be distinguished from eachother visually.
- */
 @layer utilities {
-
-  /* Hide ugly search cancel button in Chrome until we can style it properly */
   input[type="search"]::-webkit-search-cancel-button {
     @apply hidden;
   }
 
-  /* Placeholder styling for contentEditable div */
   [contenteditable][data-placeholder]:empty::before {
     content: attr(data-placeholder);
     color: hsl(var(--muted-foreground));
     pointer-events: none;
   }
 
-  /* .no-default-hover-elevate/no-default-active-elevate is an escape hatch so consumers of
-   * buttons/badges can remove the automatic brightness adjustment on interactions
-   * and program their own. */
   .no-default-hover-elevate {}
-
   .no-default-active-elevate {}
 
-
-  /**
-   * Toggleable backgrounds go behind the content. Hoverable/active goes on top.
-   * This way they can stack/compound. Both will overlap the parent's borders!
-   * So borders will be automatically adjusted both on toggle, and hover/active,
-   * and they will be compounded.
-   */
+  /* Toggle Elevate System */
   .toggle-elevate::before,
   .toggle-elevate-2::before {
     content: "";
     pointer-events: none;
     position: absolute;
     inset: 0px;
-    /*border-radius: inherit;   match rounded corners */
     border-radius: inherit;
     z-index: -1;
-    /* sits behind content but above backdrop */
   }
 
   .toggle-elevate.toggle-elevated::before {
     background-color: var(--elevate-2);
   }
 
-  /* If there's a 1px border, adjust the inset so that it covers that parent's border */
   .border.toggle-elevate::before {
     inset: -1px;
   }
 
-  /* Does not work on elements with overflow:hidden! */
+  /* Hover/Active Elevate System */
   .hover-elevate:not(.no-default-hover-elevate),
   .active-elevate:not(.no-default-active-elevate),
   .hover-elevate-2:not(.no-default-hover-elevate),
@@ -329,10 +235,8 @@
     pointer-events: none;
     position: absolute;
     inset: 0px;
-    /*border-radius: inherit;   match rounded corners */
     border-radius: inherit;
     z-index: 999;
-    /* sits in front of content */
   }
 
   .hover-elevate:hover:not(.no-default-hover-elevate)::after,
@@ -345,7 +249,6 @@
     background-color: var(--elevate-2);
   }
 
-  /* If there's a 1px border, adjust the inset so that it covers that parent's border */
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
   .border.active-elevate:not(.no-active-interaction-elevate)::after,
   .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
@@ -354,11 +257,126 @@
     inset: -1px;
   }
 
-  /* Custom animations */
+  /* ========== 2025 GLASSMORPHISM ========== */
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .dark .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .dark .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* ========== AURORA GRADIENTS WITH GRAIN ========== */
+  .bg-aurora {
+    background: linear-gradient(135deg, 
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 50%,
+      hsl(var(--destructive)) 100%
+    );
+    position: relative;
+  }
+
+  .bg-aurora::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .bg-aurora-subtle {
+    background: linear-gradient(135deg, 
+      hsl(var(--primary) / 0.15) 0%,
+      hsl(var(--accent) / 0.10) 50%,
+      hsl(var(--destructive) / 0.12) 100%
+    );
+  }
+
+  /* ========== MESH GRADIENTS ========== */
+  .bg-mesh {
+    background: 
+      radial-gradient(at 40% 20%, hsl(var(--primary) / 0.3) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsl(var(--accent) / 0.25) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsl(var(--destructive) / 0.2) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsl(var(--primary) / 0.2) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsl(var(--accent) / 0.25) 0px, transparent 50%),
+      radial-gradient(at 80% 100%, hsl(var(--destructive) / 0.25) 0px, transparent 50%),
+      hsl(var(--background));
+  }
+
+  /* ========== GRAIN TEXTURE ========== */
+  .grain {
+    position: relative;
+  }
+
+  .grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* ========== BENTO GRID UTILITIES ========== */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    grid-auto-rows: minmax(min-content, max-content);
+  }
+
+  @media (min-width: 768px) {
+    .bento-grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    
+    .bento-item-span-2 {
+      grid-column: span 6;
+    }
+    
+    .bento-item-span-3 {
+      grid-column: span 4;
+    }
+    
+    .bento-item-span-4 {
+      grid-column: span 3;
+    }
+    
+    .bento-item-tall {
+      grid-row: span 2;
+    }
+  }
+
+  /* ========== 2025 ANIMATIONS ========== */
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
     }
     to {
       opacity: 1;
@@ -366,109 +384,126 @@
     }
   }
 
-  @keyframes bounce-slow {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  @keyframes fall {
-    0% {
+  @keyframes scale-in {
+    from {
       opacity: 0;
-      transform: translateY(-50px);
+      transform: scale(0.92);
     }
-    60% {
-      transform: translateY(5px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes atomic-pulse {
-    0%, 100% {
+    to {
       opacity: 1;
       transform: scale(1);
     }
-    50% {
-      opacity: 0.7;
-      transform: scale(1.05);
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
     }
   }
 
-  @keyframes cyber-glow {
+  @keyframes aurora-float {
     0%, 100% {
-      filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.5));
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(10px, -10px) rotate(2deg);
     }
     50% {
-      filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.8));
+      transform: translate(-5px, 5px) rotate(-1deg);
+    }
+    75% {
+      transform: translate(-10px, -5px) rotate(1deg);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      opacity: 0.5;
+      filter: blur(20px);
+    }
+    50% {
+      opacity: 0.8;
+      filter: blur(30px);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
     }
   }
 
   .animate-fade-in-up {
-    animation: fade-in-up 1s ease-out forwards;
+    animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .animate-fade-in-up-delay {
-    animation: fade-in-up 1s ease-out 0.3s forwards;
-    opacity: 0;
+  .animate-scale-in {
+    animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .animate-bounce-slow {
-    animation: bounce-slow 3s ease-in-out infinite;
+  .animate-shimmer {
+    animation: shimmer 3s linear infinite;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 1000px 100%;
   }
 
-  .animate-atomic-pulse {
-    animation: atomic-pulse 3s ease-in-out infinite;
+  .animate-aurora-float {
+    animation: aurora-float 8s ease-in-out infinite;
   }
 
-  .animate-cyber-glow {
-    animation: cyber-glow 2s ease-in-out infinite;
+  .animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
   }
 
-  /* Sidebar with video background */
-  [data-slot="sidebar-inner"] {
-    background: rgba(240, 240, 245, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
+  .animate-gradient-shift {
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
   }
 
-  .dark [data-slot="sidebar-inner"] {
-    background: rgba(20, 20, 30, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
+  /* Staggered animation delays */
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animate-delay-400 {
+    animation-delay: 400ms;
   }
 
-  /* Amélioration de la visibilité des textes sur vidéo */
-  .text-enhanced {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.5);
+  /* ========== SMOOTH TRANSITIONS ========== */
+  .transition-smooth {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .text-enhanced-strong {
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.7);
+  .transition-spring {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .bg-glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  /* ========== TEXT EFFECTS ========== */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-accent to-destructive bg-clip-text text-transparent;
   }
 
-  .dark .bg-glass {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .bg-content {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-  }
-
-  .dark .bg-content {
-    background: rgba(20, 20, 30, 0.95);
-    backdrop-filter: blur(8px);
+  .text-glow {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.5),
+                 0 0 40px hsl(var(--primary) / 0.3);
   }
 }
