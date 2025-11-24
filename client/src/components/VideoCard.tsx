@@ -34,15 +34,15 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <Card 
-      className="group relative overflow-hidden glass grain border-0 cursor-pointer"
+      className="group relative overflow-hidden glass-strong grain border-white/10 cursor-pointer"
       data-testid={`card-video-${video.videoId}`}
       style={{
-        boxShadow: '0 10px 40px -8px rgba(124, 58, 237, 0.2), 0 5px 20px -4px rgba(168, 85, 247, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+        boxShadow: '0 10px 40px -8px rgba(0, 0, 0, 0.3), 0 5px 20px -4px rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
       }}
     >
       {/* Ultra Dynamic 3D Aurora gradient with depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-white/3 via-transparent to-black/5 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-destructive/8 opacity-20"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/10 pointer-events-none"></div>
       
       <CardHeader className="p-0 relative">
         <div className="relative aspect-video overflow-hidden">
@@ -85,19 +85,19 @@ export default function VideoCard({ video }: VideoCardProps) {
       
       <CardContent className="p-5 relative z-10">
         <h3 
-          className="font-bold text-base line-clamp-2 mb-2" 
+          className="font-bold text-base line-clamp-2 mb-2 text-white drop-shadow-md" 
           data-testid={`text-title-${video.videoId}`}
         >
           {video.title}
         </h3>
         <p 
-          className="text-sm text-muted-foreground mb-4 line-clamp-1 font-medium" 
+          className="text-sm text-white/70 mb-4 line-clamp-1 font-medium" 
           data-testid={`text-artist-${video.videoId}`}
         >
           {video.artist}
         </p>
         
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        <div className="flex items-center gap-4 text-xs text-white/80">
           <div className="flex items-center gap-1.5 glass-strong px-2.5 py-1 rounded-md">
             <Eye className="w-3.5 h-3.5" />
             <span className="font-semibold">{formatViewCount(video.viewCount)}</span>

@@ -33,26 +33,17 @@ export default function Hero({ onSearch }: HeroProps) {
   };
 
   return (
-    <div className="relative overflow-hidden flex items-center border-b border-border/50">
-      {/* Simplified aurora gradient background */}
-      <div className="absolute inset-0 bg-mesh opacity-30"></div>
-      
-      {/* Single subtle orb */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-gradient-to-br from-primary/15 to-accent/10 rounded-full blur-[80px]"></div>
-      
-      {/* Light grain overlay */}
-      <div className="absolute inset-0 grain opacity-10"></div>
-      
+    <div className="relative overflow-hidden flex items-center border-b border-white/10 bg-transparent">
       <div className="relative container mx-auto px-4 py-8 md:py-12 z-10">
         <div className="max-w-6xl mx-auto text-center space-y-6">
           {/* Compact title */}
           <h1 
-            className="text-3xl md:text-5xl font-black tracking-tight" 
+            className="text-3xl md:text-5xl font-black tracking-tight drop-shadow-lg" 
             data-testid="text-hero-title"
           >
-            <span className="text-gradient">Atomic Music</span>
-            <span className="text-muted-foreground mx-2">•</span>
-            <span className="text-foreground">Téléchargeur</span>
+            <span className="text-white">Atomic Music</span>
+            <span className="text-white/60 mx-2">•</span>
+            <span className="text-white">Téléchargeur</span>
           </h1>
           
           {/* Compact Search bar */}
@@ -61,15 +52,15 @@ export default function Hero({ onSearch }: HeroProps) {
             className="max-w-3xl mx-auto"
           >
             <div className="relative group">
-              <div className="relative flex gap-2 p-2 glass-strong rounded-xl border border-white/10">
+              <div className="relative flex gap-2 p-2 glass-strong rounded-xl border border-white/20">
                 <div className="relative flex-1 min-w-0">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none" />
                   <Input
                     type="text"
                     placeholder="Rechercher une musique..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="w-full pl-10 pr-3 h-10 text-sm border-0 focus-visible:ring-0 bg-transparent font-medium placeholder:text-muted-foreground/60 truncate"
+                    className="w-full pl-10 pr-3 h-10 text-sm border-0 focus-visible:ring-0 bg-transparent font-medium placeholder:text-white/50 text-white truncate"
                     data-testid="input-hero-search"
                   />
                 </div>

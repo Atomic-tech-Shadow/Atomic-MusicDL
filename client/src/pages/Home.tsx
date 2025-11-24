@@ -86,13 +86,13 @@ export default function Home() {
             {/* How it works section - Bento Grid */}
             <div className="text-center mb-20">
               <h2 
-                className="text-4xl md:text-6xl font-black mb-6 text-gradient" 
+                className="text-4xl md:text-6xl font-black mb-6 text-white drop-shadow-lg" 
                 data-testid="text-how-it-works-title"
               >
                 Simple & Puissant
               </h2>
               <p 
-                className="text-muted-foreground text-lg md:text-2xl font-medium max-w-3xl mx-auto" 
+                className="text-white/80 text-lg md:text-2xl font-medium max-w-3xl mx-auto drop-shadow-md" 
                 data-testid="text-how-it-works-subtitle"
               >
                 Trois étapes pour libérer la puissance atomique
@@ -137,7 +137,7 @@ export default function Home() {
                   
                   <div className="relative glass-strong grain p-8 rounded-2xl border border-white/10"
                     style={{
-                      boxShadow: '0 10px 40px -8px rgba(124, 58, 237, 0.2), 0 5px 20px -4px rgba(168, 85, 247, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                      boxShadow: '0 10px 40px -8px rgba(0, 0, 0, 0.3), 0 5px 20px -4px rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     {/* 3D Bevel effect */}
@@ -151,13 +151,13 @@ export default function Home() {
                       <step.icon className="w-10 h-10 text-white drop-shadow-lg" />
                     </div>
                     <div className="text-center space-y-3">
-                      <div className="text-5xl font-black text-gradient mb-4" data-testid={`text-step-number-${step.number}`}>
+                      <div className="text-5xl font-black text-white mb-4 drop-shadow-lg" data-testid={`text-step-number-${step.number}`}>
                         {step.number}
                       </div>
-                      <h3 className="text-2xl font-black" data-testid={`text-step-title-${step.number}`}>
+                      <h3 className="text-2xl font-black text-white drop-shadow-md" data-testid={`text-step-title-${step.number}`}>
                         {step.title}
                       </h3>
-                      <p className="text-muted-foreground font-medium" data-testid={`text-step-desc-${step.number}`}>
+                      <p className="text-white/80 font-medium" data-testid={`text-step-desc-${step.number}`}>
                         {step.desc}
                       </p>
                     </div>
@@ -173,7 +173,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-3xl opacity-30"></div>
                 <div className="relative glass-strong grain p-10 rounded-3xl border border-white/10"
                   style={{
-                    boxShadow: '0 15px 50px -10px rgba(124, 58, 237, 0.3), 0 8px 25px -5px rgba(168, 85, 247, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                    boxShadow: '0 15px 50px -10px rgba(0, 0, 0, 0.3), 0 8px 25px -5px rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   <div className="flex items-center gap-5 mb-8">
@@ -181,11 +181,11 @@ export default function Home() {
                     >
                       <Music className="w-10 h-10 text-white drop-shadow-lg" data-testid="icon-mp3" />
                     </div>
-                    <h3 className="text-4xl font-black text-gradient" data-testid="text-format-title-mp3">
+                    <h3 className="text-4xl font-black text-white drop-shadow-md" data-testid="text-format-title-mp3">
                       Audio MP3
                     </h3>
                   </div>
-                  <p className="text-muted-foreground mb-8 text-xl font-medium" data-testid="text-format-desc-mp3">
+                  <p className="text-white/80 mb-8 text-xl font-medium" data-testid="text-format-desc-mp3">
                     Extraction audio pure et cristalline
                   </p>
                   <div className="space-y-4">
@@ -196,7 +196,7 @@ export default function Home() {
                     ].map((feature, i) => (
                       <div key={i} className="flex items-center gap-4 glass px-4 py-3 rounded-xl" data-testid={`text-feature-mp3-${i}`}>
                         <feature.icon className="w-5 h-5 text-primary flex-shrink-0" />
-                        <span className="font-semibold">{feature.text}</span>
+                        <span className="font-semibold text-white">{feature.text}</span>
                       </div>
                     ))}
                   </div>
@@ -208,7 +208,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/30 to-destructive/30 rounded-3xl blur-3xl opacity-30"></div>
                 <div className="relative glass-strong grain p-10 rounded-3xl border border-white/10"
                   style={{
-                    boxShadow: '0 15px 50px -10px rgba(168, 85, 247, 0.3), 0 8px 25px -5px rgba(239, 68, 68, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                    boxShadow: '0 15px 50px -10px rgba(0, 0, 0, 0.3), 0 8px 25px -5px rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   <div className="flex items-center gap-5 mb-8">
@@ -216,11 +216,11 @@ export default function Home() {
                     >
                       <Video className="w-10 h-10 text-white drop-shadow-lg" data-testid="icon-mp4" />
                     </div>
-                    <h3 className="text-4xl font-black text-gradient" data-testid="text-format-title-mp4">
+                    <h3 className="text-4xl font-black text-white drop-shadow-md" data-testid="text-format-title-mp4">
                       Vidéo MP4
                     </h3>
                   </div>
-                  <p className="text-muted-foreground mb-8 text-xl font-medium" data-testid="text-format-desc-mp4">
+                  <p className="text-white/80 mb-8 text-xl font-medium" data-testid="text-format-desc-mp4">
                     Expérience audiovisuelle complète
                   </p>
                   <div className="space-y-4">
@@ -231,7 +231,7 @@ export default function Home() {
                     ].map((feature, i) => (
                       <div key={i} className="flex items-center gap-4 glass px-4 py-3 rounded-xl" data-testid={`text-feature-mp4-${i}`}>
                         <feature.icon className="w-5 h-5 text-accent flex-shrink-0" />
-                        <span className="font-semibold">{feature.text}</span>
+                        <span className="font-semibold text-white">{feature.text}</span>
                       </div>
                     ))}
                   </div>
@@ -250,10 +250,10 @@ export default function Home() {
                   <Loader2 className="w-32 h-32 absolute inset-0 animate-spin text-primary" data-testid="icon-loading" />
                   <div className="absolute inset-0 w-32 h-32 rounded-full bg-primary/30 blur-3xl"></div>
                 </div>
-                <p className="mt-10 text-3xl font-black text-gradient" data-testid="text-loading-title">
+                <p className="mt-10 text-3xl font-black text-white drop-shadow-lg" data-testid="text-loading-title">
                   Recherche en cours...
                 </p>
-                <p className="text-muted-foreground text-lg mt-4 font-medium" data-testid="text-loading-subtitle">
+                <p className="text-white/80 text-lg mt-4 font-medium drop-shadow-md" data-testid="text-loading-subtitle">
                   Analyse des résultats
                 </p>
               </div>
@@ -265,10 +265,10 @@ export default function Home() {
                   </div>
                   <div className="absolute inset-0 w-32 h-32 rounded-full bg-destructive/30 blur-3xl"></div>
                 </div>
-                <p className="text-3xl font-black text-destructive mb-4" data-testid="text-error-title">
+                <p className="text-3xl font-black text-destructive drop-shadow-lg mb-4" data-testid="text-error-title">
                   Erreur détectée
                 </p>
-                <p className="text-muted-foreground text-lg mb-10" data-testid="text-error-message">
+                <p className="text-white/80 text-lg mb-10 drop-shadow-md" data-testid="text-error-message">
                   {(error as Error).message}
                 </p>
                 <Button 
@@ -294,12 +294,12 @@ export default function Home() {
             ) : (
               <div className="flex flex-col items-center justify-center py-32" data-testid="container-empty-state">
                 <div className="w-32 h-32 rounded-full glass-strong flex items-center justify-center mb-8">
-                  <Search className="w-16 h-16 text-muted-foreground" data-testid="icon-no-results" />
+                  <Search className="w-16 h-16 text-white/60" data-testid="icon-no-results" />
                 </div>
-                <p className="text-3xl font-black mb-4" data-testid="text-no-results-title">
+                <p className="text-3xl font-black mb-4 text-white drop-shadow-lg" data-testid="text-no-results-title">
                   Aucun résultat
                 </p>
-                <p className="text-muted-foreground text-lg" data-testid="text-no-results-subtitle">
+                <p className="text-white/80 text-lg drop-shadow-md" data-testid="text-no-results-subtitle">
                   Essayez avec d'autres termes de recherche
                 </p>
               </div>
