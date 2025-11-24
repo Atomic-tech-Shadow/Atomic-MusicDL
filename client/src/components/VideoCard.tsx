@@ -34,22 +34,24 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <Card 
-      className="group relative overflow-hidden glass grain transition-all duration-500 border-0 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_-10px_rgba(124,58,237,0.4),0_10px_30px_-5px_rgba(168,85,247,0.3),inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+      className="group relative overflow-hidden glass grain transition-all duration-700 border-0 hover:translate-y-[-8px] hover:scale-[1.02] hover:rotate-1 hover:shadow-[0_25px_70px_-10px_rgba(124,58,237,0.5),0_15px_40px_-5px_rgba(168,85,247,0.4),inset_0_2px_0_0_rgba(255,255,255,0.15)] active:scale-[1.01] cursor-pointer"
       data-testid={`card-video-${video.videoId}`}
       style={{
         boxShadow: '0 10px 40px -8px rgba(124, 58, 237, 0.2), 0 5px 20px -4px rgba(168, 85, 247, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+        animation: 'float 8s ease-in-out infinite',
       }}
     >
-      {/* 3D Aurora gradient with depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      {/* Ultra Dynamic 3D Aurora gradient with depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-white/3 via-transparent to-black/5 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-50 transition-all duration-700 blur-xl"></div>
       
       <CardHeader className="p-0 relative">
         <div className="relative aspect-video overflow-hidden">
           <img
             src={video.thumbnail}
             alt={video.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-125 group-hover:rotate-2"
             data-testid={`img-thumbnail-${video.videoId}`}
           />
           

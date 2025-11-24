@@ -66,31 +66,34 @@ export default function Hero({ onSearch }: HeroProps) {
       
       <div className="relative container mx-auto px-4 py-32 md:py-40 z-10">
         <div className="max-w-6xl mx-auto text-center space-y-10">
-          {/* Badge - 3D Enhanced */}
+          {/* Badge - Ultra Dynamic 3D */}
           <div 
-            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full glass-strong grain animate-scale-in transition-all duration-300 hover:scale-105 hover:translate-y-[-2px] hover:shadow-[0_15px_40px_-10px_rgba(124,58,237,0.6),inset_0_1px_0_0_rgba(255,255,255,0.25)]"
+            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full glass-strong grain animate-scale-in transition-all duration-500 hover:scale-110 hover:translate-y-[-4px] hover:rotate-1 hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.7),inset_0_2px_0_0_rgba(255,255,255,0.3)] active:scale-100 active:translate-y-[-1px] cursor-pointer"
             style={{
               boxShadow: '0 8px 25px -5px rgba(124, 58, 237, 0.4), 0 4px 12px -2px rgba(168, 85, 247, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+              animation: 'float 6s ease-in-out infinite',
             }}
             data-testid="badge-atomic-power"
           >
-            <Zap className="w-5 h-5 text-primary animate-glow-pulse drop-shadow-lg" data-testid="icon-zap" />
+            <Zap className="w-5 h-5 text-primary animate-glow-pulse drop-shadow-lg transition-transform duration-300 hover:rotate-12 hover:scale-125" data-testid="icon-zap" />
             <span className="text-sm font-black text-gradient tracking-wider drop-shadow-sm" data-testid="text-badge-label">
               ATOMIC MUSIC DOWNLOADER
             </span>
-            <Sparkles className="w-5 h-5 text-accent animate-glow-pulse drop-shadow-lg" style={{ animationDelay: '1s' }} />
+            <Sparkles className="w-5 h-5 text-accent animate-glow-pulse drop-shadow-lg transition-transform duration-300 hover:-rotate-12 hover:scale-125" style={{ animationDelay: '1s' }} />
           </div>
           
-          {/* Main title */}
+          {/* Main title - Dynamic */}
           <h1 
             className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight animate-fade-in-up" 
             data-testid="text-hero-title"
           >
-            <span className="block mb-4 text-foreground">La</span>
-            <span className="block text-gradient text-glow leading-tight">
+            <span className="block mb-4 text-foreground transition-all duration-500 hover:scale-105 hover:tracking-wide inline-block">La</span>
+            <span className="block text-gradient text-glow leading-tight transition-all duration-700 hover:scale-110 hover:tracking-wider inline-block"
+              style={{ animation: 'pulse-glow 4s ease-in-out infinite' }}
+            >
               PUISSANCE
             </span>
-            <span className="block mt-4 text-foreground">Atomique</span>
+            <span className="block mt-4 text-foreground transition-all duration-500 hover:scale-105 hover:tracking-wide inline-block">Atomique</span>
           </h1>
           
           {/* Subtitle */}
@@ -166,40 +169,43 @@ export default function Hero({ onSearch }: HeroProps) {
             </div>
           </form>
           
-          {/* Features - 3D Enhanced Badges */}
+          {/* Features - Ultra Dynamic Badges */}
           <div 
             className="flex items-center justify-center gap-8 md:gap-16 text-sm md:text-base text-muted-foreground animate-fade-in-up animate-delay-300 flex-wrap" 
           >
-            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-300 hover:scale-105 hover:translate-y-[-2px] hover:shadow-[0_10px_30px_-5px_rgba(124,58,237,0.5),inset_0_1px_0_0_rgba(255,255,255,0.2)]"
+            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-500 hover:scale-110 hover:translate-y-[-6px] hover:rotate-2 hover:shadow-[0_15px_40px_-5px_rgba(124,58,237,0.6),inset_0_2px_0_0_rgba(255,255,255,0.25)] active:scale-105 cursor-pointer"
               style={{
                 boxShadow: '0 4px 15px -3px rgba(124, 58, 237, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
+                animation: 'float 5s ease-in-out infinite',
               }}
               data-testid="feature-unlimited"
             >
               <div className="w-3 h-3 rounded-full bg-primary animate-glow-pulse shadow-lg shadow-primary/50"></div>
-              <Music className="w-5 h-5 text-primary drop-shadow-lg" />
+              <Music className="w-5 h-5 text-primary drop-shadow-lg transition-transform duration-300 hover:scale-125 hover:rotate-12" />
               <span className="font-bold drop-shadow-sm">Illimité</span>
             </div>
-            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-300 hover:scale-105 hover:translate-y-[-2px] hover:shadow-[0_10px_30px_-5px_rgba(168,85,247,0.5),inset_0_1px_0_0_rgba(255,255,255,0.2)]"
+            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-500 hover:scale-110 hover:translate-y-[-6px] hover:-rotate-2 hover:shadow-[0_15px_40px_-5px_rgba(168,85,247,0.6),inset_0_2px_0_0_rgba(255,255,255,0.25)] active:scale-105 cursor-pointer"
               style={{
                 boxShadow: '0 4px 15px -3px rgba(168, 85, 247, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-                animationDelay: '0.1s',
+                animation: 'float 5s ease-in-out infinite',
+                animationDelay: '1.5s',
               }}
               data-testid="feature-quality"
             >
               <div className="w-3 h-3 rounded-full bg-accent animate-glow-pulse shadow-lg shadow-accent/50" style={{ animationDelay: '0.5s' }}></div>
-              <Sparkles className="w-5 h-5 text-accent drop-shadow-lg" />
+              <Sparkles className="w-5 h-5 text-accent drop-shadow-lg transition-transform duration-300 hover:scale-125 hover:-rotate-12" />
               <span className="font-bold drop-shadow-sm">Haute Qualité</span>
             </div>
-            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-300 hover:scale-105 hover:translate-y-[-2px] hover:shadow-[0_10px_30px_-5px_rgba(239,68,68,0.5),inset_0_1px_0_0_rgba(255,255,255,0.2)]"
+            <div className="flex items-center gap-3 glass-strong px-5 py-3 rounded-full grain transition-all duration-500 hover:scale-110 hover:translate-y-[-6px] hover:rotate-2 hover:shadow-[0_15px_40px_-5px_rgba(239,68,68,0.6),inset_0_2px_0_0_rgba(255,255,255,0.25)] active:scale-105 cursor-pointer"
               style={{
                 boxShadow: '0 4px 15px -3px rgba(239, 68, 68, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-                animationDelay: '0.2s',
+                animation: 'float 5s ease-in-out infinite',
+                animationDelay: '3s',
               }}
               data-testid="feature-speed"
             >
               <div className="w-3 h-3 rounded-full bg-destructive animate-glow-pulse shadow-lg shadow-destructive/50" style={{ animationDelay: '1s' }}></div>
-              <Headphones className="w-5 h-5 text-destructive drop-shadow-lg" />
+              <Headphones className="w-5 h-5 text-destructive drop-shadow-lg transition-transform duration-300 hover:scale-125 hover:rotate-12" />
               <span className="font-bold drop-shadow-sm">Ultra Rapide</span>
             </div>
           </div>

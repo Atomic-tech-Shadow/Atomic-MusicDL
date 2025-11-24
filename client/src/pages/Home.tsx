@@ -108,12 +108,14 @@ export default function Home() {
                     {/* 3D Bevel effect */}
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/5 via-transparent to-black/5 pointer-events-none"></div>
                     
-                    <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-3`}
+                    <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center transition-all duration-500 hover:scale-125 hover:rotate-12 active:scale-110 cursor-pointer`}
                       style={{
                         boxShadow: '0 8px 25px -5px rgba(124, 58, 237, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
+                        animation: 'bounce-subtle 3s ease-in-out infinite',
+                        animationDelay: `${index * 0.3}s`,
                       }}
                     >
-                      <step.icon className="w-10 h-10 text-white drop-shadow-lg" />
+                      <step.icon className="w-10 h-10 text-white drop-shadow-lg transition-transform duration-300 group-hover:scale-110" />
                     </div>
                     <div className="text-center space-y-3">
                       <div className="text-5xl font-black text-gradient mb-4" data-testid={`text-step-number-${step.number}`}>
@@ -143,8 +145,12 @@ export default function Home() {
                   }}
                 >
                   <div className="flex items-center gap-5 mb-8">
-                    <div className="p-5 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-2xl">
-                      <Music className="w-10 h-10 text-white" data-testid="icon-mp3" />
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-2xl transition-all duration-500 hover:scale-110 hover:rotate-6 cursor-pointer"
+                      style={{
+                        animation: 'bounce-subtle 4s ease-in-out infinite',
+                      }}
+                    >
+                      <Music className="w-10 h-10 text-white drop-shadow-lg" data-testid="icon-mp3" />
                     </div>
                     <h3 className="text-4xl font-black text-gradient" data-testid="text-format-title-mp3">
                       Audio MP3
@@ -178,8 +184,13 @@ export default function Home() {
                   }}
                 >
                   <div className="flex items-center gap-5 mb-8">
-                    <div className="p-5 rounded-2xl bg-gradient-to-br from-accent to-destructive shadow-2xl">
-                      <Video className="w-10 h-10 text-white" data-testid="icon-mp4" />
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-accent to-destructive shadow-2xl transition-all duration-500 hover:scale-110 hover:rotate-6 cursor-pointer"
+                      style={{
+                        animation: 'bounce-subtle 4s ease-in-out infinite',
+                        animationDelay: '0.5s',
+                      }}
+                    >
+                      <Video className="w-10 h-10 text-white drop-shadow-lg" data-testid="icon-mp4" />
                     </div>
                     <h3 className="text-4xl font-black text-gradient" data-testid="text-format-title-mp4">
                       Vidéo MP4
