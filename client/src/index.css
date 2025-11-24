@@ -536,6 +536,51 @@
                  0 0 40px hsl(var(--primary) / 0.3);
   }
 
+  /* ========== DISABLE ALL ANIMATIONS FOR SMOOTH SCROLL ========== */
+  /* Disable all hover elevations */
+  .hover-elevate:hover::after,
+  .hover-elevate-2:hover::after,
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after {
+    display: none !important;
+  }
+
+  /* Disable all transitions for instant response */
+  .transition-smooth,
+  .transition-spring {
+    transition: none !important;
+  }
+
+  /* Disable all complex animations */
+  .animate-aurora-float,
+  .animate-glow-pulse,
+  .animate-gradient-shift,
+  .animate-scale-in,
+  .animate-fade-in-up,
+  .animate-shimmer {
+    animation: none !important;
+  }
+
+  /* Disable all scale/rotate effects */
+  .group:hover .group-hover\:scale-125,
+  .hover\:scale-110:hover,
+  .hover\:scale-105:hover {
+    transform: scale(1) !important;
+  }
+
+  .group:hover .group-hover\:rotate-2,
+  .group:hover .group-hover\:-rotate-2 {
+    transform: rotate(0) !important;
+  }
+
+  /* Disable animation delays */
+  .animate-delay-100,
+  .animate-delay-200,
+  .animate-delay-300,
+  .animate-delay-400 {
+    animation-delay: 0ms !important;
+  }
+
   /* ========== MOBILE PERFORMANCE OPTIMIZATIONS ========== */
   @media (max-width: 768px) {
     /* Force GPU acceleration for smooth scrolling */
