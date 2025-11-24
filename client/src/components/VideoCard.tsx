@@ -187,17 +187,17 @@ export default function VideoCard({ video }: VideoCardProps) {
                   </div>
                 </div>
                 
-                <div className="glass-strong rounded-lg p-2 grain relative overflow-hidden">
+                <div className="glass-strong rounded-lg p-1 grain relative overflow-hidden">
                   {/* Simplified background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5"></div>
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
-                    height="60"
+                    height="20"
                     style={{ border: 'none' }}
                     title="Music MP3 Downloader"
                     data-testid="iframe-apisyu-mp3"
-                    className="relative z-10 sm:h-[70px] md:h-[80px]"
+                    className="relative z-10"
                   />
                 </div>
               </TabsContent>
@@ -223,17 +223,17 @@ export default function VideoCard({ video }: VideoCardProps) {
                   </div>
                 </div>
                 
-                <div className="glass-strong rounded-lg p-2 grain relative overflow-hidden">
+                <div className="glass-strong rounded-lg p-1 grain relative overflow-hidden">
                   {/* Simplified background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-destructive/5"></div>
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
-                    height="60"
+                    height="20"
                     style={{ border: 'none' }}
                     title="Music MP4 Downloader"
                     data-testid="iframe-apisyu-mp4"
-                    className="relative z-10 sm:h-[70px] md:h-[80px]"
+                    className="relative z-10"
                   />
                 </div>
             </TabsContent>
