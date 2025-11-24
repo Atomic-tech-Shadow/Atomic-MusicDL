@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Download, Eye, Clock, Music, Film, Sparkles } from "lucide-react";
+import { Download, Eye, Clock, Music, Film, Sparkles, ChevronUp, X } from "lucide-react";
 import type { YouTubeSearchResult, AudioQuality, VideoQuality } from "@shared/schema";
 
 interface VideoCardProps {
@@ -12,6 +11,7 @@ interface VideoCardProps {
 }
 
 export default function VideoCard({ video }: VideoCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [selectedTab, setSelectedTab] = useState<"mp3" | "mp4">("mp3");
   const [selectedAudioQuality, setSelectedAudioQuality] = useState<AudioQuality>("320");
   const [selectedVideoQuality, setSelectedVideoQuality] = useState<VideoQuality>("720");
@@ -116,48 +116,57 @@ export default function VideoCard({ video }: VideoCardProps) {
       </CardContent>
       
       <CardFooter className="p-5 pt-0 relative z-10">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button 
-              className="w-full group/btn relative overflow-hidden shadow-lg" 
-              size="lg" 
-              data-testid={`button-download-${video.videoId}`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover/btn:opacity-10 transition-opacity duration-500"></div>
+        <Button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full group/btn relative overflow-hidden shadow-lg" 
+          size="lg" 
+          data-testid={`button-download-${video.videoId}`}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover/btn:opacity-10 transition-opacity duration-500"></div>
+          {isExpanded ? (
+            <>
+              <ChevronUp className="w-4 h-4 mr-2 transition-transform group-hover/btn:translate-y-[-2px] duration-300" />
+              <span className="font-bold">Fermer</span>
+              <X className="w-4 h-4 ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+            </>
+          ) : (
+            <>
               <Download className="w-4 h-4 mr-2 transition-transform group-hover/btn:translate-y-0.5 duration-300" />
               <span className="font-bold">Télécharger</span>
               <Sparkles className="w-4 h-4 ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto glass-strong grain border-0 shadow-2xl">
-            <DialogHeader className="space-y-2 sm:space-y-3">
-              <DialogTitle className="text-lg sm:text-2xl font-black text-gradient leading-tight">{video.title}</DialogTitle>
-              <DialogDescription className="text-sm sm:text-base font-medium">{video.artist}</DialogDescription>
-            </DialogHeader>
+            </>
+          )}
+        </Button>
+      </CardFooter>
+
+      {/* Expanded Download Options */}
+      {isExpanded && (
+        <CardContent className="p-5 pt-0 relative z-10 animate-in slide-in-from-top duration-500"
+          data-testid={`container-download-options-${video.videoId}`}
+        >
+          <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as "mp3" | "mp4")} className="space-y-4">
+            <TabsList className="grid w-full grid-cols-2 h-12 sm:h-14 glass p-1">
+              <TabsTrigger 
+                value="mp3" 
+                className="text-sm sm:text-base font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300" 
+                data-testid="tab-mp3"
+              >
+                <Music className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
+                <span className="hidden xs:inline">MP3 Audio</span>
+                <span className="xs:hidden">MP3</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="mp4" 
+                className="text-sm sm:text-base font-bold data-[state=active]:bg-accent data-[state=active]:text-accent-foreground transition-all duration-300" 
+                data-testid="tab-mp4"
+              >
+                <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
+                <span className="hidden xs:inline">MP4 Vidéo</span>
+                <span className="xs:hidden">MP4</span>
+              </TabsTrigger>
+            </TabsList>
             
-            <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as "mp3" | "mp4")} className="mt-4 sm:mt-6">
-              <TabsList className="grid w-full grid-cols-2 h-12 sm:h-14 glass p-1">
-                <TabsTrigger 
-                  value="mp3" 
-                  className="text-sm sm:text-base font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300" 
-                  data-testid="tab-mp3"
-                >
-                  <Music className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-                  <span className="hidden xs:inline">MP3 Audio</span>
-                  <span className="xs:hidden">MP3</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="mp4" 
-                  className="text-sm sm:text-base font-bold data-[state=active]:bg-accent data-[state=active]:text-accent-foreground transition-all duration-300" 
-                  data-testid="tab-mp4"
-                >
-                  <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-                  <span className="hidden xs:inline">MP4 Vidéo</span>
-                  <span className="xs:hidden">MP4</span>
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="mp3" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            <TabsContent value="mp3" className="space-y-3 sm:space-y-4 mt-0">
                 <div className="space-y-3 sm:space-y-4 glass-strong p-3 sm:p-6 rounded-xl grain">
                   <h4 className="text-sm sm:text-base font-bold flex items-center gap-2">
                     <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
@@ -192,8 +201,8 @@ export default function VideoCard({ video }: VideoCardProps) {
                   />
                 </div>
               </TabsContent>
-              
-              <TabsContent value="mp4" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            
+            <TabsContent value="mp4" className="space-y-3 sm:space-y-4 mt-0">
                 <div className="space-y-3 sm:space-y-4 glass-strong p-3 sm:p-6 rounded-xl grain">
                   <h4 className="text-sm sm:text-base font-bold flex items-center gap-2">
                     <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
@@ -227,11 +236,10 @@ export default function VideoCard({ video }: VideoCardProps) {
                     className="relative z-10 sm:h-[110px] md:h-[130px]"
                   />
                 </div>
-              </TabsContent>
-            </Tabs>
-          </DialogContent>
-        </Dialog>
-      </CardFooter>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      )}
     </Card>
   );
 }
