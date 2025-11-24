@@ -166,18 +166,18 @@ export default function VideoCard({ video }: VideoCardProps) {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="mp3" className="space-y-3 sm:space-y-4 mt-0">
-                <div className="space-y-3 sm:space-y-4 glass-strong p-3 sm:p-6 rounded-xl grain">
-                  <h4 className="text-sm sm:text-base font-bold flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+            <TabsContent value="mp3" className="space-y-2 sm:space-y-3 mt-0">
+                <div className="space-y-2 sm:space-y-3 glass-strong p-2 sm:p-3 rounded-lg grain">
+                  <h4 className="text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary" />
                     Qualité Audio
                   </h4>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {audioQualities.map((quality) => (
                       <Badge
                         key={quality}
                         variant={selectedAudioQuality === quality ? "default" : "outline"}
-                        className="cursor-pointer px-3 py-1.5 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold transition-spring hover:scale-110"
+                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold transition-spring hover:scale-110"
                         onClick={() => setSelectedAudioQuality(quality)}
                         data-testid={`badge-audio-${quality}`}
                       >
@@ -187,33 +187,33 @@ export default function VideoCard({ video }: VideoCardProps) {
                   </div>
                 </div>
                 
-                <div className="glass-strong rounded-xl p-2 sm:p-4 md:p-6 grain relative overflow-hidden">
+                <div className="glass-strong rounded-lg p-2 grain relative overflow-hidden">
                   {/* Simplified background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5"></div>
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
-                    height="100"
+                    height="60"
                     style={{ border: 'none' }}
                     title="Music MP3 Downloader"
                     data-testid="iframe-apisyu-mp3"
-                    className="relative z-10 sm:h-[110px] md:h-[130px]"
+                    className="relative z-10 sm:h-[70px] md:h-[80px]"
                   />
                 </div>
               </TabsContent>
             
-            <TabsContent value="mp4" className="space-y-3 sm:space-y-4 mt-0">
-                <div className="space-y-3 sm:space-y-4 glass-strong p-3 sm:p-6 rounded-xl grain">
-                  <h4 className="text-sm sm:text-base font-bold flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
+            <TabsContent value="mp4" className="space-y-2 sm:space-y-3 mt-0">
+                <div className="space-y-2 sm:space-y-3 glass-strong p-2 sm:p-3 rounded-lg grain">
+                  <h4 className="text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-accent" />
                     Qualité Vidéo
                   </h4>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {videoQualities.map((quality) => (
                       <Badge
                         key={quality}
                         variant={selectedVideoQuality === quality ? "default" : "outline"}
-                        className="cursor-pointer px-3 py-1.5 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold transition-spring hover:scale-110"
+                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold transition-spring hover:scale-110"
                         onClick={() => setSelectedVideoQuality(quality)}
                         data-testid={`badge-video-${quality}`}
                       >
@@ -223,17 +223,17 @@ export default function VideoCard({ video }: VideoCardProps) {
                   </div>
                 </div>
                 
-                <div className="glass-strong rounded-xl p-2 sm:p-4 md:p-6 grain relative overflow-hidden">
+                <div className="glass-strong rounded-lg p-2 grain relative overflow-hidden">
                   {/* Simplified background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-destructive/5"></div>
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
-                    height="100"
+                    height="60"
                     style={{ border: 'none' }}
                     title="Music MP4 Downloader"
                     data-testid="iframe-apisyu-mp4"
-                    className="relative z-10 sm:h-[110px] md:h-[130px]"
+                    className="relative z-10 sm:h-[70px] md:h-[80px]"
                   />
                 </div>
             </TabsContent>
