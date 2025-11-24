@@ -193,7 +193,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
-                    height="50"
+                    height="55"
                     style={{ border: 'none' }}
                     title="Music MP3 Downloader"
                     data-testid="iframe-apisyu-mp3"
@@ -230,7 +230,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                   <iframe
                     src={getApiSyuUrl()}
                     width="100%"
-                    height="50"
+                    height="55"
                     style={{ border: 'none' }}
                     title="Music MP4 Downloader"
                     data-testid="iframe-apisyu-mp4"
