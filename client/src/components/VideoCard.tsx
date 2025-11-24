@@ -198,6 +198,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                     title="Music MP3 Downloader"
                     data-testid="iframe-apisyu-mp3"
                     className="relative z-10"
+                    sandbox="allow-scripts allow-same-origin allow-downloads"
                   />
                 </div>
               </TabsContent>
@@ -234,6 +235,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                     title="Music MP4 Downloader"
                     data-testid="iframe-apisyu-mp4"
                     className="relative z-10"
+                    sandbox="allow-scripts allow-same-origin allow-downloads"
                   />
                 </div>
             </TabsContent>
