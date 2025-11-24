@@ -29,7 +29,7 @@ export default function VideoCard({ video }: VideoCardProps) {
   const getApiSyuUrl = () => {
     const type = selectedTab;
     const quality = selectedTab === "mp3" ? selectedAudioQuality : selectedVideoQuality;
-    return `https://apisyu.com/single/${type}/${video.videoId}?${type === "mp3" ? `audio=${quality}` : `video=${quality}`}&theme=light`;
+    return `https://apisyu.com/single/${type}/${video.videoId}?${type === "mp3" ? `audio=${quality}` : `video=${quality}`}&theme=dark`;
   };
 
   return (
