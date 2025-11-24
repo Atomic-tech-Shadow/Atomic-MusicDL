@@ -41,7 +41,7 @@ export default function Home() {
       <div className="fixed inset-0 bg-mesh opacity-40 pointer-events-none"></div>
       <div className="fixed inset-0 grain opacity-20 pointer-events-none"></div>
       
-      {!activeQuery && <Hero onSearch={handleSearch} />}
+      <Hero onSearch={handleSearch} />
 
       <main className="container mx-auto px-4 py-12 relative z-10">
         {!activeQuery && (
