@@ -7,6 +7,9 @@ import VideoCard from "@/components/VideoCard";
 import type { YouTubeSearchResult } from "@shared/schema";
 import videoBackground from "@assets/From KlickPin CF ✦┊SHADOW [Video] in 2025 _ Cool anime backgrounds Anime shadow Anime wallpaper_1764001019345.mp4";
 
+// Pour changer la vidéo de background, remplacez le chemin ci-dessus par :
+// import videoBackground from "@assets/VOTRE_NOUVELLE_VIDEO.mp4";
+
 export default function Home() {
   const [activeQuery, setActiveQuery] = useState("");
   const [isMuted, setIsMuted] = useState(false);
