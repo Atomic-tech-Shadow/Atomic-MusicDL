@@ -38,7 +38,7 @@ export default function Hero({ onSearch }: HeroProps) {
       <div className="absolute inset-0 bg-mesh opacity-30"></div>
       
       {/* Single subtle orb */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-gradient-to-br from-primary/15 to-accent/10 rounded-full blur-[80px] animate-aurora-float"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-gradient-to-br from-primary/15 to-accent/10 rounded-full blur-[80px]"></div>
       
       {/* Light grain overlay */}
       <div className="absolute inset-0 grain opacity-10"></div>
@@ -61,9 +61,9 @@ export default function Hero({ onSearch }: HeroProps) {
             className="max-w-3xl mx-auto"
           >
             <div className="relative group">
-              <div className="relative flex gap-2 p-2 glass-strong rounded-xl border border-white/10 transition-all duration-300 group-hover:shadow-lg group-focus-within:shadow-xl">
+              <div className="relative flex gap-2 p-2 glass-strong rounded-xl border border-white/10">
                 <div className="relative flex-1 min-w-0">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground transition-all duration-300 group-focus-within:text-primary pointer-events-none" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                   <Input
                     type="text"
                     placeholder="Rechercher une musique..."

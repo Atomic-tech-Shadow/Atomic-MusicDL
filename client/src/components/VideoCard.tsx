@@ -34,32 +34,30 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <Card 
-      className="group relative overflow-hidden glass grain transition-all duration-700 border-0 hover:translate-y-[-8px] hover:scale-[1.02] hover:rotate-1 hover:shadow-[0_25px_70px_-10px_rgba(124,58,237,0.5),0_15px_40px_-5px_rgba(168,85,247,0.4),inset_0_2px_0_0_rgba(255,255,255,0.15)] active:scale-[1.01] cursor-pointer"
+      className="group relative overflow-hidden glass grain border-0 cursor-pointer"
       data-testid={`card-video-${video.videoId}`}
       style={{
         boxShadow: '0 10px 40px -8px rgba(124, 58, 237, 0.2), 0 5px 20px -4px rgba(168, 85, 247, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
-        animation: 'float 8s ease-in-out infinite',
       }}
     >
       {/* Ultra Dynamic 3D Aurora gradient with depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-destructive/5 opacity-0"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-white/3 via-transparent to-black/5 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-50 transition-all duration-700 blur-xl"></div>
       
       <CardHeader className="p-0 relative">
         <div className="relative aspect-video overflow-hidden">
           <img
             src={video.thumbnail}
             alt={video.title}
-            className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-125 group-hover:rotate-2"
+            className="w-full h-full object-cover"
             data-testid={`img-thumbnail-${video.videoId}`}
           />
           
           {/* Simplified gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60"></div>
           
           {/* Duration badge - 3D glass effect */}
-          <div className="absolute bottom-3 right-3 glass-strong px-3 py-1.5 rounded-lg transition-all duration-300 hover:scale-105"
+          <div className="absolute bottom-3 right-3 glass-strong px-3 py-1.5 rounded-lg"
             style={{
               boxShadow: '0 4px 15px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
             }}
@@ -71,7 +69,7 @@ export default function VideoCard({ video }: VideoCardProps) {
           </div>
           
           {/* View count - 3D badge appears on hover */}
-          <div className="absolute top-3 left-3 glass-strong px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:translate-y-0 -translate-y-2 hover:scale-105"
+          <div className="absolute top-3 left-3 glass-strong px-3 py-1.5 rounded-lg opacity-0"
             style={{
               boxShadow: '0 4px 15px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
             }}
@@ -82,16 +80,12 @@ export default function VideoCard({ video }: VideoCardProps) {
             </span>
           </div>
 
-          {/* Simplified hover effect - removed heavy blur orbs */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
-          </div>
         </div>
       </CardHeader>
       
       <CardContent className="p-5 relative z-10">
         <h3 
-          className="font-bold text-base line-clamp-2 mb-2 group-hover:text-gradient transition-all duration-500" 
+          className="font-bold text-base line-clamp-2 mb-2" 
           data-testid={`text-title-${video.videoId}`}
         >
           {video.title}
@@ -122,18 +116,17 @@ export default function VideoCard({ video }: VideoCardProps) {
           size="lg" 
           data-testid={`button-download-${video.videoId}`}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover/btn:opacity-10 transition-opacity duration-500"></div>
           {isExpanded ? (
             <>
-              <ChevronUp className="w-4 h-4 mr-2 transition-transform group-hover/btn:translate-y-[-2px] duration-300" />
+              <ChevronUp className="w-4 h-4 mr-2" />
               <span className="font-bold">Fermer</span>
-              <X className="w-4 h-4 ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+              <X className="w-4 h-4 ml-2" />
             </>
           ) : (
             <>
-              <Download className="w-4 h-4 mr-2 transition-transform group-hover/btn:translate-y-0.5 duration-300" />
+              <Download className="w-4 h-4 mr-2" />
               <span className="font-bold">Télécharger</span>
-              <Sparkles className="w-4 h-4 ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+              <Sparkles className="w-4 h-4 ml-2" />
             </>
           )}
         </Button>
@@ -141,14 +134,14 @@ export default function VideoCard({ video }: VideoCardProps) {
 
       {/* Expanded Download Options */}
       {isExpanded && (
-        <CardContent className="p-5 pt-0 relative z-10 animate-in slide-in-from-top duration-500"
+        <CardContent className="p-5 pt-0 relative z-10"
           data-testid={`container-download-options-${video.videoId}`}
         >
           <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as "mp3" | "mp4")} className="space-y-4">
             <TabsList className="grid w-full grid-cols-2 h-12 sm:h-14 glass p-1">
               <TabsTrigger 
                 value="mp3" 
-                className="text-sm sm:text-base font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300" 
+                className="text-sm sm:text-base font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" 
                 data-testid="tab-mp3"
               >
                 <Music className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
@@ -157,7 +150,7 @@ export default function VideoCard({ video }: VideoCardProps) {
               </TabsTrigger>
               <TabsTrigger 
                 value="mp4" 
-                className="text-sm sm:text-base font-bold data-[state=active]:bg-accent data-[state=active]:text-accent-foreground transition-all duration-300" 
+                className="text-sm sm:text-base font-bold data-[state=active]:bg-accent data-[state=active]:text-accent-foreground" 
                 data-testid="tab-mp4"
               >
                 <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
@@ -177,7 +170,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                       <Badge
                         key={quality}
                         variant={selectedAudioQuality === quality ? "default" : "outline"}
-                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold transition-spring hover:scale-110"
+                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold"
                         onClick={() => setSelectedAudioQuality(quality)}
                         data-testid={`badge-audio-${quality}`}
                       >
@@ -214,7 +207,7 @@ export default function VideoCard({ video }: VideoCardProps) {
                       <Badge
                         key={quality}
                         variant={selectedVideoQuality === quality ? "default" : "outline"}
-                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold transition-spring hover:scale-110"
+                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold"
                         onClick={() => setSelectedVideoQuality(quality)}
                         data-testid={`badge-video-${quality}`}
                       >
