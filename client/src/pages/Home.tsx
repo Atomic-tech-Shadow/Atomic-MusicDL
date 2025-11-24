@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, Music, Video, AlertTriangle, Search, Zap, Sparkles, Download, Headphones } from "lucide-react";
+import { Loader2, Music, Video, AlertTriangle, Search, Zap, Sparkles, Download, Headphones, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Hero from "@/components/Hero";
 import VideoCard from "@/components/VideoCard";
 import type { YouTubeSearchResult } from "@shared/schema";
+import videoBackground from "@assets/From KlickPin CF ✦┊SHADOW [Video] in 2025 _ Cool anime backgrounds Anime shadow Anime wallpaper_1764001019345.mp4";
 
 export default function Home() {
   const [activeQuery, setActiveQuery] = useState("");
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const { data: results, isLoading, error } = useQuery<YouTubeSearchResult[]>({
     queryKey: ['/api/youtube/search', activeQuery],
@@ -35,11 +38,45 @@ export default function Home() {
     setActiveQuery(query);
   };
 
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(!isMuted);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Background aurora effects */}
-      <div className="fixed inset-0 bg-mesh opacity-40 pointer-events-none"></div>
-      <div className="fixed inset-0 grain opacity-20 pointer-events-none"></div>
+      {/* Video Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          data-testid="video-background"
+        >
+          <source src={videoBackground} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+
+      {/* Mute/Unmute Button */}
+      <Button
+        onClick={toggleMute}
+        size="icon"
+        variant="outline"
+        className="fixed bottom-6 right-6 z-50 glass-strong border-white/20 hover:border-white/40"
+        data-testid="button-toggle-mute"
+      >
+        {isMuted ? (
+          <VolumeX className="w-5 h-5" data-testid="icon-muted" />
+        ) : (
+          <Volume2 className="w-5 h-5" data-testid="icon-unmuted" />
+        )}
+      </Button>
       
       <Hero onSearch={handleSearch} />
 
