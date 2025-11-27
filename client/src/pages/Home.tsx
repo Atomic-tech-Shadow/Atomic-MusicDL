@@ -144,6 +144,14 @@ export default function Home() {
           </>
         )}
       </main>
+
+      <footer className="border-t border-primary/20 py-6 mt-12">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground" data-testid="text-copyright">
+            <span className="text-primary font-semibold">Dev akue</span> alias <span className="text-primary font-bold">Shadow</span>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
