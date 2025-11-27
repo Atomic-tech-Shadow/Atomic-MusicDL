@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, AlertTriangle, Search, Atom, Music, Film, Download, Volume2, VolumeX } from "lucide-react";
+import { AlertTriangle, Search, Atom, Music, Film, Download, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Hero from "@/components/Hero";
 import VideoCard from "@/components/VideoCard";
+import AtomicLoader from "@/components/AtomicLoader";
 import type { YouTubeSearchResult } from "@shared/schema";
 import videoBackground from "@assets/From KlickPin CF ✦┊SHADOW [Video] in 2025 _ Cool anime backgrounds Anime shadow Anime wallpaper_1764257762396.mp4";
 
@@ -145,9 +146,7 @@ export default function Home() {
             <>
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-20" data-testid="container-loading-state">
-                  <div className="relative">
-                    <Loader2 className="w-16 h-16 animate-spin text-primary" data-testid="icon-loading" />
-                  </div>
+                  <AtomicLoader />
                   <p className="mt-6 text-xl font-bold" data-testid="text-loading-title">
                     Searching...
                   </p>

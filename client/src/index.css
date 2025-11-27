@@ -306,4 +306,43 @@
     animation: falling-letter 4.5s ease-out infinite;
     color: hsl(var(--muted-foreground));
   }
+
+  @keyframes orbit-spin-1 {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbit-spin-2 {
+    from {
+      transform: rotate(45deg);
+    }
+    to {
+      transform: rotate(405deg);
+    }
+  }
+
+  @keyframes orbit-spin-3 {
+    from {
+      transform: rotate(90deg);
+    }
+    to {
+      transform: rotate(450deg);
+    }
+  }
+
+  .orbit-1 {
+    animation: orbit-spin-1 4s linear infinite;
+  }
+
+  .orbit-2 {
+    animation: orbit-spin-2 6s linear infinite reverse;
+  }
+
+  .orbit-3 {
+    animation: orbit-spin-3 8s linear infinite;
+  }
 }
