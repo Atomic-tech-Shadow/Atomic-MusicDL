@@ -276,4 +276,34 @@
   .shadow-card:hover {
     border-color: hsl(270 100% 60% / 0.4);
   }
+
+  @keyframes falling-letter {
+    0% {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    90% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+  }
+
+  .falling-letter {
+    display: inline-block;
+    opacity: 0;
+    animation: falling-letter 4.5s ease-out infinite;
+    color: hsl(var(--muted-foreground));
+  }
 }

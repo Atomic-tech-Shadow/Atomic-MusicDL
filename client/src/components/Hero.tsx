@@ -7,6 +7,29 @@ interface HeroProps {
   onSearch: (query: string) => void;
 }
 
+function FallingText({ text }: { text: string }) {
+  const letters = text.split("");
+  const totalDuration = letters.length * 0.08;
+  const animationDuration = totalDuration + 2;
+
+  return (
+    <span className="inline-flex flex-wrap justify-center">
+      {letters.map((letter, index) => (
+        <span
+          key={index}
+          className="falling-letter"
+          style={{
+            animationDelay: `${index * 0.08}s`,
+            animationDuration: `${animationDuration}s`,
+          }}
+        >
+          {letter === " " ? "\u00A0" : letter}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function Hero({ onSearch }: HeroProps) {
   const [query, setQuery] = useState("");
 
@@ -37,8 +60,8 @@ export default function Hero({ onSearch }: HeroProps) {
             <span className="text-foreground ml-3">ATOMIC</span>
           </h1>
           
-          <p className="text-muted-foreground text-lg" data-testid="text-hero-subtitle">
-            Shadow Garden Music Downloader
+          <p className="text-muted-foreground text-lg h-8 overflow-hidden" data-testid="text-hero-subtitle">
+            <FallingText text="Shadow Garden Music Downloader" />
           </p>
           
           <form onSubmit={handleSubmit} className="max-w-xl mx-auto">
