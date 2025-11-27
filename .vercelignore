@@ -17,5 +17,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Assets (maintenant dans client/public)
-attached_assets
+# Specific assets to ignore (keep video files)
+attached_assets/*.mp3
+attached_assets/*.txt
+attached_assets/*.png
+attached_assets/generated_images/
