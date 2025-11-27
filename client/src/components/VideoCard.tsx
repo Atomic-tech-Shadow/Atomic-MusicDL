@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Download, Eye, Clock, Music, Film, Sparkles, ChevronUp, X } from "lucide-react";
+import { Download, Music, Film, Clock, Eye, ChevronDown, ChevronUp } from "lucide-react";
 import type { YouTubeSearchResult, AudioQuality, VideoQuality } from "@shared/schema";
 
 interface VideoCardProps {
@@ -12,229 +11,147 @@ interface VideoCardProps {
 
 export default function VideoCard({ video }: VideoCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<"mp3" | "mp4">("mp3");
-  const [selectedAudioQuality, setSelectedAudioQuality] = useState<AudioQuality>("320");
-  const [selectedVideoQuality, setSelectedVideoQuality] = useState<VideoQuality>("720");
+  const [format, setFormat] = useState<"mp3" | "mp4">("mp3");
+  const [audioQuality, setAudioQuality] = useState<AudioQuality>("320");
+  const [videoQuality, setVideoQuality] = useState<VideoQuality>("720");
 
-  const audioQualities: AudioQuality[] = ["64", "128", "192", "256", "320"];
-  const videoQualities: VideoQuality[] = ["240", "360", "480", "720", "1080"];
+  const audioQualities: AudioQuality[] = ["128", "192", "256", "320"];
+  const videoQualities: VideoQuality[] = ["360", "480", "720", "1080"];
 
-  const formatViewCount = (count?: number) => {
+  const formatViews = (count?: number) => {
     if (!count) return "N/A";
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count.toString();
   };
 
-  const getApiSyuUrl = () => {
-    const type = selectedTab;
-    const quality = selectedTab === "mp3" ? selectedAudioQuality : selectedVideoQuality;
-    return `https://apisyu.com/single/${type}/${video.videoId}?${type === "mp3" ? `audio=${quality}` : `video=${quality}`}&theme=dark`;
+  const getDownloadUrl = () => {
+    const quality = format === "mp3" ? audioQuality : videoQuality;
+    return `https://apisyu.com/single/${format}/${video.videoId}?${format === "mp3" ? `audio=${quality}` : `video=${quality}`}&theme=dark`;
   };
 
   return (
     <Card 
-      className="group relative overflow-hidden glass-strong grain border-white/10 cursor-pointer"
+      className="shadow-card overflow-hidden"
       data-testid={`card-video-${video.videoId}`}
-      style={{
-        boxShadow: '0 10px 40px -8px rgba(0, 0, 0, 0.3), 0 5px 20px -4px rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-      }}
     >
-      {/* Ultra Dynamic 3D Aurora gradient with depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-destructive/8 opacity-20"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/10 pointer-events-none"></div>
-      
-      <CardHeader className="p-0 relative">
-        <div className="relative aspect-video overflow-hidden">
-          <img
-            src={video.thumbnail}
-            alt={video.title}
-            className="w-full h-full object-cover"
-            data-testid={`img-thumbnail-${video.videoId}`}
-          />
-          
-          {/* Simplified gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60"></div>
-          
-          {/* Duration badge - 3D glass effect */}
-          <div className="absolute bottom-3 right-3 glass-strong px-3 py-1.5 rounded-lg"
-            style={{
-              boxShadow: '0 4px 15px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
-            }}
+      <div className="relative aspect-video">
+        <img
+          src={video.thumbnail}
+          alt={video.title}
+          className="w-full h-full object-cover"
+          data-testid={`img-thumbnail-${video.videoId}`}
+        />
+        {video.duration && (
+          <Badge 
+            variant="secondary" 
+            className="absolute bottom-2 right-2 bg-black/80 text-white border-0"
+            data-testid={`badge-duration-${video.videoId}`}
           >
-            <span className="text-white text-xs font-bold flex items-center gap-1.5 drop-shadow-lg">
-              <Clock className="w-3 h-3" />
-              {video.duration}
-            </span>
-          </div>
-          
-          {/* View count - 3D badge appears on hover */}
-          <div className="absolute top-3 left-3 glass-strong px-3 py-1.5 rounded-lg opacity-0"
-            style={{
-              boxShadow: '0 4px 15px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
-            }}
-          >
-            <span className="text-white text-xs font-bold flex items-center gap-1.5 drop-shadow-lg">
-              <Eye className="w-3 h-3" />
-              {formatViewCount(video.viewCount)}
-            </span>
-          </div>
+            <Clock className="w-3 h-3 mr-1" />
+            {video.duration}
+          </Badge>
+        )}
+      </div>
 
-        </div>
-      </CardHeader>
-      
-      <CardContent className="p-5 relative z-10">
+      <CardContent className="p-4 space-y-3">
         <h3 
-          className="font-bold text-base line-clamp-2 mb-2 text-white drop-shadow-md" 
+          className="font-semibold text-sm line-clamp-2 text-foreground"
           data-testid={`text-title-${video.videoId}`}
         >
           {video.title}
         </h3>
-        <p 
-          className="text-sm text-white/70 mb-4 line-clamp-1 font-medium" 
-          data-testid={`text-artist-${video.videoId}`}
-        >
-          {video.artist}
-        </p>
-        
-        <div className="flex items-center gap-4 text-xs text-white/80">
-          <div className="flex items-center gap-1.5 glass-strong px-2.5 py-1 rounded-md">
-            <Eye className="w-3.5 h-3.5" />
-            <span className="font-semibold">{formatViewCount(video.viewCount)}</span>
-          </div>
-          <div className="flex items-center gap-1.5 glass-strong px-2.5 py-1 rounded-md">
-            <Clock className="w-3.5 h-3.5" />
-            <span className="font-semibold">{video.duration}</span>
-          </div>
-        </div>
-      </CardContent>
-      
-      <CardFooter className="p-5 pt-0 relative z-10">
-        <Button 
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full group/btn relative overflow-hidden shadow-lg" 
-          size="lg" 
-          data-testid={`button-download-${video.videoId}`}
-        >
-          {isExpanded ? (
-            <>
-              <ChevronUp className="w-4 h-4 mr-2" />
-              <span className="font-bold">Fermer</span>
-              <X className="w-4 h-4 ml-2" />
-            </>
-          ) : (
-            <>
-              <Download className="w-4 h-4 mr-2" />
-              <span className="font-bold">Télécharger</span>
-              <Sparkles className="w-4 h-4 ml-2" />
-            </>
-          )}
-        </Button>
-      </CardFooter>
 
-      {/* Expanded Download Options */}
-      {isExpanded && (
-        <CardContent className="p-5 pt-0 relative z-10"
-          data-testid={`container-download-options-${video.videoId}`}
+        <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span className="truncate" data-testid={`text-channel-${video.videoId}`}>
+            {video.artist}
+          </span>
+          {video.viewCount && (
+            <span className="flex items-center gap-1 shrink-0">
+              <Eye className="w-3 h-3" />
+              {formatViews(video.viewCount)}
+            </span>
+          )}
+        </div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="w-full justify-between"
+          data-testid={`button-expand-${video.videoId}`}
         >
-          <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as "mp3" | "mp4")} className="space-y-4">
-            <TabsList className="grid w-full grid-cols-2 h-12 sm:h-14 glass p-1">
-              <TabsTrigger 
-                value="mp3" 
-                className="text-sm sm:text-base font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground" 
-                data-testid="tab-mp3"
+          Download Options
+          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </Button>
+
+        {isExpanded && (
+          <div className="space-y-4 pt-2 border-t border-primary/10">
+            <div className="flex gap-2">
+              <Button
+                variant={format === "mp3" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFormat("mp3")}
+                className="flex-1"
+                data-testid="button-format-mp3"
               >
-                <Music className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-                <span className="hidden xs:inline">MP3 Audio</span>
-                <span className="xs:hidden">MP3</span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="mp4" 
-                className="text-sm sm:text-base font-bold data-[state=active]:bg-accent data-[state=active]:text-accent-foreground" 
-                data-testid="tab-mp4"
+                <Music className="w-4 h-4 mr-1" />
+                MP3
+              </Button>
+              <Button
+                variant={format === "mp4" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFormat("mp4")}
+                className="flex-1"
+                data-testid="button-format-mp4"
               >
-                <Film className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-                <span className="hidden xs:inline">MP4 Vidéo</span>
-                <span className="xs:hidden">MP4</span>
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="mp3" className="space-y-2 sm:space-y-3 mt-0">
-                <div className="space-y-2 sm:space-y-3 glass-strong p-2 sm:p-3 rounded-lg grain">
-                  <h4 className="text-xs sm:text-sm font-bold flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary" />
-                    Qualité Audio
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {audioQualities.map((quality) => (
-                      <Badge
-                        key={quality}
-                        variant={selectedAudioQuality === quality ? "default" : "outline"}
-                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold"
-                        onClick={() => setSelectedAudioQuality(quality)}
-                        data-testid={`badge-audio-${quality}`}
-                      >
-                        {quality} kbps
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="glass-strong rounded-lg p-1 grain relative overflow-hidden">
-                  {/* Simplified background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5"></div>
-                  <iframe
-                    src={getApiSyuUrl()}
-                    width="100%"
-                    height="55"
-                    style={{ border: 'none' }}
-                    title="Music MP3 Downloader"
-                    data-testid="iframe-apisyu-mp3"
-                    className="relative z-10"
-                    sandbox="allow-scripts allow-same-origin allow-downloads"
-                  />
-                </div>
-              </TabsContent>
-            
-            <TabsContent value="mp4" className="space-y-2 sm:space-y-3 mt-0">
-                <div className="space-y-2 sm:space-y-3 glass-strong p-2 sm:p-3 rounded-lg grain">
-                  <h4 className="text-xs sm:text-sm font-bold flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-accent" />
-                    Qualité Vidéo
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {videoQualities.map((quality) => (
-                      <Badge
-                        key={quality}
-                        variant={selectedVideoQuality === quality ? "default" : "outline"}
-                        className="cursor-pointer px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold"
-                        onClick={() => setSelectedVideoQuality(quality)}
-                        data-testid={`badge-video-${quality}`}
-                      >
-                        {quality}p
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="glass-strong rounded-lg p-1 grain relative overflow-hidden">
-                  {/* Simplified background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-destructive/5"></div>
-                  <iframe
-                    src={getApiSyuUrl()}
-                    width="100%"
-                    height="55"
-                    style={{ border: 'none' }}
-                    title="Music MP4 Downloader"
-                    data-testid="iframe-apisyu-mp4"
-                    className="relative z-10"
-                    sandbox="allow-scripts allow-same-origin allow-downloads"
-                  />
-                </div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      )}
+                <Film className="w-4 h-4 mr-1" />
+                MP4
+              </Button>
+            </div>
+
+            <div className="flex flex-wrap gap-1">
+              {format === "mp3" ? (
+                audioQualities.map((q) => (
+                  <Button
+                    key={q}
+                    variant={audioQuality === q ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setAudioQuality(q)}
+                    data-testid={`button-quality-${q}`}
+                  >
+                    {q}kbps
+                  </Button>
+                ))
+              ) : (
+                videoQualities.map((q) => (
+                  <Button
+                    key={q}
+                    variant={videoQuality === q ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setVideoQuality(q)}
+                    data-testid={`button-quality-${q}`}
+                  >
+                    {q}p
+                  </Button>
+                ))
+              )}
+            </div>
+
+            <a
+              href={getDownloadUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <Button className="w-full atomic-glow" data-testid={`button-download-${video.videoId}`}>
+                <Download className="w-4 h-4 mr-2" />
+                Download {format.toUpperCase()}
+              </Button>
+            </a>
+          </div>
+        )}
+      </CardContent>
     </Card>
   );
 }
