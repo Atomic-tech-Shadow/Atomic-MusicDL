@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Music, Film, Clock, Eye, ChevronDown, ChevronUp } from "lucide-react";
+import { Music, Film, Clock, Eye } from "lucide-react";
 import type { YouTubeSearchResult, AudioQuality, VideoQuality } from "@shared/schema";
 
 interface VideoCardProps {
@@ -10,7 +10,6 @@ interface VideoCardProps {
 }
 
 export default function VideoCard({ video }: VideoCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [format, setFormat] = useState<"mp3" | "mp4">("mp3");
   const [audioQuality, setAudioQuality] = useState<AudioQuality>("320");
   const [videoQuality, setVideoQuality] = useState<VideoQuality>("720");
@@ -25,7 +24,7 @@ export default function VideoCard({ video }: VideoCardProps) {
     return count.toString();
   };
 
-  const getDownloadUrl = () => {
+  const getApiSyuUrl = () => {
     const quality = format === "mp3" ? audioQuality : videoQuality;
     return `https://apisyu.com/single/${format}/${video.videoId}?${format === "mp3" ? `audio=${quality}` : `video=${quality}`}&theme=dark`;
   };
@@ -74,83 +73,70 @@ export default function VideoCard({ video }: VideoCardProps) {
           )}
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full justify-between"
-          data-testid={`button-expand-${video.videoId}`}
-        >
-          Download Options
-          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-        </Button>
-
-        {isExpanded && (
-          <div className="space-y-4 pt-2 border-t border-primary/10">
-            <div className="flex gap-2">
-              <Button
-                variant={format === "mp3" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setFormat("mp3")}
-                className="flex-1"
-                data-testid="button-format-mp3"
-              >
-                <Music className="w-4 h-4 mr-1" />
-                MP3
-              </Button>
-              <Button
-                variant={format === "mp4" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setFormat("mp4")}
-                className="flex-1"
-                data-testid="button-format-mp4"
-              >
-                <Film className="w-4 h-4 mr-1" />
-                MP4
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap gap-1">
-              {format === "mp3" ? (
-                audioQualities.map((q) => (
-                  <Button
-                    key={q}
-                    variant={audioQuality === q ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setAudioQuality(q)}
-                    data-testid={`button-quality-${q}`}
-                  >
-                    {q}kbps
-                  </Button>
-                ))
-              ) : (
-                videoQualities.map((q) => (
-                  <Button
-                    key={q}
-                    variant={videoQuality === q ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setVideoQuality(q)}
-                    data-testid={`button-quality-${q}`}
-                  >
-                    {q}p
-                  </Button>
-                ))
-              )}
-            </div>
-
-            <a
-              href={getDownloadUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
+        <div className="space-y-3 pt-2 border-t border-primary/10">
+          <div className="flex gap-2">
+            <Button
+              variant={format === "mp3" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFormat("mp3")}
+              className="flex-1"
+              data-testid="button-format-mp3"
             >
-              <Button className="w-full atomic-glow" data-testid={`button-download-${video.videoId}`}>
-                <Download className="w-4 h-4 mr-2" />
-                Download {format.toUpperCase()}
-              </Button>
-            </a>
+              <Music className="w-4 h-4 mr-1" />
+              MP3
+            </Button>
+            <Button
+              variant={format === "mp4" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFormat("mp4")}
+              className="flex-1"
+              data-testid="button-format-mp4"
+            >
+              <Film className="w-4 h-4 mr-1" />
+              MP4
+            </Button>
           </div>
-        )}
+
+          <div className="flex flex-wrap gap-1">
+            {format === "mp3" ? (
+              audioQualities.map((q) => (
+                <Button
+                  key={q}
+                  variant={audioQuality === q ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setAudioQuality(q)}
+                  data-testid={`button-quality-${q}`}
+                >
+                  {q}kbps
+                </Button>
+              ))
+            ) : (
+              videoQualities.map((q) => (
+                <Button
+                  key={q}
+                  variant={videoQuality === q ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setVideoQuality(q)}
+                  data-testid={`button-quality-${q}`}
+                >
+                  {q}p
+                </Button>
+              ))
+            )}
+          </div>
+
+          <div className="rounded-md overflow-hidden border border-primary/20">
+            <iframe
+              src={getApiSyuUrl()}
+              width="100%"
+              height="55"
+              style={{ border: 'none' }}
+              title={`Download ${format.toUpperCase()}`}
+              data-testid={`iframe-apisyu-${video.videoId}`}
+              sandbox="allow-scripts allow-same-origin allow-downloads"
+            />
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
